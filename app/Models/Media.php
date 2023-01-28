@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Experience extends Model
+class Media extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'exp',
-        'rank_id',
-        'user_id',
+        'name',
+        'description',
+        'media_type',
+        'url',
+        'duration',
+        'nb_like',
     ];
 }

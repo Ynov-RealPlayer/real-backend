@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Experience extends Model
+class Commentary extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'exp',
-        'rank_id',
+        'nb_like',
         'user_id',
+        'media_id',
     ];
 }
