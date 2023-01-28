@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id');
             $table->integer('exp');
-            $table->foreignId('rank_id')->constrained();
+            $table->foreignId('rank_id');
         });
     }
 

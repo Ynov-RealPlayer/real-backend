@@ -10,8 +10,11 @@ class Experience extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'exp',
-        'rank_id',
+    ];
+
+    protected $casts = [
+        'user_id' => 'integer',
+        'rank_id' => 'integer',
     ];
 }
