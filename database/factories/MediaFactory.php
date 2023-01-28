@@ -19,7 +19,6 @@ class MediaFactory extends Factory
         return [
             'name' => fake()->name(),
             'description' => fake()->text(),
-            'category_id' => fake()->numberBetween(1, 10),
             'media_type' => fake()->name(),
             'url' => fake()->url(),
             'duration' => fake()->numberBetween(0, 10),

@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('cateogry_id');
+            $table->foreignId('category_id');
             $table->string('media_type');
             $table->string('url');
             $table->float('duration');
             $table->timestamps();
-            $table->integer('nb_likes');
+            $table->integer('nb_like');
         });
     }
 

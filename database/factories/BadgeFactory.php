@@ -19,7 +19,7 @@ class BadgeFactory extends Factory
         return [
             'name' => fake()->name(),
             'description' => fake()->text(),
-            'symbol' => fake()->name(),
+            'icon' => fake()->name(),
         ];
     }
 }
