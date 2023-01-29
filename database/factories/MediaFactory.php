@@ -18,6 +18,7 @@ class MediaFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'user_id' => fake()->numberBetween(1, 10),
             'description' => fake()->text(),
             'media_type' => fake()->name(),
             'url' => fake()->url(),

@@ -110,11 +110,6 @@ class DatabaseSeeder extends Seeder
                 'nb_like' => $faker->numberBetween(0, 100),
             ]);
 
-            UserMedia::factory()->create([
-                'user_id' => $faker->numberBetween(1, 10),
-                'media_id' => $faker->numberBetween(1, 10),
-            ]);
-
             UserBadge::factory()->create([
                 'user_id' => $faker->numberBetween(1, 10),
                 'badge_id' => $faker->numberBetween(1, 10),
