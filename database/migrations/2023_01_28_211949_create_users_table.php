@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('pseudo')->unique();
+            $table->integer('experience');
+            $table->integer('experience_cap');
+            $table->foreignId('rank_id');
             $table->string('picture');
             $table->string('banner');
             $table->string('email')->unique();
@@ -26,7 +29,7 @@ return new class extends Migration
             $table->timestamp('blocked_at')->nullable();
             $table->string('description')->nullable();
             $table->integer('followers')->nullable();
-            $table->integer('role_id')->nullable();
+            $table->foreignId('role_id');
 
             $table->rememberToken();
             $table->timestamps();

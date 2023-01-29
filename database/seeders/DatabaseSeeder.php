@@ -33,6 +33,9 @@ class DatabaseSeeder extends Seeder
          */
         User::factory()->create([
             'pseudo' => 'admin',
+            'experience' => 1000,
+            'experience_cap' => 2000,
+            'rank_id' => 1,
             'picture' => $faker->imageUrl(),
             'banner' => $faker->imageUrl(),
             'email' => 'admin@real.fr',
@@ -53,8 +56,12 @@ class DatabaseSeeder extends Seeder
             /**
              * Seeders classiques
              */
+            $exp = $faker->numberBetween(0, 1000);
             User::factory()->create([
                 'pseudo' => $faker->userName,
+                'experience' => $exp,
+                'experience_cap' => $exp * 2,
+                'rank_id' => $faker->numberBetween(1, 3),
                 'picture' => $faker->imageUrl(),
                 'banner' => $faker->imageUrl(),
                 'email' => $faker->unique()->safeEmail,
@@ -113,12 +120,6 @@ class DatabaseSeeder extends Seeder
             UserBadge::factory()->create([
                 'user_id' => $faker->numberBetween(1, 10),
                 'badge_id' => $faker->numberBetween(1, 10),
-            ]);
-            
-            Experience::factory()->create([
-                'exp' => $faker->numberBetween(0, 100),
-                'rank_id' => $faker->numberBetween(1, 3),
-                'user_id' => $faker->numberBetween(1, 10),
             ]);
         }
     }

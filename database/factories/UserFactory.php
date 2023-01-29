@@ -19,6 +19,9 @@ class UserFactory extends Factory
     {
         return [
             'pseudo' => fake()->name(),
+            'experience' => fake()->numberBetween(0, 1000),
+            'experience_cap' => fake()->numberBetween(0, 1000),
+            'rank_id' => fake()->numberBetween(1, 3),
             'picture' => fake()->imageUrl(),
             'banner' => fake()->imageUrl(),
             'email' => fake()->unique()->safeEmail(),
