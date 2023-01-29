@@ -27,6 +27,27 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create('fr_FR');
+
+        /**
+         * Création d'un compte admin
+         */
+        User::factory()->create([
+            'pseudo' => 'admin',
+            'picture' => $faker->imageUrl(),
+            'banner' => $faker->imageUrl(),
+            'email' => 'admin@real.fr',
+            'password' => bcrypt('boursettes'),
+            'phone' => $faker->phoneNumber,
+            'refresh_token' => $faker->password,
+            'description' => $faker->text,
+            'followers' => $faker->numberBetween(0, 10000),
+            'role_id' => 1
+        ]);
+
+
+        /**
+         * Création de 10 fausses données dans les tables
+         */
         for ($i = 0; $i < 10; $i++) {
 
             /**
@@ -40,7 +61,6 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'phone' => $faker->phoneNumber,
                 'refresh_token' => $faker->password,
-                'blocked_at' => $faker->dateTime,
                 'description' => $faker->text,
                 'followers' => $faker->numberBetween(0, 10000),
                 'role_id' => $faker->numberBetween(1, 3)
