@@ -42,9 +42,22 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('symbol'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 // TODO: Add filters

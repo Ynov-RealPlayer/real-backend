@@ -52,6 +52,12 @@ class BadgeResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('icon'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
             ])
