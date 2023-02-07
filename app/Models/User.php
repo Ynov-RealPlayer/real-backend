@@ -25,16 +25,17 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'pseudo',
         'experience',
-        'experience_cap',
-        'rank_id',
+        'picture',
+        'banner',
         'email',
         'password',
         'phone',
-        'picture',
-        'banner',
-        'refresh_token',
         'description',
-        'followers',
+        // Foreign keys
+        'rank_id',
+        'media_id',
+        'badge_id',
+        'commentary_id',
         'role_id',
     ];
 
@@ -46,6 +47,7 @@ class User extends Authenticatable implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+        'refresh_token',
     ];
 
     /**

@@ -11,12 +11,13 @@ class Media extends Model
 
     protected $fillable = [
         'name',
-        'user_id',
         'description',
         'media_type',
         'url',
         'duration',
         'nb_like',
+        // Foreign keys
+        'category_id',
     ];
 
     public function user()

@@ -28,99 +28,215 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Factory::create('fr_FR');
 
+
+        // ROLE
+        /**
+         * Création d'un role admin
+         */
+        Role::factory()->create([
+            'name' => 'admin',
+        ]);
+
+        /**
+         * Création d'un role user
+         */
+        Role::factory()->create([
+            'name' => 'user',
+        ]);
+
+
+        // BADGE
+        /**
+         * Création d'un badge licorne
+         */
+        Badge::factory()->create([
+            'name' => 'Licorne',
+            'description' => 'Badge de la licorne',
+            'icon' => 'licorne.png',
+        ]);
+
+        /**
+         * Création d'un badge panda
+         */
+        Badge::factory()->create([
+            'name' => 'Panda',
+            'description' => 'Badge du panda',
+            'icon' => 'panda.png',
+        ]);
+
+        /**
+         * Création d'un badge chat
+         */
+        Badge::factory()->create([
+            'name' => 'Chat',
+            'description' => 'Badge du chat',
+            'icon' => 'chat.png',
+        ]);
+
+        /**
+         * Création d'un badge chien
+         */
+        Badge::factory()->create([
+            'name' => 'Chien',
+            'description' => 'Badge du chien',
+            'icon' => 'chien.png',
+        ]);
+
+
+        // RANK
+        /**
+         * Création d'un rank noob
+         */
+        Rank::factory()->create([
+            'name' => 'Noob',
+            'experience_cap' => 100,
+            'description' => 'Rank du noob',
+            'color' => '#0000FF',
+            'icon' => 'noob.png',
+        ]);
+
+        /**
+         * Création d'un rank player
+         */
+        Rank::factory()->create([
+            'name' => 'Player',
+            'experience_cap' => 200,
+            'description' => 'Rank du player',
+            'color' => '#00FF00',
+            'icon' => 'player.png',
+        ]);
+
+        /**
+         * Création d'un rank proPlayer
+         */
+        Rank::factory()->create([
+            'name' => 'ProPlayer',
+            'experience_cap' => 300,
+            'description' => 'Rank du proPlayer',
+            'color' => '#FFFF00',
+            'icon' => 'proPlayer.png',
+        ]);
+
+        /**
+         * Création d'un rank RealPlayer
+         */
+        Rank::factory()->create([
+            'name' => 'RealPlayer',
+            'experience_cap' => 500,
+            'description' => 'Rank du realPlayer',
+            'color' => '#FF0000',
+            'icon' => 'realPlayer.png',
+        ]);
+
+
+        // CATEGORY
+        /**
+         * Création d'une catégorie minecraft
+         */
+        Category::factory()->create([
+            'name' => 'Minecraft',
+            'description' => 'Catégorie Minecraft',
+            'symbol' => 'minecraft.png',
+        ]);
+
+        /**
+         * Création d'une catégorie fortnite
+         */
+        Category::factory()->create([
+            'name' => 'Fortnite',
+            'description' => 'Catégorie Fortnite',
+            'symbol' => 'fortnite.png',
+        ]);
+
+        /**
+         * Création d'une catégorie league of legends
+         */
+        Category::factory()->create([
+            'name' => 'League of Legends',
+            'description' => 'Catégorie League of Legends',
+            'symbol' => 'lol.png',
+        ]);
+
+
+        // MEDIA
+        /**
+         * Création d'un media minecraft
+         */
+        Media::factory()->create([
+            'name' => 'Minecraft',
+            'description' => 'Minecraft',
+            'media_type' => 'SCREEN',
+            'url' => 'https://www.minecraft.net/content/dam/minecraft/branding/brand-assets/minecraft-logo.png',
+            'duration' => 0,
+            'nb_like' => 3,
+            'category_id' => 1,
+        ]);
+
+        /**
+         * Création d'un media fortnite
+         */
+        Media::factory()->create([
+            'name' => 'Fortnite',
+            'description' => 'Fortnite',
+            'media_type' => 'SCREEN',
+            'url' => 'https://www.epicgames.com/fortnite/fr/home/static/fortnite-logo.png',
+            'duration' => 0,
+            'nb_like' => 5,
+            'category_id' => 2,
+        ]);
+
+        /**
+         * Création d'un media league of legends
+         */
+        Media::factory()->create([
+            'name' => 'League of Legends',
+            'description' => 'League of Legends',
+            'media_type' => 'CLIP',
+            'url' => 'https://www.leagueoflegends.com/sites/default/files/styles/scale_xlarge/public/upload/league_logo_2019.png?itok=ZQY8Z7ZJ',
+            'duration' => 6,
+            'nb_like' => 10,
+            'category_id' => 3,
+        ]);
+
+
         /**
          * Création d'un compte admin
          */
         User::factory()->create([
             'pseudo' => 'admin',
-            'experience' => 1000,
-            'experience_cap' => 2000,
-            'rank_id' => 1,
+            'experience' => 300,
             'picture' => $faker->imageUrl(),
             'banner' => $faker->imageUrl(),
-            'email' => 'admin@real.fr',
+            'email' => 'real@player.fr',
             'password' => bcrypt('boursettes'),
             'phone' => $faker->phoneNumber,
-            'refresh_token' => $faker->password,
             'description' => $faker->text,
-            'followers' => $faker->numberBetween(0, 10000),
-            'role_id' => 0
+            'role_id' => 1,
         ]);
 
-
-        /**
-         * Création de 10 fausses données dans les tables
-         */
         for ($i = 0; $i < 10; $i++) {
-
-            /**
-             * Seeders classiques
-             */
-            $exp = $faker->numberBetween(0, 1000);
             User::factory()->create([
                 'pseudo' => $faker->userName,
-                'experience' => $exp,
-                'experience_cap' => $exp * 2,
-                'rank_id' => $faker->numberBetween(1, 3),
+                'experience' => $faker->numberBetween(0, 200),
                 'picture' => $faker->imageUrl(),
                 'banner' => $faker->imageUrl(),
-                'email' => $faker->unique()->safeEmail,
-                'password' => bcrypt('password'),
+                'email' => $faker->email,
+                'password' => bcrypt('boursettes'),
                 'phone' => $faker->phoneNumber,
-                'refresh_token' => $faker->password,
                 'description' => $faker->text,
-                'followers' => $faker->numberBetween(0, 10000),
-                'role_id' => $faker->numberBetween(1, 3)
-            ]);
-
-            Badge::factory()->create([
-                'name' => $faker->word,
-                'description' => $faker->text,
-                'icon' => $faker->name(),
-            ]);
-
-            Category::factory()->create([
-                'name' => $faker->name,
-                'description' => $faker->text,
-                'symbol' => $faker->name,
-            ]);
-
-            Rank::factory()->create([
-                'name' => $faker->name,
-                'experience_cap' => $faker->numberBetween(0, 100),
-                'description' => $faker->text,
-                'color' => $faker->hexColor,
-                'rank_icon' => $faker->name,
-            ]);
-
-            Role::factory()->create([
-                'name' => $faker->name,
-            ]);
-
-            
-            /**
-             * Les seeders suivant ont besoin de foreign key
-             */
-            Commentary::factory()->create([
-                'nb_like' => $faker->numberBetween(0, 100),
-                'user_id' => $faker->numberBetween(1, 10),
-                'media_id' => $faker->numberBetween(1, 10),
-            ]);
-            
-            Media::factory()->create([
-                'name' => $faker->name,
-                'description' => $faker->text,
-                'category_id' => $faker->numberBetween(1, 10),
-                'media_type' => $faker->name,
-                'url' => $faker->url,
-                'duration' => $faker->numberBetween(0, 10),
-                'nb_like' => $faker->numberBetween(0, 100),
-            ]);
-
-            UserBadge::factory()->create([
-                'user_id' => $faker->numberBetween(1, 10),
-                'badge_id' => $faker->numberBetween(1, 10),
+                'role_id' => 2,
             ]);
         }
+
+        // COMMENTARY
+        /**
+         * Création d'un commentaire minecraft
+         */
+        Commentary::factory()->create([
+            'content' => 'Minecraft',
+            'media_id' => 1,
+            'user_id' => 1,
+        ]);
+
     }
 }

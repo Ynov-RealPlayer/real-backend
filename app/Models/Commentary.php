@@ -10,13 +10,19 @@ class Commentary extends Model
     use HasFactory;
 
     protected $fillable = [
+        'content',
         'nb_like',
-        'user_id',
+        // Foreign keys
         'media_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function media()
+    {
+        return $this->hasOne(Media::class);
     }
 }
