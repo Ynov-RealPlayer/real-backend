@@ -3,14 +3,17 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Role;
 use App\Models\User;
-use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Columns\Text;
 use Filament\Resources\Form;
-use Filament\Forms\Components\TextInput;
+use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\Text;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
+use RelationManagers\RolesRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
@@ -36,12 +39,6 @@ class UserResource extends Resource
                     ->required()
                     ->placeholder('Mot de passe')
                     ->type('password'),
-                Forms\Components\TextInput::make('experience')
-                    ->placeholder('Expérience'),
-                Forms\Components\TextInput::make('experience_cap')
-                    ->placeholder('Expérience max'),
-                Forms\Components\TextInput::make('rank_id')
-                    ->placeholder('Rang'),
             ]);
     }
 
@@ -51,9 +48,8 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('pseudo'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('rank_id')->label('Rang'),
                 Tables\Columns\TextColumn::make('experience')->label('Expérience'),
-                Tables\Columns\TextColumn::make('experience_cap')->label('Expérience max'),
+                Tables\Columns\TextColumn::make('role.name')->label('Rôle'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('verified')
