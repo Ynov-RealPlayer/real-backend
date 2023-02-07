@@ -90,14 +90,28 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Pseudo'),
-                TextColumn::make('role.name')->label('Role'),
-                TextColumn::make('rank.name')->label('Rang'),
-                TextColumn::make('experience')->label('Expérience'),
-                TextColumn::make('email'),
-                TextColumn::make('phone')->label('Téléphone'),
-                TextColumn::make('description')->label('Description'),
-                ImageColumn::make('picture')->label('Photo'),
-                ImageColumn::make('banner')->label('Bannière'),
+                TextColumn::make('role.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Rôle'),
+                TextColumn::make('rank.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Rang'),
+                TextColumn::make('experience')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Expérience'),
+                TextColumn::make('email')
+                    ->label('Email'),
+                TextColumn::make('phone')
+                    ->label('Téléphone'),
+                TextColumn::make('description')
+                    ->label('Description'),
+                ImageColumn::make('picture')
+                    ->label('Photo'),
+                ImageColumn::make('banner')
+                    ->label('Bannière'),
             ])
             ->filters([
             ])
