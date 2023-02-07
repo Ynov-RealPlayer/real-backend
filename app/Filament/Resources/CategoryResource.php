@@ -26,15 +26,18 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                 ->required()
                 ->autofocus()
-                ->placeholder('Nom'),
+                ->placeholder('Ecrivez le nom de la catégorie')
+                ->label('Nom'),
                 Forms\Components\TextInput::make('description')
                 ->required()
                 ->default('Une nouvelle catégorie !')
-                ->placeholder('Description'),
+                ->placeholder('Ecrivez la description de la catégorie')
+                ->label('Description'),
                 Forms\Components\TextInput::make('symbol')
                 ->required()
                 ->default('🎈')
-                ->placeholder('Syombole'),
+                ->placeholder('Renseignez le symbole de la catégorie')
+                ->label('Symbole'),
             ]);
     }
 
@@ -44,20 +47,26 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Nom'),
                 Tables\Columns\TextColumn::make('description')
                     ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('symbol'),
+                    ->searchable()
+                    ->label('Description'),
+                Tables\Columns\TextColumn::make('symbol')
+                    ->label('Symbole'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Créé le'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Modifié le'),
             ])
             ->filters([
             ])
@@ -73,7 +82,6 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
     

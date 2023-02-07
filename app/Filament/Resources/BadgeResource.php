@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BadgeResource extends Resource
@@ -26,15 +27,18 @@ class BadgeResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
-                    ->placeholder('Nom'),
+                    ->placeholder('Ecrivez le nom du badge')
+                    ->label('Nom'),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->default('Nouveau Badge !')
-                    ->placeholder('Description'),
+                    ->placeholder('Ecrivez la description du badge')
+                    ->label('Description'),
                 Forms\Components\TextInput::make('icon')
                     ->required()
                     ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Icône'),
+                    ->placeholder('Ecrivez l\'URL de l\'icône du badge')
+                    ->label('Icône'),
             ]);
     }
 
@@ -44,20 +48,27 @@ class BadgeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Nom'),
                 Tables\Columns\TextColumn::make('description')
                     ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('icon'),
+                    ->searchable()
+                    ->label('Description'),
+                ImageColumn::make('icon')
+                    ->searchable()
+                    ->label('Icône'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Créé le'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Modifié le'),
             ])
             ->filters([
             ])

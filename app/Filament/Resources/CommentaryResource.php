@@ -28,15 +28,18 @@ class CommentaryResource extends Resource
                 Forms\Components\TextInput::make('content')
                     ->required()
                     ->autofocus()
-                    ->placeholder('Contenu'),
+                    ->placeholder('Ecrivez votre commentaire')
+                    ->label('Commentaire'),
                 Forms\Components\Select::make('user_id')
                     ->options(User::all()->pluck('pseudo', 'id'))
                     ->required()
-                    ->placeholder('Utilisateur'),
+                    ->placeholder('Séléctionnez un utilisateur')
+                    ->label('Utilisateur'),
                 Forms\Components\Select::make('media_id')
                     ->options(Media::all()->pluck('name', 'id'))
                     ->required()
-                    ->placeholder('Media'),
+                    ->placeholder('Séléctionnez un média')
+                    ->label('Média'),
                 Forms\Components\TextInput::make('nb_like')
                     ->required()
                     ->default(0)
@@ -50,22 +53,29 @@ class CommentaryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('content'),
+                    ->searchable()
+                    ->label('ID'),
+                Tables\Columns\TextColumn::make('content')
+                    ->label('Commentaire'),
                 Tables\Columns\TextColumn::make('nb_like')
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Nombre de likes'),
                 Tables\Columns\TextColumn::make('user.pseudo')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Utilisateur'),
                 Tables\Columns\TextColumn::make('media.name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Média'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Créé le'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Modifié le'),
             ])
             ->filters([
             ])

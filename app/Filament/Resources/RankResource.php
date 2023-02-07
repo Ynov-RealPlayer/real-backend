@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RankResource\Pages;
-use App\Filament\Resources\RankResource\RelationManagers;
-use App\Models\Rank;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use App\Models\Rank;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\RankResource\Pages;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\ColorColumn;
+use Filament\Forms\Components\ColorPicker;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RankResource\RelationManagers;
 
 class RankResource extends Resource
 {
@@ -26,23 +29,28 @@ class RankResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
-                    ->placeholder('Nom'),
+                    ->placeholder('Ecrivez le nom du rang')
+                    ->label('Nom'),
                 Forms\Components\TextInput::make('experience_cap')
                     ->required()
                     ->default(0)
-                    ->placeholder('Expérience'),
+                    ->placeholder('Ecrivez l\'expérience nécessaire pour atteindre ce rang')
+                    ->label('Expérience'),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->default('Nouveau Rang !')
-                    ->placeholder('Description'),
-                Forms\Components\TextInput::make('color')
+                    ->placeholder('Ecrivez la description du rang')
+                    ->label('Description'),
+                ColorPicker::make('color')
                     ->required()
-                    ->default('#000000')
-                    ->placeholder('Couleur'),
+                    ->default('#002244')
+                    ->placeholder('Sélectionnez la couleur du rang')
+                    ->label('Couleur'),
                 Forms\Components\TextInput::make('icon')
                     ->required()
                     ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Icône'),
+                    ->placeholder('Ecrivez l\'URL de l\'icône du rang')
+                    ->label('Icône'),
             ]);
     }
 
@@ -50,14 +58,29 @@ class RankResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Nom'),
                 Tables\Columns\TextColumn::make('experience_cap'),
                 Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('color'),
-                Tables\Columns\TextColumn::make('icon'),
+                ColorColumn::make('color')
+                    ->copyable()
+                    ->copyMessage('🧙‍♂️ Code couleur copié !')
+                    ->copyMessageDuration(1500)
+                    ->label('Couleur'),
+                ImageColumn::make('icon')
+                    ->label('Icône'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Créé le'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Modifié le'),
             ])
             ->filters([
-                // TODO: Add filters
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -71,7 +94,6 @@ class RankResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
     

@@ -28,42 +28,50 @@ class MediaResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
-                    ->placeholder('Nom'),
+                    ->placeholder('Ecrivez le nom du média')
+                    ->label('Nom'),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->default('Nouveau Media !')
-                    ->placeholder('Description'),
+                    ->placeholder('Ecrivez la description du média')
+                    ->label('Description'),
                 Forms\Components\Select::make('media_type')
                     ->required()
-                    ->placeholder('Type de média')
+                    ->placeholder('Sélectionnez le type de média')
                     ->options([
                         'SCREEN' => 'Image',
                         'CLIP' => 'Vidéo',
-                    ]),
+                    ])
+                    ->label('Type de média'),
                 Forms\Components\TextInput::make('url')
                     ->required()
                     ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('URL'),
+                    ->placeholder('Remplissez l\'URL du média')
+                    ->label('URL'),
                 Forms\Components\TextInput::make('duration')
                     ->required()
                     ->default('0')
-                    ->placeholder('Durée'),
+                    ->placeholder('Durée du média')
+                    ->label('Durée'),
                 Forms\Components\TextInput::make('nb_like')
                     ->required()
                     ->default('0')
-                    ->placeholder('Nombre de likes'),
+                    ->placeholder('Ecrivez le nombre de like')
+                    ->label('Nombre de like'),
                 Forms\Components\Select::make('category_id')
                     ->required()
-                    ->placeholder('Catégorie')
+                    ->placeholder('Séléctionnez la catégorie')
                     ->options(function () {
                         return Category::all()->pluck('name', 'id');
-                    }),
+                    })
+                    ->label('Catégorie'),
                 Forms\Components\Select::make('user_id')
                     ->required()
-                    ->placeholder('Utilisateur')
+                    ->placeholder('Séléctionnez l\'utilisateur')
                     ->options(function () {
                         return User::all()->pluck('pseudo', 'id');
-                    }),
+                    })
+                    ->label('Utilisateur'),
             ]);
     }
 
@@ -73,25 +81,36 @@ class MediaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Nom'),
                 Tables\Columns\TextColumn::make('user.pseudo')
                     ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('nb_like'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('category.name'),
-                Tables\Columns\TextColumn::make('media_type'),
-                Tables\Columns\TextColumn::make('url'),
-                Tables\Columns\TextColumn::make('duration'),
+                    ->searchable()
+                    ->label('Utilisateur'),
+                Tables\Columns\TextColumn::make('nb_like')
+                    ->label('Nombre de like'),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description'),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Catégorie'),
+                Tables\Columns\TextColumn::make('media_type')
+                    ->label('Type de média'),
+                Tables\Columns\TextColumn::make('url')
+                    ->label('URL'),
+                Tables\Columns\TextColumn::make('duration')
+                    ->label('Durée'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Créé le'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Modifié le'),
             ])
             ->filters([
             ])

@@ -26,7 +26,8 @@ class RoleResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
-                    ->placeholder('Nom'),
+                    ->placeholder('Ecrivez le nom du rôle')
+                    ->label('Nom'),
             ]);
     }
 
@@ -34,11 +35,16 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID'),
-                Tables\Columns\TextColumn::make('name')->label('Nom'),
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable()
+                    ->label('ID'),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Nom'),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -51,7 +57,6 @@ class RoleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
     
@@ -62,5 +67,5 @@ class RoleResource extends Resource
             'create' => Pages\CreateRole::route('/create'),
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
-    }    
+    }
 }
