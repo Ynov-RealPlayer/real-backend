@@ -81,8 +81,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('banner')->label('Bannière'),
             ])
             ->filters([
-                Tables\Filters\Filter::make('verified')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('email_verified_at')),
+                // TODO: Add filters
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
