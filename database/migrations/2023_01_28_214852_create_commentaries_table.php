@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Media;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,6 +24,7 @@ return new class extends Migration
 
             // Foreign keys
             $table->foreignIdFor(Media::class);
+            $table->foreignIdFor(User::class);
         });
     }
 

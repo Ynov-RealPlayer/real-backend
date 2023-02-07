@@ -18,6 +18,7 @@ class Media extends Model
         'nb_like',
         // Foreign keys
         'category_id',
+        'user_id'
     ];
 
     public function user()

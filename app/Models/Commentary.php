@@ -14,6 +14,7 @@ class Commentary extends Model
         'nb_like',
         // Foreign keys
         'media_id',
+        'user_id'
     ];
 
     public function user()

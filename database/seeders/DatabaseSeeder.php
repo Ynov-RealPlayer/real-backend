@@ -170,6 +170,7 @@ class DatabaseSeeder extends Seeder
             'duration' => 0,
             'nb_like' => 3,
             'category_id' => 1,
+            'user_id' => 1,
         ]);
 
         /**
@@ -183,6 +184,7 @@ class DatabaseSeeder extends Seeder
             'duration' => 0,
             'nb_like' => 5,
             'category_id' => 2,
+            'user_id' => 3,
         ]);
 
         /**
@@ -196,6 +198,7 @@ class DatabaseSeeder extends Seeder
             'duration' => 6,
             'nb_like' => 10,
             'category_id' => 3,
+            'user_id' => 5,
         ]);
 
 
@@ -240,6 +243,17 @@ class DatabaseSeeder extends Seeder
             'content' => 'Minecraft',
             'media_id' => 1,
             'nb_like' => 3,
+            'user_id' => 1,
+        ]);
+
+        /**
+         * Création d'un commentaire fortnite
+         */
+        Commentary::factory()->create([
+            'content' => 'Fortnite',
+            'media_id' => 2,
+            'nb_like' => 5,
+            'user_id' => 3,
         ]);
 
     }

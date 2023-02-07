@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -27,6 +28,7 @@ return new class extends Migration
 
             // Foreign keys
             $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(User::class);
         });
     }
 
