@@ -15,7 +15,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return str_ends_with($this->role_id, '0') && $this->hasVerifiedEmail();
+        return str_ends_with($this->role_id, '1') && $this->hasVerifiedEmail();
     }
     /**
      * The attributes that are mass assignable.
