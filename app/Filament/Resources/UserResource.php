@@ -13,7 +13,6 @@ use Filament\Tables\Columns\Text;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
-use RelationManagers\RolesRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
@@ -49,7 +48,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('pseudo'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('experience')->label('Expérience'),
-                Tables\Columns\TextColumn::make('role.name')->label('Rôle'),
+                Tables\Columns\TextColumn::make('role.name')->label('Role'),
+                
             ])
             ->filters([
                 Tables\Filters\Filter::make('verified')
