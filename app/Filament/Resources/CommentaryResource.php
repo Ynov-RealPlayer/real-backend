@@ -62,5 +62,5 @@ class CommentaryResource extends Resource
             'create' => Pages\CreateCommentary::route('/create'),
             'edit' => Pages\EditCommentary::route('/{record}/edit'),
         ];
-    }    
+    }
 }
