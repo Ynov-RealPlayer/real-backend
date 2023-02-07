@@ -60,7 +60,6 @@ class CategoryResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                // TODO: Add filters
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
