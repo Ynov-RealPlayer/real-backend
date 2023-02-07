@@ -82,5 +82,5 @@ class RankResource extends Resource
             'create' => Pages\CreateRank::route('/create'),
             'edit' => Pages\EditRank::route('/{record}/edit'),
         ];
-    }    
+    }
 }

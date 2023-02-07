@@ -42,12 +42,18 @@ class BadgeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('icon'),
             ])
             ->filters([
-                // TODO: Add filters
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -61,7 +67,6 @@ class BadgeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
     
@@ -72,5 +77,5 @@ class BadgeResource extends Resource
             'create' => Pages\CreateBadge::route('/create'),
             'edit' => Pages\EditBadge::route('/{record}/edit'),
         ];
-    }    
+    }
 }
