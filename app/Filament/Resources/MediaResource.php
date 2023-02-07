@@ -71,18 +71,29 @@ class MediaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('user.pseudo'),
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.pseudo')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('nb_like'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('category.name'),
                 Tables\Columns\TextColumn::make('media_type'),
                 Tables\Columns\TextColumn::make('url'),
                 Tables\Columns\TextColumn::make('duration'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -96,7 +107,6 @@ class MediaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
     
