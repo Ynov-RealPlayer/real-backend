@@ -14,4 +14,9 @@ class Category extends Model
         'description',
         'symbol',
     ];
+
+    public function media()
+    {
+        return $this->belongsToMany(Media::class);
+    }
 }

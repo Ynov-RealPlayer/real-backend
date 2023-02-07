@@ -16,4 +16,9 @@ class Rank extends Model
         'color',
         'rank_icon',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Media;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,10 +16,13 @@ return new class extends Migration
     {
         Schema::create('commentaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('media_id');
-            $table->timestamps();
+            $table->string('content');
             $table->integer('nb_like');
+
+            $table->timestamps();
+
+            // Foreign keys
+            $table->foreignIdFor(Media::class)->constrained();
         });
     }
 

@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Rank;
+use App\Models\Role;
+use App\Models\Badge;
+use App\Models\Media;
+use App\Models\Commentary;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,8 +22,6 @@ return new class extends Migration
             $table->id();
             $table->string('pseudo')->unique();
             $table->integer('experience')->default(0);
-            $table->integer('experience_cap')->default(100);
-            $table->foreignId('rank_id')->default(1);
             $table->string('picture')->nullable();
             $table->string('banner')->nullable();
             $table->string('email')->unique();
@@ -26,13 +29,19 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('refresh_token')->nullable();
-            $table->timestamp('blocked_at')->nullable();
-            $table->string('description')->nullable();
-            $table->integer('followers')->nullable();
-            $table->foreignId('role_id')->default(2);
 
             $table->rememberToken();
             $table->timestamps();
+
+            $table->timestamp('blocked_at')->nullable();
+            $table->string('description')->nullable();
+
+            // Foreign keys
+            $table->foreignIdFor(Rank::class)->constrained();
+            $table->foreignIdFor(Media::class)->constrained();
+            $table->foreignIdFor(Badge::class)->constrained();
+            $table->foreignIdFor(Commentary::class)->constrained();
+            $table->foreignIdFor(Role::class)->constrained();
         });
     }
 

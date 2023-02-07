@@ -51,6 +51,9 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('pseudo'),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('rank_id')->label('Rang'),
+                Tables\Columns\TextColumn::make('experience')->label('Expérience'),
+                Tables\Columns\TextColumn::make('experience_cap')->label('Expérience max'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('verified')

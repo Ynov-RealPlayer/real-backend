@@ -56,4 +56,45 @@ class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's rank.
+     */
+    public function rank()
+    {
+        return $this->hasOne(Rank::class);
+    }
+
+    /**
+     * Get the user's role.
+     */
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
+
+    /**
+     * Get the user's badges.
+     */
+    public function badges()
+    {
+        return $this->hasMany(Badge::class);
+    }
+
+    /**
+     * Get the user's medias.
+     */
+    public function medias()
+    {
+        return $this->hasMany(Media::class);
+    }
+
+    /**
+     * Get the user's comments.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }
