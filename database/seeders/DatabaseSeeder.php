@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'refresh_token' => $faker->password,
             'description' => $faker->text,
             'followers' => $faker->numberBetween(0, 10000),
-            'role_id' => 1
+            'role_id' => 0
         ]);
 
 
