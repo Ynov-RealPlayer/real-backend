@@ -14,7 +14,7 @@ class Rank extends Model
         'experience_cap',
         'description',
         'color',
-        'rank_icon',
+        'icon',
     ];
 
     public function users()

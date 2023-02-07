@@ -20,8 +20,6 @@ class UserFactory extends Factory
         return [
             'pseudo' => fake()->name(),
             'experience' => fake()->numberBetween(0, 1000),
-            'experience_cap' => fake()->numberBetween(0, 1000),
-            'rank_id' => fake()->numberBetween(1, 3),
             'picture' => fake()->imageUrl(),
             'banner' => fake()->imageUrl(),
             'email' => fake()->unique()->safeEmail(),
@@ -33,8 +31,9 @@ class UserFactory extends Factory
             'created_at' => now(),
             'blocked_at' => null,
             'description' => fake()->text(),
-            'followers' => fake()->numberBetween(0, 1000),
             'role_id' => fake()->numberBetween(1, 3),
+            'rank_id' => fake()->numberBetween(1, 3),
+            'badge_id' => fake()->numberBetween(1, 3),
         ];
     }
 

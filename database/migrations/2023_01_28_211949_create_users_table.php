@@ -28,7 +28,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->string('description')->nullable();
             $table->string('refresh_token')->nullable();
 
             $table->rememberToken();
@@ -38,11 +37,11 @@ return new class extends Migration
             $table->string('description')->nullable();
 
             // Foreign keys
-            $table->foreignIdFor(Rank::class)->constrained();
-            $table->foreignIdFor(Media::class)->constrained();
-            $table->foreignIdFor(Badge::class)->constrained();
-            $table->foreignIdFor(Commentary::class)->constrained();
-            $table->foreignIdFor(Role::class)->constrained();
+            $table->foreignIdFor(Rank::class);
+            $table->foreignIdFor(Media::class)->nullable();
+            $table->foreignIdFor(Badge::class)->nullable();
+            $table->foreignIdFor(Commentary::class)->nullable();
+            $table->foreignIdFor(Role::class);
         });
     }
 

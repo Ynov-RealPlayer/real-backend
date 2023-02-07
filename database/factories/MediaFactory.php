@@ -18,12 +18,12 @@ class MediaFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'user_id' => fake()->numberBetween(1, 10),
             'description' => fake()->text(),
             'media_type' => fake()->name(),
             'url' => fake()->url(),
             'duration' => fake()->numberBetween(0, 10),
             'nb_like' => fake()->numberBetween(0, 100),
+            'category_id' => fake()->numberBetween(1, 3),
         ];
     }
 }

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign keys
-            $table->foreignIdFor(Media::class)->constrained();
+            $table->foreignIdFor(Media::class);
         });
     }
 

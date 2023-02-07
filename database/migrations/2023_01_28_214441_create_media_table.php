@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign keys
-            $table->foreignIdFor(Category::class)->constrained();
+            $table->foreignIdFor(Category::class);
         });
     }
 

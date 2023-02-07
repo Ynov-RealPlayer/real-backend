@@ -21,7 +21,7 @@ class RankFactory extends Factory
             'experience_cap' => fake()->numberBetween(0, 100),
             'description' => fake()->text(),
             'color' => fake()->hexColor(),
-            'rank_icon' => fake()->name(),
+            'icon' => fake()->name(),
         ];
     }
 }

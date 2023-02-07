@@ -212,6 +212,8 @@ class DatabaseSeeder extends Seeder
             'phone' => $faker->phoneNumber,
             'description' => $faker->text,
             'role_id' => 1,
+            'rank_id' => 4,
+            'badge_id' => 3,
         ]);
 
         for ($i = 0; $i < 10; $i++) {
@@ -225,6 +227,8 @@ class DatabaseSeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'description' => $faker->text,
                 'role_id' => 2,
+                'rank_id' => $faker->numberBetween(1, 2),
+                'badge_id' => $faker->numberBetween(1, 2),
             ]);
         }
 
@@ -235,7 +239,7 @@ class DatabaseSeeder extends Seeder
         Commentary::factory()->create([
             'content' => 'Minecraft',
             'media_id' => 1,
-            'user_id' => 1,
+            'nb_like' => 3,
         ]);
 
     }
