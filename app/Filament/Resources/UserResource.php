@@ -58,7 +58,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('role_id')
                     ->options(Role::all()->pluck('name', 'id'))
                     ->required()
-                    ->default(1),
+                    ->default(2),
                 Forms\Components\Select::make('rank_id')
                     ->options(Rank::all()->pluck('name', 'id'))
                     ->required()
