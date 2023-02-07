@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
@@ -38,6 +39,30 @@ class UserResource extends Resource
                     ->required()
                     ->placeholder('Mot de passe')
                     ->type('password'),
+                Forms\Components\TextInput::make('experience')
+                    ->required()
+                    ->default(0)
+                    ->placeholder('Expérience'),
+                Forms\Components\TextInput::make('picture')
+                    ->required()
+                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
+                    ->placeholder('Photo'),
+                Forms\Components\TextInput::make('banner')
+                    ->required()
+                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
+                    ->placeholder('Bannière'),
+                Forms\Components\TextInput::make('description')
+                    ->required()
+                    ->default('Nouveau joueur !')
+                    ->placeholder('Description'),
+                Forms\Components\Select::make('role_id')
+                    ->options(Role::all()->pluck('name', 'id'))
+                    ->required()
+                    ->default(1),
+                Forms\Components\Select::make('rank_id')
+                    ->options(Rank::all()->pluck('name', 'id'))
+                    ->required()
+                    ->default(1)
             ]);
     }
 
@@ -46,10 +71,14 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('pseudo'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('experience')->label('Expérience'),
                 Tables\Columns\TextColumn::make('role.name')->label('Role'),
-                
+                Tables\Columns\TextColumn::make('rank.name')->label('Rang'),
+                Tables\Columns\TextColumn::make('experience')->label('Expérience'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('phone')->label('Téléphone'),
+                Tables\Columns\TextColumn::make('description')->label('Description'),
+                Tables\Columns\TextColumn::make('picture')->label('Photo'),
+                Tables\Columns\TextColumn::make('banner')->label('Bannière'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('verified')
@@ -57,6 +86,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -77,5 +107,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }    
+    }
 }
