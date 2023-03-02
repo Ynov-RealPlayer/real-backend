@@ -33,7 +33,6 @@ class UserFactory extends Factory
             'description' => fake()->text(),
             'role_id' => fake()->numberBetween(1, 3),
             'rank_id' => fake()->numberBetween(1, 3),
-            'badge_id' => fake()->numberBetween(1, 3),
         ];
     }
 

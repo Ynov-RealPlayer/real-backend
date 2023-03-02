@@ -7,6 +7,7 @@ use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
+use App\Models\Badge;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -40,11 +41,6 @@ class UserResource extends Resource
                     ->required()
                     ->placeholder('Ecivez l\'email de l\'utilisateur')
                     ->label('Email'),
-                Forms\Components\TextInput::make('password')
-                    ->required()
-                    ->placeholder('Rentrez le mot de passe de l\'utilisateur')
-                    ->type('password')
-                    ->label('Mot de passe'),
                 Forms\Components\TextInput::make('experience')
                     ->required()
                     ->default(0)
@@ -75,6 +71,10 @@ class UserResource extends Resource
                     ->required()
                     ->default(1)
                     ->label('Rang'),
+                Forms\Components\Select::make('badge_user.badge_id')
+                    ->options(Badge::all()->pluck('name', 'id'))
+                    ->multiple()
+                    ->label('Badges'),
             ]);
     }
 
@@ -127,6 +127,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\BadgesRelationManager::class,
         ];
     }
     

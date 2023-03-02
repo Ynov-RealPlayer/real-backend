@@ -216,7 +216,6 @@ class DatabaseSeeder extends Seeder
             'description' => $faker->text,
             'role_id' => 1,
             'rank_id' => 4,
-            'badge_id' => 3,
         ]);
 
         for ($i = 0; $i < 10; $i++) {
@@ -231,7 +230,6 @@ class DatabaseSeeder extends Seeder
                 'description' => $faker->text,
                 'role_id' => 2,
                 'rank_id' => $faker->numberBetween(1, 2),
-                'badge_id' => $faker->numberBetween(1, 2),
             ]);
         }
 

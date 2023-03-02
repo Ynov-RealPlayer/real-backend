@@ -38,7 +38,6 @@ return new class extends Migration
 
             // Foreign keys
             $table->foreignIdFor(Rank::class);
-            $table->foreignIdFor(Badge::class)->nullable();
             $table->foreignIdFor(Role::class);
         });
     }
