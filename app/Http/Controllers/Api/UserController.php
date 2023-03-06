@@ -27,7 +27,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'pseudo' => 'required|max:12|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password',
+        ]);
+
+        $user = User::create([
+            'pseudo' => $request->pseudo,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return response()->json($user, 201);
     }
 
     /**
