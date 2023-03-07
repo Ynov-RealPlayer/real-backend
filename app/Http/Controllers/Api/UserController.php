@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,21 +26,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $this->validate($request, [
-            'pseudo' => 'required|max:12|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'confirm_password' => 'required|same:password',
-        ]);
-
-        $user = User::create([
-            'pseudo' => $request->pseudo,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
+        $attributes = $request->validated();
+        $user = User::create($attributes);
         return response()->json($user, 201);
     }
 
@@ -61,9 +51,11 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserStoreRequest $request, User $user)
     {
-        //
+        $attributes = $request->validated();
+        $user->update($attributes);
+        return response()->json($user);
     }
 
     /**
@@ -74,6 +66,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json(null, 204);
     }
 }
