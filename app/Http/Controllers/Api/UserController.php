@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,19 +17,6 @@ class UserController extends Controller
     {
         $users = User::paginate(10);
         return response()->json($users);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserStoreRequest $request)
-    {
-        $attributes = $request->validated();
-        $user = User::create($attributes);
-        return response()->json($user, 201);
     }
 
     /**
@@ -51,10 +37,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserStoreRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $attributes = $request->validated();
-        $user->update($attributes);
+        $user->update($request->all());
         return response()->json($user);
     }
 

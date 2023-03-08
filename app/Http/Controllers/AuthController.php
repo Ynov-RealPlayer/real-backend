@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,17 +10,22 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
-     * Inscription d'un nouvel utilisateur
+     * Registration of a new user
      *
      * @param UserStoreRequest $request
-     * @return void
+     * @return json
      */
-    public function register(UserStoreRequest $request)
+    public function register(Request $request)
     {
-        // vérifie si les données sont valides
-        $attributes = $request->validated();
+        // check if the data are valid
+        $attributes = $request->validate([
+            'pseudo' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password',
+        ]);
 
-        // crée un nouvel utilisateur
+        // create a new user
         $user = User::create(
             array_merge(
                 $attributes,
@@ -29,10 +33,8 @@ class AuthController extends Controller
             )
         );
 
-        // génère un token d'authentification
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // retourne le token
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -40,30 +42,31 @@ class AuthController extends Controller
     }
 
     /**
-     * Connexion d'un utilisateur
+     * Connection of an existing user
      *
      * @param UserStoreRequest $request
-     * @return void
+     * @return json
      */
-    public function login(UserStoreRequest $request)
+    public function login(Request $request)
     {
-        // vérifie si les données sont valides
-        $attributes = $request->validated();
+        // check if the data are valid
+        $attributes = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        // vérifie si l'utilisateur existe
+        // check if the user exists
         $user = User::where('email', $attributes['email'])->first();
 
-        // vérifie si le mot de passe est correct
+        // check if the password is correct
         if (!$user || !Hash::check($attributes['password'], $user->password)) {
             return response()->json([
                 'message' => 'Mauvais identifiants',
             ], 401);
         }
 
-        // génère un token d'authentification
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // retourne le token
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -71,22 +74,18 @@ class AuthController extends Controller
     }
 
     /**
-     * Donne les informations de l'utilisateur connecté
+     * Return the current user
      *
      * @param Request $request
-     * @return void
+     * @return json
      */
-    public function me(UserStoreRequest $request)
+    public function me(Request $request)
     {
-        // Récupérer l'utilisateur actuellement authentifié
         $user = $request->user();
 
-        // Vérifier si l'utilisateur est authentifié
         if ($user) {
-            // Si l'utilisateur est authentifié, retourner les informations de l'utilisateur
             return response()->json($user);
         } else {
-            // Si l'utilisateur n'est pas authentifié, retourner une réponse d'erreur
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
