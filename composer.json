@@ -12,7 +12,7 @@
         "filament/tables": "^2.16",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
-        "laravel/sanctum": "^3.0",
+        "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.7",
         "rvxlab/filament-colorpicker": "^1.4"
     },
