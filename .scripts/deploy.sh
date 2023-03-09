@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚩 Deployment started ..."
+echo "🚩 Deployment started ... 🚩"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -36,4 +36,4 @@ php artisan migrate --force
 # Exit maintenance mode
 php artisan up
 
-echo "⭐ Deployment done !"
+echo "⭐ Deployment done ! ⭐"
