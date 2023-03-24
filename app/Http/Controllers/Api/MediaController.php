@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Utils\ExperienceController;
 use App\Models\Media;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,7 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $media = Media::create($request->all());
+        ExperienceController::giveExperience($media->user_id, 10);
         return response()->json($media);
     }
 

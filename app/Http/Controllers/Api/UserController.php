@@ -55,4 +55,15 @@ class UserController extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
+
+    /**
+     * Display the top 100 of the users with the most experience.
+     *
+     * @return Response
+     */
+    public function top()
+    {
+        $users = User::orderBy('experience', 'desc')->take(100)->get();
+        return response()->json($users);
+    }
 }

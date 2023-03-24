@@ -25,8 +25,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum')->name('me');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
-Route::apiResource("users", UserController::class)->middleware('auth:sanctum');
+// User
+Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/top', [UserController::class, 'top']);
+    Route::get('/{user}', [UserController::class, 'show']);
+    Route::put('/{user}', [UserController::class, 'update']);
+    Route::delete('/{user}', [UserController::class, 'destroy']);
+});
 
+// Media
 Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [MediaController::class, 'index']);
     Route::get('/{media}', [MediaController::class, 'show']);
