@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Media extends Model
+class Media extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'media';
 
     protected $fillable = [
         'name',
@@ -18,7 +24,7 @@ class Media extends Model
         'nb_like',
         // Foreign keys
         'category_id',
-        'user_id'
+        'user_id',
     ];
 
     public function user()

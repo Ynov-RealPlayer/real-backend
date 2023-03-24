@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,11 @@ Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum')->n
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
 Route::apiResource("users", UserController::class)->middleware('auth:sanctum');
+
+Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [MediaController::class, 'index']);
+    Route::get('/{media}', [MediaController::class, 'show']);
+    Route::post('/', [MediaController::class, 'store']);
+    Route::put('/{media}', [MediaController::class, 'update']);
+    Route::delete('/{media}', [MediaController::class, 'destroy']);
+});

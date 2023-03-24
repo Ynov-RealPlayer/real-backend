@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\User;
 use App\Models\Category;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -17,12 +17,12 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('media_type');
-            $table->string('url');
-            $table->float('duration');
-            $table->integer('nb_like');
+            $table->string('name')->required();
+            $table->string('description')->required();
+            $table->string('media_type')->required();
+            $table->string('url')->required();
+            $table->float('duration')->required();
+            $table->integer('nb_like')->default(0);
 
             $table->timestamps();
 
