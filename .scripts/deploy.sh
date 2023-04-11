@@ -17,7 +17,7 @@ git stash
 # Pull the latest version of the app
 git pull origin master
 
-# Install composer dependencies
+# Install composer dependencies !
 composer install
 
 # Clear the old cache
