@@ -17,13 +17,8 @@ git stash
 # Pull the latest version of the app
 git pull origin master
 
-<<<<<<< HEAD
-# Install composer dependencies
-composer install --ignore-platform-reqs
-=======
 # Install composer dependencies !
 composer install
->>>>>>> 10074389150718bfbf1b6df5c898af50e4fcbe01
 
 # Clear the old cache
 php artisan clear-compiled
