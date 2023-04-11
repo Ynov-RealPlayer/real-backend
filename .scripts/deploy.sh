@@ -18,7 +18,7 @@ git stash
 git pull origin master
 
 # Install composer dependencies
-composer install
+composer install --ignore-platform-reqs
 
 # Clear the old cache
 php artisan clear-compiled
