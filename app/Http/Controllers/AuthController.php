@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,20 +18,35 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // check if the data are valid
-        $attributes = $request->validate([
-            'pseudo' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-        ]);
+        $messages = [
+            'pseudo.required' => __('lang.pseudo.required'),
+            'pseudo.unique' => __('lang.pseudo.unique'),
+            'email.required' => __('lang.email.required'),
+            'email.email' => __('lang.email.email'),
+            'email.unique' => __('lang.email.unique'),
+            'password.required' => __('lang.password.required'),
+            'password.min' => __('lang.password.min'),
+            'confirm_password.required' => __('lang.confirm_password.required'),
+            'confirm_password.same' => __('lang.confirm_password.same'),
+        ];
 
-        // create a new user
+        $validator = Validator::make($request->all(), [
+            'pseudo' => 'required|unique:users,pseudo',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
         $user = User::create(
-            array_merge(
-                $attributes,
-                ['password' => Hash::make($attributes['password'])]
-            )
+            [
+                'pseudo' => $request->pseudo,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]
         );
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -49,19 +65,27 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // check if the data are valid
-        $attributes = $request->validate([
+        $messages = [
+            'email.required' => __('lang.email.required'),
+            'email.email' => __('lang.email.email'),
+            'password.required' => __('lang.password.required'),
+            'password.min' => __('lang.password.min'),
+        ];
+
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
-        ]);
+            'password' => 'required|min:8',
+        ], $messages);
 
-        // check if the user exists
-        $user = User::where('email', $attributes['email'])->first();
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-        // check if the password is correct
-        if (!$user || !Hash::check($attributes['password'], $user->password)) {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'The provided credentials are incorrect.',
+                'message' => __('lang.login.bad_credentials'),
             ], 401);
         }
 
@@ -85,9 +109,8 @@ class AuthController extends Controller
 
         if ($user) {
             return response()->json($user);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
         }
+        return response()->json(['error' => __('lang.unauthorized')], 401);
     }
 
     /**
@@ -101,9 +124,8 @@ class AuthController extends Controller
         $user = $request->user();
         if ($user) {
             $user->tokens()->delete();
-            return response()->json(['message' => 'Logged out']);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => __('lang.logout')]);
         }
+        return response()->json(['error' => __('lang.unauthorized')], 401);
     }
 }
