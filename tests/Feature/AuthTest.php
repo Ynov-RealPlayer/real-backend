@@ -107,12 +107,10 @@ test('user can login with valid data', function () {
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
-
     $response = $this->postJson('/api/login', [
         'email' => $user->email,
         'password' => $password,
     ]);
-
     $response->assertOk()
         ->assertJsonStructure([
             'access_token',
@@ -128,12 +126,10 @@ test('user cannot login with invalid email', function () {
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
-
     $response = $this->postJson('/api/login', [
         'email' => 'invalid-email',
         'password' => $password,
     ]);
-
     $response->assertStatus(422);
     expect($response->json())->toHaveKey('email');
 });
@@ -146,12 +142,10 @@ test('user cannot login with invalid password', function () {
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
-
     $response = $this->postJson('/api/login', [
         'email' => $user->email,
         'password' => 'invalid-password',
     ]);
-
     $response->assertStatus(401);
     expect($response->json())->toHaveKey('message');
 });
@@ -164,15 +158,73 @@ test('user login creates new token', function () {
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
-
     $this->postJson('/api/login', [
         'email' => $user->email,
         'password' => $password,
     ]);
-
     $this->assertDatabaseHas('personal_access_tokens', [
         'tokenable_id' => $user->id,
     ]);
 });
 
 // ! Logout Tests
+test('user can logout', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+    $response = $this->actingAs($user)->postJson('/api/logout');
+    $response->assertOk()
+        ->assertJsonStructure([
+            'message',
+        ]);
+});
+
+test('user logout deletes token', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+    $this->actingAs($user)->postJson('/api/logout');
+    $this->assertDatabaseMissing('personal_access_tokens', [
+        'tokenable_id' => $user->id,
+    ]);
+});
+
+test('user cannot logout without token', function () {
+    $response = $this->postJson('/api/logout');
+    $response->assertStatus(401);
+    expect($response->json())->toHaveKey('message');
+});
+
+// ! User /me Tests
+test('user can get own data', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+    $response = $this->actingAs($user)->postJson('/api/me');
+    $response->assertOk()
+        ->assertJsonStructure([
+            'id',
+            'pseudo',
+            'email',
+            'created_at',
+            'updated_at',
+        ]);
+});
+
+test('user cannot get own data without token', function () {
+    $response = $this->postJson('/api/me');
+    $response->assertStatus(401);
+    expect($response->json())->toHaveKey('message');
+});
