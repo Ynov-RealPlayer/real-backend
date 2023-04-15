@@ -8,7 +8,7 @@ use Tests\TestCase;
 uses(RefreshDatabase::class);
 uses(TestCase::class);
 
-it('user can register with valid data', function () {
+test('user can register with valid data', function () {
     $faker = Factory::create('fr_FR');
     $data = [
         'pseudo' => $faker->userName,
@@ -21,12 +21,12 @@ it('user can register with valid data', function () {
     expect($response->json())->toHaveKeys(['access_token', 'token_type']);
 });
 
-it('user cannot register with missing data', function () {
+test('user cannot register with missing data', function () {
     $response = $this->postJson('/api/register', []);
     expect($response->status())->toBe(422);
 });
 
-it('user cannont register with invalid email', function () {
+test('user cannont register with invalid email', function () {
     $faker = Factory::create('fr_FR');
     $data = [
         'pseudo' => $faker->userName,
@@ -38,7 +38,7 @@ it('user cannont register with invalid email', function () {
     expect($response->status())->toBe(422);
 });
 
-it('user cannot register with existing email', function () {
+test('user cannot register with existing email', function () {
     $faker = Factory::create('fr_FR');
     $user = User::factory()->create([
         'pseudo' => 'aaaaaa',
