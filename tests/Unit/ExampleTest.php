@@ -23,7 +23,6 @@ class ExampleTest extends TestCase
      */
     public function test_zobi()
     {
-        // test
         $response = $this->get('/admin/login');
 
         // check if the response is a 200
