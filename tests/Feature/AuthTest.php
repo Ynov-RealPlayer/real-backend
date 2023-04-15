@@ -3,11 +3,13 @@
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 uses(TestCase::class);
 
+// ! Register Tests
 test('user can register with valid data', function () {
     $faker = Factory::create('fr_FR');
     $data = [
@@ -95,3 +97,82 @@ test('user registration creates new user', function () {
         'email' => $data['email'],
     ]);
 });
+
+// ! Login Tests
+test('user can login with valid data', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+
+    $response = $this->postJson('/api/login', [
+        'email' => $user->email,
+        'password' => $password,
+    ]);
+
+    $response->assertOk()
+        ->assertJsonStructure([
+            'access_token',
+            'token_type',
+        ]);
+});
+
+test('user cannot login with invalid email', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+
+    $response = $this->postJson('/api/login', [
+        'email' => 'invalid-email',
+        'password' => $password,
+    ]);
+
+    $response->assertStatus(422);
+    expect($response->json())->toHaveKey('email');
+});
+
+test('user cannot login with invalid password', function () {
+    $faker = Factory::create('fr_FR');
+    $password = 'password123';
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+
+    $response = $this->postJson('/api/login', [
+        'email' => $user->email,
+        'password' => 'invalid-password',
+    ]);
+
+    $response->assertStatus(401);
+    expect($response->json())->toHaveKey('message');
+});
+
+test('user login creates new token', function () {
+    $faker = Factory::create('fr_FR');
+    $password = $faker->password(8);
+    $user = User::create([
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make($password),
+    ]);
+
+    $this->postJson('/api/login', [
+        'email' => $user->email,
+        'password' => $password,
+    ]);
+
+    $this->assertDatabaseHas('personal_access_tokens', [
+        'tokenable_id' => $user->id,
+    ]);
+});
+
+// ! Logout Tests
