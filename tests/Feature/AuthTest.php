@@ -1,151 +1,113 @@
 <?php
 
-namespace Tests\Feature;
-
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
-{
-    use RefreshDatabase, WithFaker;
+uses(RefreshDatabase::class);
+uses(TestCase::class);
 
-    /**
-     * Test user registration with valid data
-     *
-     * @return void
-     */
-    // public function test_user_can_register_with_valid_data()
-    // {
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => $this->faker->unique()->safeEmail,
-    //         'password' => 'password123',
-    //         'confirm_password' => 'password123',
-    //     ];
+test('user can register with valid data', function () {
+    $faker = Factory::create('fr_FR');
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => 'password123',
+        'confirm_password' => 'password123',
+    ];
+    $response = $this->postJson('/api/register', $data);
+    expect($response->status())->toBe(200);
+    expect($response->json())->toHaveKeys(['access_token', 'token_type']);
+});
 
-    //     $response = $this->postJson('/api/register', $data);
+test('user cannot register with missing data', function () {
+    $response = $this->postJson('/api/register', []);
+    expect($response->status())->toBe(422);
+});
 
-    //     $response->assertStatus(200)
-    //         ->assertJsonStructure([
-    //             'access_token',
-    //             'token_type',
-    //         ]);
-    // }
+test('user cannont register with invalid email', function () {
+    $faker = Factory::create('fr_FR');
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => 'invalid-email',
+        'password' => 'password123',
+        'confirm_password' => 'password123',
+    ];
+    $response = $this->postJson('/api/register', $data);
+    expect($response->status())->toBe(422);
+});
 
-    /**
-     * Test user registration with missing data
-     *
-     * @return void
-     */
-    // public function test_user_cannot_register_with_missing_data()
-    // {
-    //     $response = $this->postJson('/api/register', []);
-    //     $response->assertStatus(422);
-    // }
+test('user cannot register with existing email', function () {
+    $faker = Factory::create('fr_FR');
+    $user = User::factory()->create([
+        'pseudo' => 'aaaaaa',
+        'email' => 'aaaaaa@gmail.com',
+        'password' => 'password123',
+    ]);
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => $user->email,
+        'password' => 'password123',
+        'confirm_password' => 'password123',
+    ];
+    $response = $this->postJson('/api/register', $data);
+    expect($response->status())->toBe(422);
+});
 
-    /**
-     * Test user registration with invalid email
-     *
-     * @return void
-     */
-    // public function test_user_cannot_register_with_invalid_email()
-    // {
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => 'invalid-email',
-    //         'password' => 'password123',
-    //         'confirm_password' => 'password123',
-    //     ];
+test('user cannot register with short password', function () {
+    $faker = Factory::create('fr_FR');
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => 'pass',
+        'confirm_password' => 'pass',
+    ];
+    $response = $this->postJson('/api/register', $data);
+    expect($response->status())->toBe(422);
+    expect($response->json())->toHaveKey('password');
+});
 
-    //     $response = $this->postJson('/api/register', $data);
+test('user cannont register with mismatched passwords', function () {
+    $faker = Factory::create('fr_FR');
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => 'password123',
+        'confirm_password' => 'password456',
+    ];
+    $response = $this->postJson('/api/register', $data);
+    expect($response->status())->toBe(422);
+    expect($response->json())->toHaveKey('confirm_password');
+});
 
-    //     $response->assertStatus(422)
-    //         ->assertJsonValidationErrors(['email']);
-    // }
+// public function test_user_registration_creates_new_user()
+// {
+//     $data = [
+//         'pseudo' => $this->faker->userName,
+//         'email' => $this->faker->unique()->safeEmail,
+//         'password' => 'password123',
+//         'confirm_password' => 'password123',
+//     ];
 
-    /**
-     * Test user registration with existing email
-     *
-     * @return void
-     */
-    // public function test_user_cannot_register_with_existing_email()
-    // {
-    //     $user = User::factory()->create();
+//     $this->postJson('/api/register', $data);
 
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => $user->email,
-    //         'password' => 'password123',
-    //         'confirm_password' => 'password123',
-    //     ];
-
-    //     $response = $this->postJson('/api/register', $data);
-
-    //     $response->assertStatus(422)
-    //         ->assertJsonValidationErrors(['email']);
-    // }
-
-    /**
-     * Test user registration with short password
-     *
-     * @return void
-     */
-    // public function test_user_cannot_register_with_short_password()
-    // {
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => $this->faker->unique()->safeEmail,
-    //         'password' => 'pass',
-    //         'confirm_password' => 'pass',
-    //     ];
-
-    //     $response = $this->postJson('/api/register', $data);
-
-    //     $response->assertStatus(422)
-    //         ->assertJsonValidationErrors(['password']);
-    // }
-
-    /**
-     * Test user registration with mismatched passwords
-     *
-     * @return void
-     */
-    // public function test_user_cannot_register_with_mismatched_passwords()
-    // {
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => $this->faker->unique()->safeEmail,
-    //         'password' => 'password123',
-    //         'confirm_password' => 'password456',
-    //     ];
-
-    //     $response = $this->postJson('/api/register', $data);
-
-    //     $response->assertStatus(422)
-    //         ->assertJsonValidationErrors(['confirm_password']);
-    // }
-
-    /**
-     * Test user registration creates a new user
-     *
-     * @return void
-     */
-    // public function test_user_registration_creates_new_user()
-    // {
-    //     $data = [
-    //         'pseudo' => $this->faker->userName,
-    //         'email' => $this->faker->unique()->safeEmail,
-    //         'password' => 'password123',
-    //         'confirm_password' => 'password123',
-    //     ];
-
-    //     $this->postJson('/api/register', $data);
-
-    //     $this->assertDatabaseHas('users', [
-    //         'pseudo' => $data['pseudo'],
-    //         'email' => $data['email'],
-    //     ]);
-    // }
-}
+//     $this->assertDatabaseHas('users', [
+//         'pseudo' => $data['pseudo'],
+//         'email' => $data['email'],
+//     ]);
+// }
+test('user registration creates new user', function () {
+    $faker = Factory::create('fr_FR');
+    $data = [
+        'pseudo' => $faker->userName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => 'password123',
+        'confirm_password' => 'password123',
+    ];
+    $this->postJson('/api/register', $data);
+    $this->assertDatabaseHas('users', [
+        'pseudo' => $data['pseudo'],
+        'email' => $data['email'],
+    ]);
+});
