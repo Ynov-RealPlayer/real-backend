@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('/test', function () {
+    return response()->json(['message' => 'Hello World!']);
+});
+
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum')->name('me');

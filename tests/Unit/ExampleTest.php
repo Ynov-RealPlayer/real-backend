@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -14,5 +14,18 @@ class ExampleTest extends TestCase
     public function test_that_true_is_true()
     {
         $this->assertTrue(true);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test_zobi()
+    {
+        $response = $this->get('/admin/login');
+
+        // check if the response is a 200
+        $response->assertStatus(200);
     }
 }
