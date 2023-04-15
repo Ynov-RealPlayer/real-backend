@@ -16,20 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::get('/test', function () {
-    return response()->json(['message' => 'Hello World!']);
-});
-
+// ! Api routes for AuthController::class
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum')->name('me');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
-// User
+// ! Api routes for UserController::class
 Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/top', [UserController::class, 'top']);
@@ -38,7 +31,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () 
     Route::delete('/{user}', [UserController::class, 'destroy']);
 });
 
-// Media
+// ! Api routes for MediaController::class
 Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [MediaController::class, 'index']);
     Route::get('/{media}', [MediaController::class, 'show']);
