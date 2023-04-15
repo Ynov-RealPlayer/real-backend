@@ -81,22 +81,6 @@ test('user cannont register with mismatched passwords', function () {
     expect($response->json())->toHaveKey('confirm_password');
 });
 
-// public function test_user_registration_creates_new_user()
-// {
-//     $data = [
-//         'pseudo' => $this->faker->userName,
-//         'email' => $this->faker->unique()->safeEmail,
-//         'password' => 'password123',
-//         'confirm_password' => 'password123',
-//     ];
-
-//     $this->postJson('/api/register', $data);
-
-//     $this->assertDatabaseHas('users', [
-//         'pseudo' => $data['pseudo'],
-//         'email' => $data['email'],
-//     ]);
-// }
 test('user registration creates new user', function () {
     $faker = Factory::create('fr_FR');
     $data = [
