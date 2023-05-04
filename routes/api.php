@@ -38,4 +38,14 @@ Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () 
     Route::post('/', [MediaController::class, 'store']);
     Route::put('/{media}', [MediaController::class, 'update']);
     Route::delete('/{media}', [MediaController::class, 'destroy']);
+    Route::get('/category/{category}', [MediaController::class, 'category']);
+});
+
+// ! Api routes for CategoryController::class
+Route::group(['prefix' => 'categories', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    // Route::get('/{category}', [CategoryController::class, 'show']);
+    // Route::post('/', [CategoryController::class, 'store']);
+    // Route::put('/{category}', [CategoryController::class, 'update']);
+    // Route::delete('/{category}', [CategoryController::class, 'destroy']);
 });

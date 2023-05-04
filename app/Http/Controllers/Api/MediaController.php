@@ -16,7 +16,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $media = Media::paginate(10);
+        $media = Media::orderBy('created_at', 'desc')->take(10)->get();
         return response()->json($media);
     }
 
@@ -67,5 +67,16 @@ class MediaController extends Controller
     {
         $media->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Display a listing of the resource with the specified category.
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function category($category)
+    {
+        $media = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
+        return response()->json($media);
     }
 }

@@ -7,14 +7,11 @@ namespace Database\Seeders;
 use App\Models\Badge;
 use App\Models\Category;
 use App\Models\Commentary;
-use App\Models\Experience;
 use App\Models\Media;
 use App\Models\Rank;
 use App\Models\Role;
-use Faker\Factory;
 use App\Models\User;
-use App\Models\UserBadge;
-use App\Models\UserMedia;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,7 +24,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create('fr_FR');
-
 
         // ROLE
         /**
@@ -43,7 +39,6 @@ class DatabaseSeeder extends Seeder
         Role::factory()->create([
             'name' => 'user',
         ]);
-
 
         // BADGE
         /**
@@ -81,7 +76,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Badge du chien',
             'icon' => 'chien.png',
         ]);
-
 
         // RANK
         /**
@@ -128,7 +122,6 @@ class DatabaseSeeder extends Seeder
             'icon' => 'realPlayer.png',
         ]);
 
-
         // CATEGORY
         /**
          * Création d'une catégorie minecraft
@@ -136,7 +129,7 @@ class DatabaseSeeder extends Seeder
         Category::factory()->create([
             'name' => 'Minecraft',
             'description' => 'Catégorie Minecraft',
-            'symbol' => 'minecraft.png',
+            'symbol' => '🗡️',
         ]);
 
         /**
@@ -145,7 +138,7 @@ class DatabaseSeeder extends Seeder
         Category::factory()->create([
             'name' => 'Fortnite',
             'description' => 'Catégorie Fortnite',
-            'symbol' => 'fortnite.png',
+            'symbol' => '🚩',
         ]);
 
         /**
@@ -154,9 +147,8 @@ class DatabaseSeeder extends Seeder
         Category::factory()->create([
             'name' => 'League of Legends',
             'description' => 'Catégorie League of Legends',
-            'symbol' => 'lol.png',
+            'symbol' => '🏆',
         ]);
-
 
         // MEDIA
         /**
@@ -200,7 +192,6 @@ class DatabaseSeeder extends Seeder
             'category_id' => 3,
             'user_id' => 5,
         ]);
-
 
         /**
          * Création d'un compte admin
