@@ -17,11 +17,12 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $media = Media::orderBy('created_at', 'desc')->take(10)->get();
-        foreach ($media as $m) {
-            $m->nb_likes = $m->likes();
+        $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
+        foreach ($medias as $media) {
+            $media->nb_likes = $media->likes();
+            $media->has_liked = $medias->hasLiked();
         }
-        return response()->json($media);
+        return response()->json($medias);
     }
 
     /**
@@ -74,6 +75,7 @@ class MediaController extends Controller
         );
         $media->url = $cloudinary->image($media->url)->toUrl();
         $media->nb_likes = $media->likes();
+        $media->has_liked = $media->hasLiked();
         return response()->json($media);
     }
 

@@ -41,4 +41,10 @@ class Media extends Authenticatable
     {
         return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Media')->count();
     }
+
+    public function hasLiked()
+    {
+        $user_id = auth()->user()->id;
+        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Media')->where('user_id', $user_id)->count() > 0 ? true : false;
+    }
 }

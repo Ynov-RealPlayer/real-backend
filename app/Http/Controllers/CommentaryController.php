@@ -22,6 +22,7 @@ class CommentaryController extends Controller
             ->get();
         foreach ($commentaries as $commentary) {
             $commentary->nb_likes = $commentary->likes();
+            $commentary->has_liked = $commentary->hasLiked();
         }
         return response()->json($commentaries);
     }
@@ -48,6 +49,7 @@ class CommentaryController extends Controller
     public function show(Commentary $commentary)
     {
         $commentary->nb_likes = $commentary->likes();
+        $commentary->has_liked = $commentary->hasLiked();
         return response()->json($commentary);
     }
 
