@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Like;
 use App\Models\Media;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class MediaController extends Controller
             ]
         );
         $media->url = $cloudinary->image($media->url)->toUrl();
+        $media->nb_likes = Like::where('resource_id', $media->id)->where('resource_type', 'App\Models\Media')->count();
         return response()->json($media);
     }
 

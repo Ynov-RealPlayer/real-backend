@@ -39,6 +39,6 @@ class Media extends Authenticatable
 
     public function likes()
     {
-        return $this->belongsToMany(Like::class);
+        return $this->hasMany(Like::class);
     }
 }
