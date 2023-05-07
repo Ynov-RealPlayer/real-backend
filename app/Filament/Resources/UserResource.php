@@ -71,10 +71,6 @@ class UserResource extends Resource
                     ->required()
                     ->default(1)
                     ->label('Rang'),
-                Forms\Components\Select::make('badge_user.badge_id')
-                    ->options(Badge::all()->pluck('name', 'id'))
-                    ->multiple()
-                    ->label('Badges'),
             ]);
     }
 
