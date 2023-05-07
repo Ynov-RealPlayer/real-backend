@@ -160,7 +160,6 @@ class DatabaseSeeder extends Seeder
             'media_type' => 'SCREEN',
             'url' => 'https://www.minecraft.net/content/dam/minecraft/branding/brand-assets/minecraft-logo.png',
             'duration' => 0,
-            'nb_like' => 3,
             'category_id' => 1,
             'user_id' => 1,
         ]);
@@ -174,7 +173,6 @@ class DatabaseSeeder extends Seeder
             'media_type' => 'SCREEN',
             'url' => 'https://www.epicgames.com/fortnite/fr/home/static/fortnite-logo.png',
             'duration' => 0,
-            'nb_like' => 5,
             'category_id' => 2,
             'user_id' => 3,
         ]);
@@ -188,7 +186,6 @@ class DatabaseSeeder extends Seeder
             'media_type' => 'CLIP',
             'url' => 'https://www.leagueoflegends.com/sites/default/files/styles/scale_xlarge/public/upload/league_logo_2019.png?itok=ZQY8Z7ZJ',
             'duration' => 6,
-            'nb_like' => 10,
             'category_id' => 3,
             'user_id' => 5,
         ]);
@@ -231,7 +228,6 @@ class DatabaseSeeder extends Seeder
         Commentary::factory()->create([
             'content' => 'Minecraft',
             'media_id' => 1,
-            'nb_like' => 3,
             'user_id' => 1,
         ]);
 
@@ -241,7 +237,6 @@ class DatabaseSeeder extends Seeder
         Commentary::factory()->create([
             'content' => 'Fortnite',
             'media_id' => 2,
-            'nb_like' => 5,
             'user_id' => 3,
         ]);
 

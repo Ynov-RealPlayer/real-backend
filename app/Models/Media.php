@@ -21,7 +21,6 @@ class Media extends Authenticatable
         'media_type',
         'url',
         'duration',
-        'nb_like',
         // Foreign keys
         'category_id',
         'user_id',

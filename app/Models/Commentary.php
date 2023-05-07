@@ -11,10 +11,9 @@ class Commentary extends Model
 
     protected $fillable = [
         'content',
-        'nb_like',
         // Foreign keys
         'media_id',
-        'user_id'
+        'user_id',
     ];
 
     public function user()
