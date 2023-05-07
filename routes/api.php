@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\MediaController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CommentaryController;
-use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ResourceOwner;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\CommentaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,8 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () 
     Route::get('/', [UserController::class, 'index']);
     Route::get('/top', [UserController::class, 'top']);
     Route::get('/{user}', [UserController::class, 'show']);
-    Route::put('/{user}', [UserController::class, 'update']);
-    Route::delete('/{user}', [UserController::class, 'destroy']);
+    Route::put('/{user}', [UserController::class, 'update'])->middleware(ResourceOwner::class);
+    Route::delete('/{user}', [UserController::class, 'destroy'])->middleware(ResourceOwner::class);
 });
 
 // ! Api routes for MediaController::class
@@ -39,8 +40,8 @@ Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () 
     Route::get('/', [MediaController::class, 'index']);
     Route::get('/{media}', [MediaController::class, 'show']);
     Route::post('/', [MediaController::class, 'store']);
-    Route::put('/{media}', [MediaController::class, 'update']);
-    Route::delete('/{media}', [MediaController::class, 'destroy']);
+    Route::put('/{media}', [MediaController::class, 'update'])->middleware(ResourceOwner::class);
+    Route::delete('/{media}', [MediaController::class, 'destroy'])->middleware(ResourceOwner::class);
     Route::get('/category/{category}', [MediaController::class, 'category']);
 });
 
@@ -49,8 +50,8 @@ Route::group(['prefix' => 'commentaries', 'middleware' => 'auth:sanctum'], funct
     Route::get('/', [CommentaryController::class, 'index']);
     Route::get('/{commentary}', [CommentaryController::class, 'show']);
     Route::post('/', [CommentaryController::class, 'store']);
-    Route::put('/{commentary}', [CommentaryController::class, 'update']);
-    Route::delete('/{commentary}', [CommentaryController::class, 'destroy']);
+    Route::put('/{commentary}', [CommentaryController::class, 'update'])->middleware(ResourceOwner::class);
+    Route::delete('/{commentary}', [CommentaryController::class, 'destroy'])->middleware(ResourceOwner::class);
 });
 
 // ! Api routes for CategoryController::class
@@ -62,5 +63,5 @@ Route::group(['prefix' => 'categories', 'middleware' => 'auth:sanctum'], functio
 // ! Api routes for LikeController::class
 Route::group(['prefix' => 'likes', 'middleware' => 'auth:sanctum'], function () {
 // ? The store method is for liking a media/commentary or unliking it automatically
-    Route::post('/', [LikeController::class, 'store']);
+    Route::post('/', [LikeController::class, 'store'])->middleware(ResourceOwner::class);
 });
