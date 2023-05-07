@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('media_type')->required();
             $table->string('url')->required();
             $table->float('duration')->required();
-            $table->integer('nb_like')->default(0);
 
             $table->timestamps();
 

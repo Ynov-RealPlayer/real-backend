@@ -22,7 +22,6 @@ class MediaFactory extends Factory
             'media_type' => fake()->name(),
             'url' => fake()->url(),
             'duration' => fake()->numberBetween(0, 10),
-            'nb_like' => fake()->numberBetween(0, 100),
             'category_id' => fake()->numberBetween(1, 3),
         ];
     }

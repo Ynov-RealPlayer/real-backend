@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentaryController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,15 @@ Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () 
     Route::put('/{media}', [MediaController::class, 'update']);
     Route::delete('/{media}', [MediaController::class, 'destroy']);
     Route::get('/category/{category}', [MediaController::class, 'category']);
+});
+
+// ! Api routes for CommentaryController::class
+Route::group(['prefix' => 'commentaries', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [CommentaryController::class, 'index']);
+    Route::get('/{commentary}', [CommentaryController::class, 'show']);
+    Route::post('/', [CommentaryController::class, 'store']);
+    Route::put('/{commentary}', [CommentaryController::class, 'update']);
+    Route::delete('/{commentary}', [CommentaryController::class, 'destroy']);
 });
 
 // ! Api routes for CategoryController::class

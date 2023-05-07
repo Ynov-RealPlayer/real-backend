@@ -18,7 +18,6 @@ class CommentaryFactory extends Factory
     {
         return [
             'content' => fake()->text(),
-            'nb_like' => fake()->numberBetween(0, 1000),
             'media_id' => fake()->numberBetween(1, 3),
         ];
     }
