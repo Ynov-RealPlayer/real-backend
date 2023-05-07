@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('badge_user', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(\App\Models\Badge::class);
             $table->foreignIdFor(\App\Models\User::class);
             $table->timestamps();
