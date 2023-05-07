@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Badge;
 use App\Models\Category;
 use App\Models\Commentary;
+use App\Models\Like;
 use App\Models\Media;
 use App\Models\Rank;
 use App\Models\Role;
@@ -240,5 +241,16 @@ class DatabaseSeeder extends Seeder
             'user_id' => 3,
         ]);
 
+        /**
+         * Création de likes
+         */
+        for ($i = 0; $i < 10; $i++) {
+            $resource_type = $faker->randomElement(['App\Models\Media', 'App\Models\Commentary']);
+            Like::factory()->create([
+                'user_id' => $faker->numberBetween(1, 10),
+                'resource_type' => $resource_type,
+                'resource_id' => $faker->numberBetween(1, 3),
+            ]);
+        }
     }
 }

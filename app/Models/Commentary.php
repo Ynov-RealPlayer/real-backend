@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Like;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,10 @@ class Commentary extends Model
     public function media()
     {
         return $this->belongsTo(Media::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Like::class);
     }
 }

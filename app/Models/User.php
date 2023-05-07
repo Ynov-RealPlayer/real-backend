@@ -3,11 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -97,6 +97,14 @@ class User extends Authenticatable implements FilamentUser
     public function comments()
     {
         return $this->belongsToMany(Comment::class);
+    }
+
+    /**
+     * Get the user's likes that he gave.
+     */
+    public function likes()
+    {
+        return $this->belongsToMany(Like::class);
     }
 
 }

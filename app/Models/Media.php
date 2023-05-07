@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
+use App\Models\Like;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,5 +35,10 @@ class Media extends Authenticatable
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Like::class);
     }
 }
