@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Utils\ExperienceController;
 
 class LikeController extends Controller
 {
@@ -26,6 +27,7 @@ class LikeController extends Controller
                 'resource_id' => $request['resource_id'],
                 'resource_type' => $request['resource_type'],
             ]);
+            ExperienceController::giveExperience($commentary->user_id, 1);
         }
 
         return response()->json([

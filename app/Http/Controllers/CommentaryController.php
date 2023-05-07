@@ -35,7 +35,7 @@ class CommentaryController extends Controller
     public function store(Request $request)
     {
         $commentary = Commentary::create($request->all());
-        ExperienceController::giveExperience($commentary->user_id, 2);
+        ExperienceController::giveExperience($commentary->user_id, 4);
         return response()->json($commentary);
     }
 

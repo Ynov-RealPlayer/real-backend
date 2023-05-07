@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Media;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
 {
@@ -50,6 +51,7 @@ class MediaController extends Controller
         );
         $request->merge(['url' => $request->media_type . '/' . $public_id]);
         $media = Media::create($request->all());
+        ExperienceController::giveExperience($media->user_id, 10);
         return response()->json($media);
     }
 
