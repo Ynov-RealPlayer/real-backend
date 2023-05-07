@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,9 +45,12 @@ Route::group(['prefix' => 'media', 'middleware' => 'auth:sanctum'], function () 
 
 // ! Api routes for CategoryController::class
 Route::group(['prefix' => 'categories', 'middleware' => 'auth:sanctum'], function () {
+// ? The index method is for getting all categories at the launch of the app
     Route::get('/', [CategoryController::class, 'index']);
-    // Route::get('/{category}', [CategoryController::class, 'show']);
-    // Route::post('/', [CategoryController::class, 'store']);
-    // Route::put('/{category}', [CategoryController::class, 'update']);
-    // Route::delete('/{category}', [CategoryController::class, 'destroy']);
+});
+
+// ! Api routes for LikeController::class
+Route::group(['prefix' => 'likes', 'middleware' => 'auth:sanctum'], function () {
+// ? The store method is for liking a media/commentary or unliking it automatically
+    Route::post('/', [LikeController::class, 'store']);
 });
