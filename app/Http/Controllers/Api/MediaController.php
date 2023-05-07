@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Utils\ExperienceController;
 use App\Models\Media;
+use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -28,8 +28,25 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]
+        );
+        $public_id = bin2hex(random_bytes(12));
+        $cloudinary->uploadApi()->upload(
+            $request->url,
+            [
+                'public_id' => $public_id,
+                'folder' => $request->media_type,
+            ]
+        );
+        $request->merge(['url' => $request->media_type . '/' . $public_id]);
         $media = Media::create($request->all());
-        ExperienceController::giveExperience($media->user_id, 10);
         return response()->json($media);
     }
 
@@ -41,6 +58,16 @@ class MediaController extends Controller
      */
     public function show(Media $media)
     {
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]
+        );
+        $media->url = $cloudinary->image($media->url)->toUrl();
         return response()->json($media);
     }
 
