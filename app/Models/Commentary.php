@@ -29,6 +29,6 @@ class Commentary extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(Like::class);
+        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Commentary')->count();
     }
 }

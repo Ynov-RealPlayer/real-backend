@@ -20,6 +20,9 @@ class CommentaryController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();
+        foreach ($commentaries as $commentary) {
+            $commentary->nb_likes = $commentary->likes();
+        }
         return response()->json($commentaries);
     }
 
@@ -44,6 +47,7 @@ class CommentaryController extends Controller
      */
     public function show(Commentary $commentary)
     {
+        $commentary->nb_likes = $commentary->likes();
         return response()->json($commentary);
     }
 

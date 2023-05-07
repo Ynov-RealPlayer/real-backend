@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Category;
 use App\Models\Like;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Category;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Media extends Authenticatable
 {
@@ -39,6 +39,6 @@ class Media extends Authenticatable
 
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Media')->count();
     }
 }

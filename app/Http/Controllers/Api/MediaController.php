@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Like;
 use App\Models\Media;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
@@ -18,6 +17,9 @@ class MediaController extends Controller
     public function index()
     {
         $media = Media::orderBy('created_at', 'desc')->take(10)->get();
+        foreach ($media as $m) {
+            $m->nb_likes = $m->likes();
+        }
         return response()->json($media);
     }
 
@@ -69,7 +71,7 @@ class MediaController extends Controller
             ]
         );
         $media->url = $cloudinary->image($media->url)->toUrl();
-        $media->nb_likes = Like::where('resource_id', $media->id)->where('resource_type', 'App\Models\Media')->count();
+        $media->nb_likes = $media->likes();
         return response()->json($media);
     }
 
