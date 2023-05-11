@@ -20,7 +20,7 @@ class MediaController extends Controller
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
             $media->nb_likes = $media->likes();
-            $media->has_liked = $medias->hasLiked();
+            $media->has_liked = $media->hasLiked();
         }
         return response()->json($medias);
     }
