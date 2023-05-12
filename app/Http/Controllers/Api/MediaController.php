@@ -42,19 +42,41 @@ class MediaController extends Controller
                 ],
             ]
         );
+        $resourceType = $request->media_type;
         $resource = $request->file('resource')->getRealPath();
-        $public_id = bin2hex(random_bytes(12));
-        $cloudinary->uploadApi()->upload(
-            $resource,
-            [
-                'public_id' => $public_id,
-                'folder' => $request->media_type,
-            ]
-        );
-        $request->merge(['url' => $request->media_type . '/' . $public_id]);
-        $media = Media::create($request->all());
-        ExperienceController::giveExperience($media->user_id, 10);
-        return response()->json($media);
+        switch ($resourceType) {
+            case 'screen':
+                $public_id = bin2hex(random_bytes(12));
+                $cloudinary->uploadApi()->upload(
+                    $resource,
+                    [
+                        'public_id' => $public_id,
+                        'folder' => $request->media_type,
+                    ]
+                );
+                $request->merge(['url' => $request->media_type . '/' . $public_id]);
+                $media = Media::create($request->all());
+                ExperienceController::giveExperience($media->user_id, 10);
+                return response()->json($media);
+                break;
+            case 'video':
+                $public_id = bin2hex(random_bytes(12));
+                $cloudinary->uploadApi()->upload(
+                    $resource,
+                    [
+                        'folder' => $request->media_type,
+                        'public_id' => $public_id,
+                        'resource_type' => 'video',
+                    ]
+                );
+                $request->merge(['url' => $request->media_type . '/' . $public_id]);
+                $media = Media::create($request->all());
+                ExperienceController::giveExperience($media->user_id, 10);
+                return response()->json($media);
+                break;
+            default:
+                return response()->json(['error' => 'media_type must be screen or video'], 400);
+        }
     }
 
     /**
@@ -74,7 +96,12 @@ class MediaController extends Controller
                 ],
             ]
         );
-        $media->url = $cloudinary->image($media->url)->toUrl();
+        $media_type = $media->media_type;
+        if ($media_type == 'video') {
+            $media->url = $cloudinary->video($media->url)->toUrl();
+        } else {
+            $media->url = $cloudinary->image($media->url)->toUrl();
+        }
         $media->nb_likes = $media->likes();
         $media->has_liked = $media->hasLiked();
         return response()->json($media);
