@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+require_once __DIR__ . '/../../../../vendor/autoload.php';
+
 use App\Models\Media;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
