@@ -42,9 +42,10 @@ class MediaController extends Controller
                 ],
             ]
         );
+        $url = $request->file('url')->getRealPath();
         $public_id = bin2hex(random_bytes(12));
         $cloudinary->uploadApi()->upload(
-            $request->url,
+            $url,
             [
                 'public_id' => $public_id,
                 'folder' => $request->media_type,
