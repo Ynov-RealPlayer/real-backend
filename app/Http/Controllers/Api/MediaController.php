@@ -19,8 +19,23 @@ class MediaController extends Controller
      */
     public function index()
     {
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]
+        );
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
+            $media_type = $media->media_type;
+            if ($media_type == 'video') {
+                $media->url = $cloudinary->video($media->url)->toUrl();
+            } else {
+                $media->url = $cloudinary->image($media->url)->toUrl();
+            }
             $media->nb_likes = $media->likes();
             $media->has_liked = $media->hasLiked();
         }
@@ -141,7 +156,24 @@ class MediaController extends Controller
      */
     public function category($category)
     {
-        $media = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
+        $medias = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]
+        );
+        foreach ($medias as $media) {
+            $media_type = $media->media_type;
+            if ($media_type == 'video') {
+                $media->url = $cloudinary->video($media->url)->toUrl();
+            } else {
+                $media->url = $cloudinary->image($media->url)->toUrl();
+            }
+        }
         return response()->json($media);
     }
 }
