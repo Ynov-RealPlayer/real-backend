@@ -8,6 +8,7 @@ use App\Models\Media;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CloudinaryClient;
 use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
@@ -19,15 +20,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
+        $cloudinary = new CloudinaryClient();
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
             $media_type = $media->media_type;
@@ -50,46 +43,32 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
+        $cloudinary = new CloudinaryClient();
         $resourceType = $request->media_type;
         $resource = $request->file('resource')->getRealPath();
         switch ($resourceType) {
             case 'screen':
-                $public_id = bin2hex(random_bytes(12));
-                $cloudinary->uploadApi()->upload(
-                    $resource,
-                    [
-                        'public_id' => $public_id,
-                        'folder' => $request->media_type,
-                    ]
-                );
-                $request->merge(['url' => $request->media_type . '/' . $public_id]);
+                $url = $cloudinary->createPicture($resource);
+                $request->merge(['url' => $url]);
                 $media = Media::create($request->all());
                 ExperienceController::giveExperience($media->user_id, 10);
                 return response()->json($media);
                 break;
             case 'video':
-                $public_id = bin2hex(random_bytes(12));
-                $cloudinary->uploadApi()->upload(
-                    $resource,
-                    [
-                        'folder' => $request->media_type,
-                        'public_id' => $public_id,
-                        'resource_type' => 'video',
-                    ]
-                );
-                $request->merge(['url' => $request->media_type . '/' . $public_id]);
-                $media = Media::create($request->all());
-                ExperienceController::giveExperience($media->user_id, 10);
-                return response()->json($media);
+                // $public_id = bin2hex(random_bytes(12));
+                // $cloudinary->uploadApi()->upload(
+                //     $resource,
+                //     [
+                //         'folder' => $request->media_type,
+                //         'public_id' => $public_id,
+                //         'resource_type' => 'video',
+                //     ]
+                // );
+                // $request->merge(['url' => $request->media_type . '/' . $public_id]);
+                // $media = Media::create($request->all());
+                // ExperienceController::giveExperience($media->user_id, 10);
+                // return response()->json($media);
+                return response()->json(['error' => 'video upload is not available'], 400);
                 break;
             default:
                 return response()->json(['error' => 'media_type must be screen or video'], 400);
@@ -104,15 +83,7 @@ class MediaController extends Controller
      */
     public function show(Media $media)
     {
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
+        $cloudinary = new CloudinaryClient();
         $media_type = $media->media_type;
         if ($media_type == 'video') {
             $media->url = $cloudinary->video($media->url)->toUrl();
@@ -157,15 +128,7 @@ class MediaController extends Controller
     public function category($category)
     {
         $medias = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
+        $cloudinary = new CloudinaryClient();
         foreach ($medias as $media) {
             $media_type = $media->media_type;
             if ($media_type == 'video') {
