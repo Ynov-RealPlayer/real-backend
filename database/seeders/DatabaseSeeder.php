@@ -151,6 +151,27 @@ class DatabaseSeeder extends Seeder
             'symbol' => '🏆',
         ]);
 
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]
+        );
+
+        // https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000
+        $public_id = bin2hex(random_bytes(12));
+        $cloudinary->uploadApi()->upload(
+            $resource,
+            [
+                'public_id' => $public_id,
+                'folder' => $public_id,
+            ]
+        );
+        $url = $public_id . '/' . $public_id;
+
         // MEDIA
         /**
          * Création d'un media minecraft
@@ -159,7 +180,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Minecraft',
             'description' => 'Minecraft',
             'media_type' => 'SCREEN',
-            'url' => 'https://www.minecraft.net/content/dam/minecraft/branding/brand-assets/minecraft-logo.png',
+            'url' => $url,
             'duration' => 0,
             'category_id' => 1,
             'user_id' => 1,
@@ -172,7 +193,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Fortnite',
             'description' => 'Fortnite',
             'media_type' => 'SCREEN',
-            'url' => 'https://www.epicgames.com/fortnite/fr/home/static/fortnite-logo.png',
+            'url' => $url,
             'duration' => 0,
             'category_id' => 2,
             'user_id' => 3,
@@ -185,7 +206,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'League of Legends',
             'description' => 'League of Legends',
             'media_type' => 'CLIP',
-            'url' => 'https://www.leagueoflegends.com/sites/default/files/styles/scale_xlarge/public/upload/league_logo_2019.png?itok=ZQY8Z7ZJ',
+            'url' => $url,
             'duration' => 6,
             'category_id' => 3,
             'user_id' => 5,
