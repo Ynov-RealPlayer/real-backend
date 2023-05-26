@@ -4,15 +4,16 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Badge;
-use App\Models\Category;
-use App\Models\Commentary;
+use Faker\Factory;
 use App\Models\Like;
-use App\Models\Media;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
-use Faker\Factory;
+use App\Models\Badge;
+use App\Models\Media;
+use App\Models\Category;
+use App\Models\Commentary;
+use Cloudinary\Cloudinary;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
