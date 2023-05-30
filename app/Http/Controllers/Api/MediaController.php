@@ -12,12 +12,8 @@ use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
         $cloudinary = new Cloudinary(
             [
@@ -28,13 +24,22 @@ class MediaController extends Controller
                 ],
             ]
         );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
             $media_type = $media->media_type;
             if ($media_type == 'video') {
-                $media->url = $cloudinary->video($media->url)->toUrl();
+                $media->url = $this->cloudinary->video($media->url)->toUrl();
             } else {
-                $media->url = $cloudinary->image($media->url)->toUrl();
+                $media->url = $this->cloudinary->image($media->url)->toUrl();
             }
             $media->nb_likes = $media->likes();
             $media->has_liked = $media->hasLiked();
@@ -50,21 +55,12 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
         $resourceType = $request->media_type;
         $resource = $request->file('resource')->getRealPath();
         switch ($resourceType) {
             case 'screen':
                 $public_id = bin2hex(random_bytes(12));
-                $cloudinary->uploadApi()->upload(
+                $this->cloudinary->uploadApi()->upload(
                     $resource,
                     [
                         'public_id' => $public_id,
@@ -78,7 +74,7 @@ class MediaController extends Controller
                 break;
             case 'video':
                 $public_id = bin2hex(random_bytes(12));
-                $cloudinary->uploadApi()->upload(
+                $this->cloudinary->uploadApi()->upload(
                     $resource,
                     [
                         'folder' => $request->media_type,
@@ -104,20 +100,11 @@ class MediaController extends Controller
      */
     public function show(Media $media)
     {
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
         $media_type = $media->media_type;
         if ($media_type == 'video') {
-            $media->url = $cloudinary->video($media->url)->toUrl();
+            $media->url = $this->cloudinary->video($media->url)->toUrl();
         } else {
-            $media->url = $cloudinary->image($media->url)->toUrl();
+            $media->url = $this->cloudinary->image($media->url)->toUrl();
         }
         $media->nb_likes = $media->likes();
         $media->has_liked = $media->hasLiked();
@@ -157,21 +144,12 @@ class MediaController extends Controller
     public function category($category)
     {
         $medias = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
         foreach ($medias as $media) {
             $media_type = $media->media_type;
             if ($media_type == 'video') {
-                $media->url = $cloudinary->video($media->url)->toUrl();
+                $media->url = $this->cloudinary->video($media->url)->toUrl();
             } else {
-                $media->url = $cloudinary->image($media->url)->toUrl();
+                $media->url = $this->cloudinary->image($media->url)->toUrl();
             }
         }
         return response()->json($media);
