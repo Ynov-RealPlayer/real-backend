@@ -15,7 +15,7 @@ class MediaController extends Controller
 
     public function __construct()
     {
-        $cloudinary = new Cloudinary(
+        $this->cloudinary = new Cloudinary(
             [
                 'cloud' => [
                     'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
