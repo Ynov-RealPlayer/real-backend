@@ -60,7 +60,7 @@ class MediaController extends Controller
         switch ($resourceType) {
             case 'screen':
                 $public_id = bin2hex(random_bytes(12));
-                $this->cloudinary->uploadApi()->upload(
+                (new UploadApi())->upload(
                     $resource,
                     [
                         'public_id' => $public_id,
@@ -74,7 +74,7 @@ class MediaController extends Controller
                 break;
             case 'video':
                 $public_id = bin2hex(random_bytes(12));
-                $this->cloudinary->uploadApi()->upload(
+                (new UploadApi())->upload(
                     $resource,
                     [
                         'folder' => $request->media_type,
