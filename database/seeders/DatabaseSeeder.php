@@ -162,8 +162,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000
-        $resource = 'https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000';
+        // MEDIA
+        /**
+         * Création d'un media minecraft
+         */
+        $resource = 'https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/minecraft-creeper-face.jpg';
         $public_id = bin2hex(random_bytes(12));
         $cloudinary->uploadApi()->upload(
             $resource,
@@ -173,11 +176,6 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $url = $public_id . '/' . $public_id;
-
-        // MEDIA
-        /**
-         * Création d'un media minecraft
-         */
         Media::factory()->create([
             'name' => 'Minecraft',
             'description' => 'Minecraft',
@@ -191,6 +189,16 @@ class DatabaseSeeder extends Seeder
         /**
          * Création d'un media fortnite
          */
+        $resource = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png';
+        $public_id = bin2hex(random_bytes(12));
+        $cloudinary->uploadApi()->upload(
+            $resource,
+            [
+                'public_id' => $public_id,
+                'folder' => $public_id,
+            ]
+        );
+        $url = $public_id . '/' . $public_id;
         Media::factory()->create([
             'name' => 'Fortnite',
             'description' => 'Fortnite',
@@ -204,6 +212,16 @@ class DatabaseSeeder extends Seeder
         /**
          * Création d'un media league of legends
          */
+        $resource = 'https://cdn.domestika.org/c_limit,dpr_auto,f_auto,q_auto,w_820/v1415399107/content-items/001/127/064/LoL_Logo_1-original.jpg?1415399107';
+        $public_id = bin2hex(random_bytes(12));
+        $cloudinary->uploadApi()->upload(
+            $resource,
+            [
+                'public_id' => $public_id,
+                'folder' => $public_id,
+            ]
+        );
+        $url = $public_id . '/' . $public_id;
         Media::factory()->create([
             'name' => 'League of Legends',
             'description' => 'League of Legends',
