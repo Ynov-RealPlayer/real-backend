@@ -166,7 +166,7 @@ class DatabaseSeeder extends Seeder
         /**
          * Création d'un media minecraft
          */
-        $resource = 'https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/minecraft-creeper-face.jpg';
+        $resource = 'https://cdn.icon-icons.com/icons2/2699/PNG/512/minecraft_logo_icon_168974.png';
         $public_id = bin2hex(random_bytes(12));
         $cloudinary->uploadApi()->upload(
             $resource,
