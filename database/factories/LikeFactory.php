@@ -26,8 +26,8 @@ class LikeFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'resource_id' => $this->faker->randomNumber(),
-            'resource_type' => $this->faker->word(),
+            'likeable_id' => $this->faker->randomNumber(),
+            'likeable_type' => $this->faker->word(),
         ];
     }
 }

@@ -17,8 +17,8 @@ class Like extends Model
     protected $fillable = [
         // Foreign keys
         'user_id',
-        'resource_id',
-        'resource_type',
+        'likeable_id',
+        'likeable_type',
     ];
 
     public function user()
@@ -33,8 +33,8 @@ class Like extends Model
 
     public function scopeWhereResource($query, $resource)
     {
-        return $query->where('resource_id', $resource->id)
-            ->where('resource_type', get_class($resource));
+        return $query->where('likeable_id', $resource->id)
+            ->where('likeable_type', get_class($resource));
     }
 
     public function scopeWhereUser($query, $user)

@@ -18,11 +18,11 @@ class BadgeUser extends Model
 
     public function badge()
     {
-        return $this->belongsToMany(Badge::class);
+        return $this->belongsTo(Badge::class);
     }
 
     public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

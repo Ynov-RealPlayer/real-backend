@@ -28,6 +28,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user = User::where('id', $user->id)
+            ->with('badges', 'medias')
+            ->first();
         return response()->json($user);
     }
 

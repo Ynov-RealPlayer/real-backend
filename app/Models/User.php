@@ -71,7 +71,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function rank()
     {
-        return $this->hasOne(Rank::class);
+        return $this->belongsTo(Rank::class);
     }
 
     /**

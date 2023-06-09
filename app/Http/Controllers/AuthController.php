@@ -106,7 +106,7 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         $user = User::where('id', $request->user()->id)
-            ->with('badges', 'medias')
+            ->with('rank', 'role', 'badges', 'medias', 'comments', 'likes', 'badges.badge')
             ->first();
 
         if ($user) {

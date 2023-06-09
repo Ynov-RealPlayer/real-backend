@@ -16,21 +16,16 @@ class BadgesRelationManager extends RelationManager
 
     protected static ?string $inverseRelationship = 'users';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'pseudo';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('id')
+                    ->relationship('badge', 'name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('icon')
-                    ->required()
-                    ->maxLength(255),
+                    ->autofocus(),
             ]);
     }
 

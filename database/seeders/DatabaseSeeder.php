@@ -163,7 +163,7 @@ class DatabaseSeeder extends Seeder
         Media::factory()->create([
             'name' => 'Minecraft',
             'description' => 'Minecraft',
-            'media_type' => 'SCREEN',
+            'media_type' => 'screen',
             'url' =>  $public_id,
             'duration' => 0,
             'category_id' => 1,
@@ -180,7 +180,7 @@ class DatabaseSeeder extends Seeder
         Media::factory()->create([
             'name' => 'Fortnite',
             'description' => 'Fortnite',
-            'media_type' => 'SCREEN',
+            'media_type' => 'screen',
             'url' =>  $public_id,
             'duration' => 0,
             'category_id' => 2,
@@ -197,7 +197,7 @@ class DatabaseSeeder extends Seeder
         Media::factory()->create([
             'name' => 'League of Legends',
             'description' => 'League of Legends',
-            'media_type' => 'CLIP',
+            'media_type' => 'clip',
             'url' =>  $public_id,
             'duration' => 6,
             'category_id' => 3,

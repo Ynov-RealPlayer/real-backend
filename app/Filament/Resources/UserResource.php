@@ -33,7 +33,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('pseudo')
                     ->required()
                     ->autofocus()
                     ->placeholder('Ecrivez le pseudo de l\'utilisateur')

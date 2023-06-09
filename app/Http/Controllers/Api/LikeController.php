@@ -14,8 +14,8 @@ class LikeController extends Controller
         $request = (object) $request->all();
         $like = Like::where([
             'user_id' => auth()->user()->id,
-            'resource_id' => $request->resource_id,
-            'resource_type' => $request->resource_type,
+            'likeable_id' => $request->likeable_id,
+            'likeable_type' => $request->likeable_type,
         ])->first();
 
         if ($like) {
@@ -23,8 +23,8 @@ class LikeController extends Controller
         } else {
             Like::create([
                 'user_id' => auth()->user()->id,
-                'resource_id' => $request->resource_id,
-                'resource_type' => $request->resource_type,
+                'likeable_id' => $request->likeable_id,
+                'likeable_type' => $request->likeable_type,
             ]);
             ExperienceController::giveExperience(auth()->user()->id, 1);
         }
