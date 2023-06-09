@@ -19,12 +19,6 @@ class MediaController extends Controller
     public function index()
     {
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
-        foreach ($medias as $media) {
-            $media->url = Storage::disk('s3')->temporaryUrl(
-                $media->url,
-                now()->addMinutes(20)
-            );
-        }
         return response()->json($medias);
     }
 
@@ -45,10 +39,6 @@ class MediaController extends Controller
             'user_id' => auth()->user()->id,
         ]);
         $media = Media::create($request->all());
-        $media->url = Storage::disk('s3')->temporaryUrl(
-            $media->url,
-            now()->addMinutes(20)
-        );
         ExperienceController::giveExperience($media->user_id, 10);
         return response()->json($media);
     }
@@ -61,10 +51,6 @@ class MediaController extends Controller
      */
     public function show(Request $request, Media $media)
     {
-        $media->url = Storage::disk('s3')->temporaryUrl(
-            $media->url,
-            now()->addMinutes(20)
-        );
         return response()->json($media);
     }
 
@@ -111,13 +97,7 @@ class MediaController extends Controller
      */
     public function category($category)
     {
-        $medias = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
-        foreach ($medias as $media) {
-            $media->url = Storage::disk('s3')->temporaryUrl(
-                $media->url,
-                now()->addMinutes(20)
-            );
-        }
+        $media = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
         return response()->json($media);
     }
 }
