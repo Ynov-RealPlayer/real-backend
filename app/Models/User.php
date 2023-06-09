@@ -19,6 +19,12 @@ class User extends Authenticatable implements FilamentUser
     {
         return str_ends_with($this->role_id, '1') && $this->hasVerifiedEmail();
     }
+
+    public function getFilamentName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+    
     /**
      * The attributes that are mass assignable.
      *

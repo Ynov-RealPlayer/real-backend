@@ -2,30 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
+use Aws\S3\S3Client;
 use App\Models\Media;
-use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
 {
+    private $storage;
 
     public function __construct()
     {
-        $this->cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
+        $this->storage = Storage::disk('s3');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -36,13 +27,10 @@ class MediaController extends Controller
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
             $media_type = $media->media_type;
-            if ($media_type == 'video') {
-                $media->url = $this->cloudinary->video($media->url)->toUrl();
-            } else {
-                $media->url = $this->cloudinary->image($media->url)->toUrl();
-            }
-            $media->nb_likes = $media->likes();
-            $media->has_liked = $media->hasLiked();
+            $media->url = Storage::disk('s3')->temporaryUrl(
+                $media->url,
+                now()->addMinutes(20)
+            );
         }
         return response()->json($medias);
     }
@@ -55,41 +43,14 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        $resourceType = $request->media_type;
-        $resource = $request->file('resource')->getRealPath();
-        switch ($resourceType) {
-            case 'screen':
-                $public_id = bin2hex(random_bytes(12));
-                (new UploadApi())->upload(
-                    $resource,
-                    [
-                        'public_id' => $public_id,
-                        'folder' => $request->media_type,
-                    ]
-                );
-                $request->merge(['url' => $request->media_type . '/' . $public_id]);
-                $media = Media::create($request->all());
-                ExperienceController::giveExperience($media->user_id, 10);
-                return response()->json($media);
-                break;
-            case 'video':
-                $public_id = bin2hex(random_bytes(12));
-                (new UploadApi())->upload(
-                    $resource,
-                    [
-                        'folder' => $request->media_type,
-                        'public_id' => $public_id,
-                        'resource_type' => 'video',
-                    ]
-                );
-                $request->merge(['url' => $request->media_type . '/' . $public_id]);
-                $media = Media::create($request->all());
-                ExperienceController::giveExperience($media->user_id, 10);
-                return response()->json($media);
-                break;
-            default:
-                return response()->json(['error' => 'media_type must be screen or video'], 400);
-        }
+        $file = $request->file('resource');
+        $s3 = Storage::disk('s3');
+        $name = time() . $request->file('resource')->getClientOriginalExtension();
+        $s3->put($name, file_get_contents($file));
+        $request->merge(['url' => $name]);
+        $media = Media::create($request->all());
+        ExperienceController::giveExperience($media->user_id, 10);
+        return response()->json($media);
     }
 
     /**

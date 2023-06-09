@@ -19,8 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->index('user_id');
-            $table->index('resource_id');
+            $table->morphs('likeable');
         });
     }
 

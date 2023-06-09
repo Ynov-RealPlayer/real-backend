@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\Commentary;
 use Cloudinary\Cloudinary;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -168,19 +169,13 @@ class DatabaseSeeder extends Seeder
          */
         $resource = 'https://cdn.icon-icons.com/icons2/2699/PNG/512/minecraft_logo_icon_168974.png';
         $public_id = bin2hex(random_bytes(12));
-        $cloudinary->uploadApi()->upload(
-            $resource,
-            [
-                'public_id' => $public_id,
-                'folder' => $public_id,
-            ]
-        );
-        $url = $public_id . '/' . $public_id;
+        $s3 = Storage::disk('s3');
+        $s3->put( $public_id, file_get_contents($resource));
         Media::factory()->create([
             'name' => 'Minecraft',
             'description' => 'Minecraft',
             'media_type' => 'SCREEN',
-            'url' => $url,
+            'url' =>  $public_id,
             'duration' => 0,
             'category_id' => 1,
             'user_id' => 1,
@@ -191,19 +186,13 @@ class DatabaseSeeder extends Seeder
          */
         $resource = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png';
         $public_id = bin2hex(random_bytes(12));
-        $cloudinary->uploadApi()->upload(
-            $resource,
-            [
-                'public_id' => $public_id,
-                'folder' => $public_id,
-            ]
-        );
-        $url = $public_id . '/' . $public_id;
+        $s3 = Storage::disk('s3');
+        $s3->put($public_id, file_get_contents($resource));
         Media::factory()->create([
             'name' => 'Fortnite',
             'description' => 'Fortnite',
             'media_type' => 'SCREEN',
-            'url' => $url,
+            'url' =>  $public_id,
             'duration' => 0,
             'category_id' => 2,
             'user_id' => 3,
@@ -214,19 +203,13 @@ class DatabaseSeeder extends Seeder
          */
         $resource = 'https://cdn.domestika.org/c_limit,dpr_auto,f_auto,q_auto,w_820/v1415399107/content-items/001/127/064/LoL_Logo_1-original.jpg?1415399107';
         $public_id = bin2hex(random_bytes(12));
-        $cloudinary->uploadApi()->upload(
-            $resource,
-            [
-                'public_id' => $public_id,
-                'folder' => $public_id,
-            ]
-        );
-        $url = $public_id . '/' . $public_id;
+        $s3 = Storage::disk('s3');
+        $s3->put( $public_id, file_get_contents($resource));
         Media::factory()->create([
             'name' => 'League of Legends',
             'description' => 'League of Legends',
             'media_type' => 'CLIP',
-            'url' => $url,
+            'url' =>  $public_id,
             'duration' => 6,
             'category_id' => 3,
             'user_id' => 5,
@@ -289,8 +272,8 @@ class DatabaseSeeder extends Seeder
             $resource_type = $faker->randomElement(['App\Models\Media', 'App\Models\Commentary']);
             Like::factory()->create([
                 'user_id' => $faker->numberBetween(1, 10),
-                'resource_type' => $resource_type,
-                'resource_id' => $faker->numberBetween(1, 3),
+                'likeable_id' => $faker->numberBetween(1, 3),
+                'likeable_type' => $resource_type,
             ]);
         }
     }

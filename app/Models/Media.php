@@ -16,6 +16,8 @@ class Media extends Authenticatable
 
     protected $table = 'media';
 
+    protected $appends = ['nb_likes', 'has_liked'];
+
     protected $fillable = [
         'name',
         'description',
@@ -39,12 +41,16 @@ class Media extends Authenticatable
 
     public function likes()
     {
-        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Media')->count();
+        return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function hasLiked()
+    public function getNbLikesAttribute()
     {
-        $user_id = auth()->user()->id;
-        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Media')->where('user_id', $user_id)->count() > 0 ? true : false;
+        return $this->likes()->count();
+    }
+
+    public function getHasLikedAttribute()
+    {
+        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
     }
 }

@@ -14,7 +14,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Filament Path
@@ -104,9 +103,7 @@ return [
     'pages' => [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
-        'register' => [
-            Pages\Dashboard::class,
-        ],
+        'register' => [Pages\Dashboard::class],
     ],
 
     /*
@@ -138,9 +135,7 @@ return [
     'widgets' => [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
-        'register' => [
-            Widgets\AccountWidget::class,
-        ],
+        'register' => [Widgets\AccountWidget::class],
     ],
 
     /*
@@ -198,14 +193,12 @@ return [
     */
 
     'broadcasting' => [
-
         // 'echo' => [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
         //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
         //     'forceTLS' => true,
         // ],
-
     ],
 
     /*
@@ -313,20 +306,7 @@ return [
     */
 
     'middleware' => [
-        'auth' => [
-            Authenticate::class,
-        ],
-        'base' => [
-            EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            AuthenticateSession::class,
-            ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
-            SubstituteBindings::class,
-            DispatchServingFilamentEvent::class,
-            MirrorConfigToSubpackages::class,
-        ],
+        'auth' => [Authenticate::class],
+        'base' => [EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSession::class, AuthenticateSession::class, ShareErrorsFromSession::class, VerifyCsrfToken::class, SubstituteBindings::class, DispatchServingFilamentEvent::class, MirrorConfigToSubpackages::class],
     ],
-
 ];

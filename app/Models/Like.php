@@ -26,7 +26,7 @@ class Like extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function resource()
+    public function likeable()
     {
         return $this->morphTo();
     }
