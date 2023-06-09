@@ -13,7 +13,7 @@ uses(TestCase::class);
 test('user can register with valid data', function () {
     $faker = Factory::create('fr_FR');
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => 'password123',
         'confirm_password' => 'password123',
@@ -31,7 +31,7 @@ test('user cannot register with missing data', function () {
 test('user cannont register with invalid email', function () {
     $faker = Factory::create('fr_FR');
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => 'invalid-email',
         'password' => 'password123',
         'confirm_password' => 'password123',
@@ -43,12 +43,12 @@ test('user cannont register with invalid email', function () {
 test('user cannot register with existing email', function () {
     $faker = Factory::create('fr_FR');
     $user = User::factory()->create([
-        'pseudo' => 'aaaaaa',
+        'name' => 'aaaaaa',
         'email' => 'aaaaaa@gmail.com',
         'password' => 'password123',
     ]);
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $user->email,
         'password' => 'password123',
         'confirm_password' => 'password123',
@@ -60,7 +60,7 @@ test('user cannot register with existing email', function () {
 test('user cannot register with short password', function () {
     $faker = Factory::create('fr_FR');
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => 'pass',
         'confirm_password' => 'pass',
@@ -73,7 +73,7 @@ test('user cannot register with short password', function () {
 test('user cannont register with mismatched passwords', function () {
     $faker = Factory::create('fr_FR');
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => 'password123',
         'confirm_password' => 'password456',
@@ -86,14 +86,14 @@ test('user cannont register with mismatched passwords', function () {
 test('user registration creates new user', function () {
     $faker = Factory::create('fr_FR');
     $data = [
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => 'password123',
         'confirm_password' => 'password123',
     ];
     $this->postJson('/api/register', $data);
     $this->assertDatabaseHas('users', [
-        'pseudo' => $data['pseudo'],
+        'name' => $data['name'],
         'email' => $data['email'],
     ]);
 });
@@ -103,7 +103,7 @@ test('user can login with valid data', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -122,7 +122,7 @@ test('user cannot login with invalid email', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -138,7 +138,7 @@ test('user cannot login with invalid password', function () {
     $faker = Factory::create('fr_FR');
     $password = 'password123';
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -154,7 +154,7 @@ test('user login creates new token', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -172,7 +172,7 @@ test('user can logout', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -187,7 +187,7 @@ test('user logout deletes token', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -208,7 +208,7 @@ test('user can get own data', function () {
     $faker = Factory::create('fr_FR');
     $password = $faker->password(8);
     $user = User::create([
-        'pseudo' => $faker->userName,
+        'name' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make($password),
     ]);
@@ -216,7 +216,7 @@ test('user can get own data', function () {
     $response->assertOk()
         ->assertJsonStructure([
             'id',
-            'pseudo',
+            'name',
             'email',
             'created_at',
             'updated_at',

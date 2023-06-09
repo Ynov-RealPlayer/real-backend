@@ -19,8 +19,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $messages = [
-            'pseudo.required' => __('lang.pseudo.required'),
-            'pseudo.unique' => __('lang.pseudo.unique'),
+            'name.required' => __('lang.name.required'),
+            'name.unique' => __('lang.name.unique'),
             'email.required' => __('lang.email.required'),
             'email.email' => __('lang.email.email'),
             'email.unique' => __('lang.email.unique'),
@@ -31,7 +31,7 @@ class AuthController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'pseudo' => 'required|unique:users,pseudo',
+            'name' => 'required|unique:users,name',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         $user = User::create(
             [
-                'pseudo' => $request->pseudo,
+                'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]

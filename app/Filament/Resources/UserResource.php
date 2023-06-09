@@ -25,14 +25,14 @@ use App\Filament\Resources\UserResource\RelationManagers;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $recordTitleAttribute = 'pseudo';
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('pseudo')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
                     ->placeholder('Ecrivez le pseudo de l\'utilisateur')

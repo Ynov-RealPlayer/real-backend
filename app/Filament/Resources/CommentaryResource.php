@@ -31,7 +31,7 @@ class CommentaryResource extends Resource
                     ->placeholder('Ecrivez votre commentaire')
                     ->label('Commentaire'),
                 Forms\Components\Select::make('user_id')
-                    ->options(User::all()->pluck('pseudo', 'id'))
+                    ->options(User::all()->pluck('name', 'id'))
                     ->required()
                     ->placeholder('Séléctionnez un utilisateur')
                     ->label('Utilisateur'),
@@ -60,7 +60,7 @@ class CommentaryResource extends Resource
                 Tables\Columns\TextColumn::make('nb_like')
                     ->sortable()
                     ->label('Nombre de likes'),
-                Tables\Columns\TextColumn::make('user.pseudo')
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
                     ->searchable()
                     ->label('Utilisateur'),

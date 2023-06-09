@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
          * Création d'un compte admin
          */
         User::factory()->create([
-            'pseudo' => 'admin',
+            'name' => 'admin',
             'experience' => 300,
             'picture' => $faker->imageUrl(),
             'banner' => $faker->imageUrl(),
@@ -233,7 +233,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             User::factory()->create([
-                'pseudo' => $faker->userName,
+                'name' => $faker->userName,
                 'experience' => $faker->numberBetween(0, 200),
                 'picture' => $faker->imageUrl(),
                 'banner' => $faker->imageUrl(),

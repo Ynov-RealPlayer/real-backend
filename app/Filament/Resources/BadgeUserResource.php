@@ -29,7 +29,7 @@ class BadgeUserResource extends Resource
                     ->options(Badge::pluck('name', 'id'))
                     ->required(),
                 Forms\Components\Select::make('user_id')
-                    ->options(User::pluck('pseudo', 'id'))
+                    ->options(User::pluck('name', 'id'))
                     ->required(),
             ]);
     }

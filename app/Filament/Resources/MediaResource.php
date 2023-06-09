@@ -69,7 +69,7 @@ class MediaResource extends Resource
                     ->required()
                     ->placeholder('Séléctionnez l\'utilisateur')
                     ->options(function () {
-                        return User::all()->pluck('pseudo', 'id');
+                        return User::all()->pluck('name', 'id');
                     })
                     ->label('Utilisateur'),
             ]);
@@ -87,7 +87,7 @@ class MediaResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Nom'),
-                Tables\Columns\TextColumn::make('user.pseudo')
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
                     ->searchable()
                     ->label('Utilisateur'),
