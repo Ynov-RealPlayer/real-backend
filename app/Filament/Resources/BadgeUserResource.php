@@ -27,10 +27,14 @@ class BadgeUserResource extends Resource
             ->schema([
                 Forms\Components\Select::make('badge_id')
                     ->options(Badge::pluck('name', 'id'))
-                    ->required(),
+                    ->required()
+                    ->label('Badge'),
                 Forms\Components\Select::make('user_id')
                     ->options(User::pluck('name', 'id'))
-                    ->required(),
+                    ->required()
+                    ->options(User::pluck('pseudo', 'id'))
+                    ->required()
+                    ->label('User'),
             ]);
     }
 

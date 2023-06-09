@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Like;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\Badge;
@@ -15,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Like;
 
 class User extends Authenticatable implements FilamentUser
 {
