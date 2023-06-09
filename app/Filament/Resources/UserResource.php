@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\Badge;
+use App\Models\BadgeUser;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -37,6 +38,10 @@ class UserResource extends Resource
                     ->autofocus()
                     ->placeholder('Ecrivez le pseudo de l\'utilisateur')
                     ->label('Pseudo'),
+                Forms\Components\TextInput::make('password')
+                    ->required()
+                    ->default('password')
+                    ->label('Mot de passe'),
                 Forms\Components\TextInput::make('email')
                     ->required()
                     ->placeholder('Ecivez l\'email de l\'utilisateur')

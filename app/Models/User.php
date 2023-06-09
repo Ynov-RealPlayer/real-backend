@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Like;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\Badge;
@@ -11,11 +10,11 @@ use App\Models\Media;
 use App\Models\BadgeUser;
 use App\Models\Commentary;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Like;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -25,22 +24,6 @@ class User extends Authenticatable implements FilamentUser
     {
         return str_ends_with($this->role_id, '1') && $this->hasVerifiedEmail();
     }
-
-    public function getFilamentName(): string
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-
-
-    public function getUserName(Model | Authenticatable $user): string
-    {
-        if ($user instanceof HasName) {
-            return $user->getFilamentName();
-        }
-
-        return $user->getAttributeValue('email');
-    }
-
     /**
      * The attributes that are mass assignable.
      *
