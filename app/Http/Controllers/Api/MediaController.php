@@ -52,7 +52,7 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function show(Media $media)
+    public function show(Request $request, Media $media)
     {
         $media->url = Storage::disk('s3')->temporaryUrl(
             $media->url,
@@ -70,18 +70,25 @@ class MediaController extends Controller
      */
     public function update(Request $request, Media $media)
     {
-        $media->update($request->all());
+        $id = $request->auth()->user();
+        $media->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+        ]);
         return response()->json($media);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param \Illuminate\Http\Request  $request
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Media $media)
+    public function destroy(Request $request, Media $media)
     {
+        dd("qsdqsddsq");
         $media->delete();
         return response()->json(null, 204);
     }
