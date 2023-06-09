@@ -19,8 +19,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $messages = [
-            'name.required' => __('lang.name.required'),
-            'name.unique' => __('lang.name.unique'),
+            'pseudo.required' => __('lang.pseudo.required'),
+            'pseudo.unique' => __('lang.pseudo.unique'),
             'email.required' => __('lang.email.required'),
             'email.email' => __('lang.email.email'),
             'email.unique' => __('lang.email.unique'),
@@ -31,7 +31,7 @@ class AuthController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:users,name',
+            'pseudo' => 'required|unique:users,pseudo',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         $user = User::create(
             [
-                'name' => $request->name,
+                'pseudo' => $request->pseudo,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]
@@ -105,7 +105,9 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
-        $user = $request->user();
+        $user = User::where('id', $request->user()->id)
+            ->with('badges', 'medias')
+            ->first();
 
         if ($user) {
             return response()->json($user);

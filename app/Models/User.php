@@ -30,7 +30,7 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'pseudo',
         'experience',
         'picture',
         'banner',
@@ -71,7 +71,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function rank()
     {
-        return $this->belongsTo(Rank::class);
+        return $this->hasOne(Rank::class);
     }
 
     /**
@@ -87,7 +87,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function badges()
     {
-        return $this->belongsToMany(Badge::class);
+        return $this->hasMany(BadgeUser::class);
     }
 
     /**
@@ -95,7 +95,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function medias()
     {
-        return $this->belongsToMany(Media::class);
+        return $this->hasMany(Media::class);
     }
 
     /**
@@ -103,7 +103,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function comments()
     {
-        return $this->belongsToMany(Commentary::class);
+        return $this->hasMany(Commentary::class);
     }
 
     /**
@@ -111,7 +111,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function likes()
     {
-        return $this->belongsToMany(Like::class);
+        return $this->hasMany(Like::class);
     }
 
 }
