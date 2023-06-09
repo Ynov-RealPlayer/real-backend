@@ -38,10 +38,17 @@ class MediaController extends Controller
     {
         $file = $request->file('resource');
         $s3 = Storage::disk('s3');
-        $name = time() . $request->file('resource')->getClientOriginalExtension();
-        $s3->put($name, file_get_contents($file));
-        $request->merge(['url' => $name]);
+        $path = time() . $request->file('resource')->getClientOriginalExtension();
+        $s3->put($path, file_get_contents($file));
+        $request->merge([
+            'url' => $path,
+            'user_id' => auth()->user()->id,
+        ]);
         $media = Media::create($request->all());
+        $media->url = Storage::disk('s3')->temporaryUrl(
+            $media->url,
+            now()->addMinutes(20)
+        );
         ExperienceController::giveExperience($media->user_id, 10);
         return response()->json($media);
     }
@@ -70,7 +77,9 @@ class MediaController extends Controller
      */
     public function update(Request $request, Media $media)
     {
-        $id = $request->auth()->user();
+        if (auth()->user()->id != $media->user_id) {
+            return response()->json(['error' => __('lang.unauthorized')], 401);
+        }
         $media->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -88,7 +97,9 @@ class MediaController extends Controller
      */
     public function destroy(Request $request, Media $media)
     {
-        dd("qsdqsddsq");
+        if (auth()->user()->id != $media->user_id) {
+            return response()->json(['error' => __('lang.unauthorized')], 401);
+        }
         $media->delete();
         return response()->json(null, 204);
     }
