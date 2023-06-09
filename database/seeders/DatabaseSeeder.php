@@ -13,7 +13,6 @@ use App\Models\Badge;
 use App\Models\Media;
 use App\Models\Category;
 use App\Models\Commentary;
-use Cloudinary\Cloudinary;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -152,16 +151,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Catégorie League of Legends',
             'symbol' => '🏆',
         ]);
-
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                    'api_key' => env('CLOUDINARY_API_KEY'),
-                    'api_secret' => env('CLOUDINARY_API_SECRET'),
-                ],
-            ]
-        );
 
         // MEDIA
         /**

@@ -11,12 +11,6 @@ use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
 {
-    private $storage;
-
-    public function __construct()
-    {
-        $this->storage = Storage::disk('s3');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +20,6 @@ class MediaController extends Controller
     {
         $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
-            $media_type = $media->media_type;
             $media->url = Storage::disk('s3')->temporaryUrl(
                 $media->url,
                 now()->addMinutes(20)
@@ -61,14 +54,10 @@ class MediaController extends Controller
      */
     public function show(Media $media)
     {
-        $media_type = $media->media_type;
-        if ($media_type == 'video') {
-            $media->url = $this->cloudinary->video($media->url)->toUrl();
-        } else {
-            $media->url = $this->cloudinary->image($media->url)->toUrl();
-        }
-        $media->nb_likes = $media->likes();
-        $media->has_liked = $media->hasLiked();
+        $media->url = Storage::disk('s3')->temporaryUrl(
+            $media->url,
+            now()->addMinutes(20)
+        );
         return response()->json($media);
     }
 
@@ -106,12 +95,10 @@ class MediaController extends Controller
     {
         $medias = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
         foreach ($medias as $media) {
-            $media_type = $media->media_type;
-            if ($media_type == 'video') {
-                $media->url = $this->cloudinary->video($media->url)->toUrl();
-            } else {
-                $media->url = $this->cloudinary->image($media->url)->toUrl();
-            }
+            $media->url = Storage::disk('s3')->temporaryUrl(
+                $media->url,
+                now()->addMinutes(20)
+            );
         }
         return response()->json($media);
     }
