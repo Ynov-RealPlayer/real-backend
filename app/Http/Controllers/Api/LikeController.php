@@ -13,7 +13,7 @@ class LikeController extends Controller
     {
         $request = (object) $request->all();
         $like = Like::where([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->user()->id,
             'resource_id' => $request->resource_id,
             'resource_type' => $request->resource_type,
         ])->first();
@@ -22,11 +22,11 @@ class LikeController extends Controller
             $like->delete();
         } else {
             Like::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->user()->id,
                 'resource_id' => $request->resource_id,
                 'resource_type' => $request->resource_type,
             ]);
-            ExperienceController::giveExperience($request->user_id, 1);
+            ExperienceController::giveExperience(auth()->user()->id, 1);
         }
 
         return response()->json([

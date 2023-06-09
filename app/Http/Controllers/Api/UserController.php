@@ -40,6 +40,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (auth()->user()->id != $user->id) {
+            return response()->json(['error' => __('lang.unauthorized')], 401);
+        }
         $user->update($request->all());
         return response()->json($user);
     }
@@ -52,6 +55,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if (auth()->user()->id != $user->id) {
+            return response()->json(['error' => __('lang.unauthorized')], 401);
+        }
         $user->delete();
         return response()->json(null, 204);
     }
