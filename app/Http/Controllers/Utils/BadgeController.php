@@ -1,21 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Utils;
 
+use App\Models\User;
+use App\Models\Badge;
 use App\Models\BadgeUser;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BadgeController extends Controller
 {
     /**
      * Store a newly created resource in storage.
+     * Give the specified badge to the user.
+     * @param  Badge  $badge
+     * @param  User  $user
+     * @return void
      */
-    public function store(int $badgeId, int $userId)
+    public static function store(Badge $badge, User $user) : void
     {
         $badgeUser = BadgeUser::create([
-            'badge_id' => $badgeId,
-            'user_id' => $userId,
+            'badge_id' => $badge->id,
+            'user_id' => $user->id,
         ]);
-        return response()->json($badgeUser, 201);
+        $badgeUser->save();
     }
 }
