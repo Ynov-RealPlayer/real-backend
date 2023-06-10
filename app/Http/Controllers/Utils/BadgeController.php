@@ -16,7 +16,6 @@ class BadgeController extends Controller
             'badge_id' => $badgeId,
             'user_id' => $userId,
         ]);
-
         return response()->json($badgeUser, 201);
     }
 }

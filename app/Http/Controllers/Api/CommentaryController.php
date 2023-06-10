@@ -39,7 +39,7 @@ class CommentaryController extends Controller
             'user_id' => auth()->user()->id,
         ]);
         $commentary = Commentary::create($request->all());
-        ExperienceController::giveExperience($commentary->user_id, 4);
+        ExperienceController::giveExperience(auth()->user(), 4);
         return response()->json($commentary);
     }
 

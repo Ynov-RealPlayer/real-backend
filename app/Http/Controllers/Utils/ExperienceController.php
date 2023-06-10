@@ -14,9 +14,8 @@ class ExperienceController extends Controller
      * @param  User  $user
      * @return Response
      */
-    public static function giveExperience(int $user_id, int $amount)
+    public static function giveExperience(User $user, int $amount)
     {
-        $user = User::find($user_id);
         $user->experience += $amount;
         $user->save();
         return response()->json($user);

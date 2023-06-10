@@ -26,7 +26,7 @@ class LikeController extends Controller
                 'likeable_id' => $request->likeable_id,
                 'likeable_type' => $request->likeable_type,
             ]);
-            ExperienceController::giveExperience(auth()->user()->id, 1);
+            ExperienceController::giveExperience(auth()->user(), 1);
         }
 
         return response()->json([

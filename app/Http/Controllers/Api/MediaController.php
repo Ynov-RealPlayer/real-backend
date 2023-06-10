@@ -39,7 +39,7 @@ class MediaController extends Controller
             'user_id' => auth()->user()->id,
         ]);
         $media = Media::create($request->all());
-        ExperienceController::giveExperience($media->user_id, 10);
+        ExperienceController::giveExperience(auth()->user(), 10);
         return response()->json($media);
     }
 
