@@ -16,7 +16,7 @@ class BadgesRelationManager extends RelationManager
 
     protected static ?string $inverseRelationship = 'users';
 
-    protected static ?string $recordTitleAttribute = 'pseudo';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
@@ -34,9 +34,10 @@ class BadgesRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('icon'),
+                Tables\Columns\TextColumn::make('badge.name')
+                    ->label('Badge'),
+                Tables\Columns\TextColumn::make('badge.icon')
+                    ->label('Icone'),
             ])
             ->filters([
                 //

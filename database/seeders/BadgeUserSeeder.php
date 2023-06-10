@@ -22,6 +22,8 @@ class BadgeUserSeeder extends Seeder
                     'badge_id' => $badge->id,
                     'user_id' => $user->id,
                 ]);
+            } else {
+                $i--;
             }
         }
     }

@@ -48,8 +48,8 @@ class RankResource extends Resource
                     ->label('Couleur'),
                 Forms\Components\TextInput::make('icon')
                     ->required()
-                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Ecrivez l\'URL de l\'icône du rang')
+                    ->default('👀')
+                    ->placeholder('Mettez l\'icône du rang')
                     ->label('Icône'),
             ]);
     }

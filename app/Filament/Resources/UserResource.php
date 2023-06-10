@@ -91,6 +91,14 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Pseudo'),
+                ImageColumn::make('picture')
+                    ->label('Photo'),
+                ImageColumn::make('banner')
+                    ->label('Bannière'),
+                TextColumn::make('email')
+                    ->label('Email'),
+                TextColumn::make('phone')
+                    ->label('Téléphone'),
                 TextColumn::make('role.name')
                     ->sortable()
                     ->searchable()
@@ -103,16 +111,8 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Expérience'),
-                TextColumn::make('email')
-                    ->label('Email'),
-                TextColumn::make('phone')
-                    ->label('Téléphone'),
                 TextColumn::make('description')
                     ->label('Description'),
-                ImageColumn::make('picture')
-                    ->label('Photo'),
-                ImageColumn::make('banner')
-                    ->label('Bannière'),
             ])
             ->filters([
             ])

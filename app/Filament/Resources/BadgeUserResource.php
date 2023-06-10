@@ -29,7 +29,7 @@ class BadgeUserResource extends Resource
                     ->options(Badge::pluck('name', 'id'))
                     ->required(),
                 Forms\Components\Select::make('user_id')
-                    ->options(User::pluck('name', 'id'))
+                    ->options(User::pluck('pseudo', 'id'))
                     ->required(),
             ]);
     }
@@ -39,8 +39,12 @@ class BadgeUserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('badge_id'),
-                Tables\Columns\TextColumn::make('user_id'),
+                Tables\Columns\TextColumn::make('badge.name')
+                    ->label('Badge'),
+                Tables\Columns\TextColumn::make('badge.icon')
+                    ->label('Icone'),
+                Tables\Columns\TextColumn::make('user.pseudo')
+                    ->label('Utilisateur'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

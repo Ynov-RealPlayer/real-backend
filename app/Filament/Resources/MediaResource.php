@@ -9,6 +9,7 @@ use App\Models\Media;
 use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MediaResource\Pages;
@@ -82,6 +83,8 @@ class MediaResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Nom'),
+                ImageColumn::make('url')
+                    ->label('Ressource'),
                 Tables\Columns\TextColumn::make('user.pseudo')
                     ->sortable()
                     ->searchable()
@@ -94,8 +97,6 @@ class MediaResource extends Resource
                     ->label('Catégorie'),
                 Tables\Columns\TextColumn::make('media_type')
                     ->label('Type de média'),
-                Tables\Columns\TextColumn::make('url')
-                    ->label('URL'),
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Durée'),
                 Tables\Columns\TextColumn::make('created_at')
