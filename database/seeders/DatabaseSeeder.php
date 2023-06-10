@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CommentarySeeder::class,
             LikeSeeder::class,
+            BadgeUserSeeder::class,
         ]);
     }
 }
