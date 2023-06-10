@@ -64,7 +64,7 @@ class MediaController extends Controller
     public function update(Request $request, Media $media)
     {
         if (auth()->user()->id != $media->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 401);
+            return response()->json(['error' => __('lang.unauthorized')], 403);
         }
         $media->update([
             'name' => $request->name,
@@ -84,7 +84,7 @@ class MediaController extends Controller
     public function destroy(Request $request, Media $media)
     {
         if (auth()->user()->id != $media->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 401);
+            return response()->json(['error' => __('lang.unauthorized')], 403);
         }
         $media->delete();
         return response()->json(null, 204);

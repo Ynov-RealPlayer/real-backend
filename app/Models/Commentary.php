@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Models\Like;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Commentary extends Model
 {
     use HasFactory;
+
+    protected $appends = ['nb_likes', 'has_liked'];
 
     protected $fillable = [
         'content',
@@ -29,12 +33,16 @@ class Commentary extends Model
 
     public function likes()
     {
-        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Commentary')->count();
+        return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function hasLiked()
+    public function getNbLikesAttribute()
     {
-        $user_id = auth()->user()->id;
-        return Like::where('resource_id', $this->id)->where('resource_type', 'App\Models\Commentary')->where('user_id', $user_id)->count() > 0 ? true : false;
+        return $this->likes()->count();
+    }
+
+    public function getHasLikedAttribute()
+    {
+        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
     }
 }

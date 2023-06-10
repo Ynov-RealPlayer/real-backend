@@ -14,7 +14,7 @@ test('error if not logged in', function () {
 
 test('show all the existing categories', function () {
     $user = User::factory()->create();
-    $token = $user->createToken('authToken')->plainTextToken;
+    $token = $user->createToken('auth_token')->plainTextToken;
     $response = $this->withHeaders([
             'Authorization'=>'Bearer '.$token,
             'Accept' => 'application/json'

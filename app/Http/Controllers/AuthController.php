@@ -112,7 +112,7 @@ class AuthController extends Controller
         if ($user) {
             return response()->json($user);
         }
-        return response()->json(['error' => __('lang.unauthorized')], 401);
+        return response()->json(['error' => __('lang.unauthorized')], 403);
     }
 
     /**
@@ -128,6 +128,6 @@ class AuthController extends Controller
             $user->tokens()->delete();
             return response()->json(['message' => __('lang.logout')]);
         }
-        return response()->json(['error' => __('lang.unauthorized')], 401);
+        return response()->json(['error' => __('lang.unauthorized')], 403);
     }
 }

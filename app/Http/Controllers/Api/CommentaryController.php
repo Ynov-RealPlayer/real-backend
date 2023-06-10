@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Utils\ExperienceController;
+use Validator;
 use App\Models\Commentary;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Utils\ExperienceController;
 
 class CommentaryController extends Controller
 {
@@ -20,10 +21,6 @@ class CommentaryController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();
-        foreach ($commentaries as $commentary) {
-            $commentary->nb_likes = $commentary->likes();
-            $commentary->has_liked = $commentary->hasLiked();
-        }
         return response()->json($commentaries);
     }
 
@@ -38,6 +35,18 @@ class CommentaryController extends Controller
         $request->merge([
             'user_id' => auth()->user()->id,
         ]);
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+            'user_id' => 'required',
+            'media_id' => 'required',
+        ], [
+            'content.required' => 'Le contenu est obligatoire',
+            'user_id.required' => 'L\'utilisateur est obligatoire',
+            'media_id.required' => 'Le média est obligatoire',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         $commentary = Commentary::create($request->all());
         ExperienceController::giveExperience(auth()->user(), 4);
         return response()->json($commentary);
@@ -51,8 +60,6 @@ class CommentaryController extends Controller
      */
     public function show(Commentary $commentary)
     {
-        $commentary->nb_likes = $commentary->likes();
-        $commentary->has_liked = $commentary->hasLiked();
         return response()->json($commentary);
     }
 
@@ -66,7 +73,7 @@ class CommentaryController extends Controller
     public function update(Request $request, Commentary $commentary)
     {
         if (auth()->user()->id != $commentary->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 401);
+            return response()->json(['error' => __('lang.unauthorized')], 403);
         }
         $commentary->update($request->all());
         return response()->json($commentary);
@@ -81,7 +88,7 @@ class CommentaryController extends Controller
     public function destroy(Commentary $commentary)
     {
         if (auth()->user()->id != $commentary->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 401);
+            return response()->json(['error' => __('lang.unauthorized')], 403);
         }
         $commentary->delete();
         return response()->json($commentary);
