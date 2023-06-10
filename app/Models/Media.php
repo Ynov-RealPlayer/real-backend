@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Like;
 use App\Models\Category;
+use App\Models\Commentary;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Storage;
@@ -33,6 +34,11 @@ class Media extends Authenticatable
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Commentary::class);
     }
 
     public function getUrlAttribute($value)

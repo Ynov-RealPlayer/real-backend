@@ -18,28 +18,29 @@ class RankSeeder extends Seeder
             'experience_cap' => 100,
             'description' => 'Rank du noob',
             'color' => '#0000FF',
-            'icon' => 'noob.png',
+            'icon' => '🤖'
         ]);
         Rank::factory()->create([
             'name' => 'Player',
             'experience_cap' => 200,
             'description' => 'Rank du player',
             'color' => '#00FF00',
-            'icon' => 'player.png',
+            // define random icon
+            'icon' => '⭐'
         ]);
         Rank::factory()->create([
             'name' => 'ProPlayer',
             'experience_cap' => 300,
             'description' => 'Rank du proPlayer',
             'color' => '#FFFF00',
-            'icon' => 'proPlayer.png',
+            'icon' => '🍭'
         ]);
         Rank::factory()->create([
             'name' => 'RealPlayer',
             'experience_cap' => 500,
             'description' => 'Rank du realPlayer',
             'color' => '#FF0000',
-            'icon' => 'realPlayer.png',
+            'icon' => '♾️'
         ]);
     }
 }
