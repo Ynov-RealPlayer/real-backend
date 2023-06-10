@@ -7,6 +7,7 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Utils\ExperienceController;
 
 class MediaController extends Controller
@@ -30,6 +31,14 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make((array) $request, [
+            'name' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+            'media_type' => 'required',
+            'duration' => 'required',
+            'resource' => 'required',
+        ]);
         $file = $request->file('resource');
         $s3 = Storage::disk('s3');
         $path = time() . $request->file('resource')->getClientOriginalExtension();
