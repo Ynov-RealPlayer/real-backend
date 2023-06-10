@@ -36,8 +36,8 @@ class BadgeResource extends Resource
                     ->label('Description'),
                 Forms\Components\TextInput::make('icon')
                     ->required()
-                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Ecrivez l\'URL de l\'icône du badge')
+                    ->default('👀')
+                    ->placeholder('Mettez l\'icône du badge')
                     ->label('Icône'),
             ]);
     }
@@ -58,7 +58,7 @@ class BadgeResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Description'),
-                ImageColumn::make('icon')
+                Tables\Columns\TextColumn::make('icon')
                     ->searchable()
                     ->label('Icône'),
                 Tables\Columns\TextColumn::make('created_at')
