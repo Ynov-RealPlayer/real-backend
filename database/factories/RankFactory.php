@@ -18,7 +18,7 @@ class RankFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'experience_cap' => fake()->numberBetween(0, 100),
+            'experience_cap' => fake()->randomNumber(),
             'description' => fake()->text(),
             'color' => fake()->hexColor(),
             'icon' => fake()->name(),
