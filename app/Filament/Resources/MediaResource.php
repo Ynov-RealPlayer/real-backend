@@ -53,11 +53,6 @@ class MediaResource extends Resource
                     ->default('0')
                     ->placeholder('Durée du média')
                     ->label('Durée'),
-                Forms\Components\TextInput::make('nb_like')
-                    ->required()
-                    ->default('0')
-                    ->placeholder('Ecrivez le nombre de like')
-                    ->label('Nombre de like'),
                 Forms\Components\Select::make('category_id')
                     ->required()
                     ->placeholder('Séléctionnez la catégorie')
@@ -69,7 +64,7 @@ class MediaResource extends Resource
                     ->required()
                     ->placeholder('Séléctionnez l\'utilisateur')
                     ->options(function () {
-                        return User::all()->pluck('name', 'id');
+                        return User::all()->pluck('pseudo', 'id');
                     })
                     ->label('Utilisateur'),
             ]);
@@ -87,11 +82,11 @@ class MediaResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Nom'),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('user.pseudo')
                     ->sortable()
                     ->searchable()
                     ->label('Utilisateur'),
-                Tables\Columns\TextColumn::make('nb_like')
+                Tables\Columns\TextColumn::make('nb_likes')
                     ->label('Nombre de like'),
                 Tables\Columns\TextColumn::make('description')
                     ->label('Description'),

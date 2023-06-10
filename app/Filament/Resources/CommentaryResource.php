@@ -31,7 +31,7 @@ class CommentaryResource extends Resource
                     ->placeholder('Ecrivez votre commentaire')
                     ->label('Commentaire'),
                 Forms\Components\Select::make('user_id')
-                    ->options(User::all()->pluck('name', 'id'))
+                    ->options(User::all()->pluck('pseudo', 'id'))
                     ->required()
                     ->placeholder('Séléctionnez un utilisateur')
                     ->label('Utilisateur'),
@@ -40,10 +40,6 @@ class CommentaryResource extends Resource
                     ->required()
                     ->placeholder('Séléctionnez un média')
                     ->label('Média'),
-                Forms\Components\TextInput::make('nb_like')
-                    ->required()
-                    ->default(0)
-                    ->placeholder('Nombre de likes'),
             ]);
     }
 
@@ -57,10 +53,11 @@ class CommentaryResource extends Resource
                     ->label('ID'),
                 Tables\Columns\TextColumn::make('content')
                     ->label('Commentaire'),
-                Tables\Columns\TextColumn::make('nb_like')
+                Tables\Columns\TextColumn::make('nb_likes')
                     ->sortable()
+                    ->searchable()
                     ->label('Nombre de likes'),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('user.pseudo')
                     ->sortable()
                     ->searchable()
                     ->label('Utilisateur'),

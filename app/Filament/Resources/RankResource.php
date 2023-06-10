@@ -69,7 +69,8 @@ class RankResource extends Resource
                     ->copyMessage('🧙‍♂️ Code couleur copié !')
                     ->copyMessageDuration(1500)
                     ->label('Couleur'),
-                ImageColumn::make('icon')
+                Tables\Columns\TextColumn::make('icon')
+                    ->default('👀')
                     ->label('Icône'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
