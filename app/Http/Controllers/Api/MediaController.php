@@ -60,6 +60,7 @@ class MediaController extends Controller
      */
     public function show(Request $request, Media $media)
     {
+        $media = Media::where('id', $media->id)->with('user')->first();
         return response()->json($media);
     }
 
