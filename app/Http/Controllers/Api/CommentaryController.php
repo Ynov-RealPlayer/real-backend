@@ -18,6 +18,7 @@ class CommentaryController extends Controller
     public function index(Request $request, Commentary $commentary)
     {
         $commentaries = $commentary->where('media_id', $request->media_id)
+            ->with('user')
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();
@@ -60,8 +61,6 @@ class CommentaryController extends Controller
      */
     public function show(Commentary $commentary)
     {
-        $commentary = Commentary::where('id', $commentary->id)
-            ->with('user');
         return response()->json($commentary);
     }
 
