@@ -22,14 +22,12 @@ class LikeSeeder extends Seeder
             $like = Like::where('user_id', $user_id)
                 ->where('likeable_id', $likeable_id)
                 ->where('likeable_type', $resource_type)->get();
-            if (count($like) == 0) {
+            if ($like == null) {
                 Like::factory()->create([
-                    'user_id' => $faker->numberBetween(1, 10),
-                    'likeable_id' => $faker->numberBetween(1, 3),
+                    'user_id' => $user_id,
+                    'likeable_id' => $likeable_id,
                     'likeable_type' => $resource_type,
                 ]);
-            } else {
-                $i--;
             }
         }
     }
