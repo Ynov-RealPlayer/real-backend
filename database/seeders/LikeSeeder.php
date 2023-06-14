@@ -21,13 +21,15 @@ class LikeSeeder extends Seeder
             $likeable_id = $faker->numberBetween(1, 21);
             $like = Like::where('user_id', $user_id)
                 ->where('likeable_id', $likeable_id)
-                ->where('likeable_type', $resource_type)->first();
-            if ($like == null) {
+                ->where('likeable_type', $resource_type)->get();
+            if (count($like) == 0) {
                 Like::factory()->create([
                     'user_id' => $faker->numberBetween(1, 10),
                     'likeable_id' => $faker->numberBetween(1, 3),
                     'likeable_type' => $resource_type,
                 ]);
+            } else {
+                $i--;
             }
         }
     }
