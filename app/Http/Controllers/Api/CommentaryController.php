@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Validator;
 use App\Models\Commentary;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Utils\ExperienceController;
 
 class CommentaryController extends Controller
@@ -60,6 +60,8 @@ class CommentaryController extends Controller
      */
     public function show(Commentary $commentary)
     {
+        $commentary = Commentary::where('id', $commentary->id)
+            ->with('user');
         return response()->json($commentary);
     }
 
