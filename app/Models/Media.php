@@ -18,7 +18,11 @@ class Media extends Authenticatable
 
     protected $table = 'media';
 
-    protected $appends = ['nb_likes', 'has_liked'];
+    protected $appends = [
+        'nb_likes',
+        'has_liked',
+        'nb_comments',
+    ];
 
     protected $fillable = [
         'name',
@@ -67,5 +71,10 @@ class Media extends Authenticatable
     public function getHasLikedAttribute()
     {
         return $this->likes()->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
+    }
+
+    public function getNbCommentsAttribute()
+    {
+        return $this->comments()->count();
     }
 }
