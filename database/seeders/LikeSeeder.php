@@ -17,14 +17,17 @@ class LikeSeeder extends Seeder
 
         for ($i = 0; $i < 100; $i++) {
             $resource_type = $faker->randomElement(['App\Models\Media', 'App\Models\Commentary']);
-            try {
+            $user_id = $faker->numberBetween(1, 31);
+            $likeable_id = $faker->numberBetween(1, 21);
+            $like = Like::where('user_id', $user_id)
+                ->where('likeable_id', $likeable_id)
+                ->where('likeable_type', $resource_type)->first();
+            if ($like == null) {
                 Like::factory()->create([
                     'user_id' => $faker->numberBetween(1, 10),
                     'likeable_id' => $faker->numberBetween(1, 3),
                     'likeable_type' => $resource_type,
                 ]);
-            } catch (\Throwable $th) {
-                //throw $th;
             }
         }
     }
