@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -46,7 +47,26 @@ class UserController extends Controller
         if (auth()->user()->id != $user->id) {
             return response()->json(['error' => __('lang.unauthorized')], 403);
         }
-        $user->update($request->all());
+    
+        $user->fill($request->all());
+    
+        if ($user->isDirty('banner')) {
+            $s3 = Storage::disk('s3');
+            $file = $request->file('banner');
+            $path = time() . $file->getClientOriginalExtension();
+            $s3->put($path, file_get_contents($file));
+            $user->banner = $path;
+        }
+    
+        if ($user->isDirty('picture')) {
+            $s3 = Storage::disk('s3');
+            $file = $request->file('picture');
+            $path = time() . $file->getClientOriginalExtension();
+            $s3->put($path, file_get_contents($file));
+            $user->picture = $path;
+        }
+    
+        $user->save();
         return response()->json($user);
     }
 
