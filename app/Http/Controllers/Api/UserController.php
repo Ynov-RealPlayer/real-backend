@@ -49,7 +49,15 @@ class UserController extends Controller
         }
     
         $user->fill($request->all());
-    
+
+        if ($user->isDirty('description')) {
+            $user->description = $request->description;
+        }
+
+        if ($user->isDirty('pseudo')) {
+            $user->pseudo = $request->pseudo;
+        }
+
         if ($user->isDirty('banner')) {
             $s3 = Storage::disk('s3');
             $file = $request->file('banner');
@@ -65,7 +73,7 @@ class UserController extends Controller
             $s3->put($path, file_get_contents($file));
             $user->picture = $path;
         }
-    
+
         $user->save();
         return response()->json($user);
     }
