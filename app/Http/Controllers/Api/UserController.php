@@ -50,12 +50,10 @@ class UserController extends Controller
     
         $user->fill($request->all());
 
-        if ($user->isDirty('description')) {
-            $user->description = $request->description;
-        }
-
-        if ($user->isDirty('pseudo')) {
-            $user->pseudo = $request->pseudo;
+        foreach ($request->all() as $key => $value) {
+            if ($user->isDirty($key) && $key != 'banner' && $key != 'picture') {
+                $user->$key = $value;
+            }
         }
 
         if ($user->isDirty('banner')) {
