@@ -50,12 +50,6 @@ class UserController extends Controller
     
         $user->fill($request->all());
 
-        foreach ($request->all() as $key => $value) {
-            if ($user->isDirty($key) && $key != 'banner' && $key != 'picture') {
-                $user->$key = $value;
-            }
-        }
-
         if ($user->isDirty('banner')) {
             $s3 = Storage::disk('s3');
             $file = $request->file('banner');
