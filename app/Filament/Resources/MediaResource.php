@@ -9,8 +9,9 @@ use App\Models\Media;
 use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Resources\Resource;
+use Livewire\TemporaryUploadedFile;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MediaResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -40,15 +41,19 @@ class MediaResource extends Resource
                     ->required()
                     ->placeholder('Sélectionnez le type de média')
                     ->options([
-                        'SCREEN' => 'Image',
-                        'CLIP' => 'Vidéo',
+                        'screen' => 'Image',
+                        'clip' => 'Vidéo',
                     ])
                     ->label('Type de média'),
-                Forms\Components\TextInput::make('url')
+                Forms\Components\FileUpload::make('url')
+                    ->disk('s3')
                     ->required()
-                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Remplissez l\'URL du média')
-                    ->label('URL'),
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $path = time() . $file->getClientOriginalExtension();
+                        $file->storeAs('', $path, 's3');
+                        return $path;
+                    })
+                    ->visibility('public'),
                 Forms\Components\TextInput::make('duration')
                     ->required()
                     ->default('0')

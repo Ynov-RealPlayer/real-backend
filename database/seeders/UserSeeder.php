@@ -21,8 +21,8 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'pseudo' => 'admin',
             'experience' => 300,
-            'picture' => 'https://i.pinimg.com/originals/2c/f6/77/2cf677c38353058ae3d5f0eaefb77137.jpg',
-            'banner' => 'https://static.bandainamcoent.eu/high/tales-of/tales-of-arise/00-page-setup/toa_game-thumbnail.jpg',
+            'picture' => '1686902653png',
+            'banner' => '1686902662jpg',
             'email' => 'real@player.fr',
             'password' => bcrypt('ypenderie'),
             'phone' => $faker->phoneNumber,
@@ -35,8 +35,8 @@ class UserSeeder extends Seeder
             User::factory()->create([
                 'pseudo' => $faker->userName,
                 'experience' => $faker->numberBetween(0, 200),
-                'picture' => 'https://static.vecteezy.com/ti/vecteur-libre/p1/2292333-dessin-anime-drole-ragondin-comique-personnage-animal-vectoriel.jpg',
-                'banner' => 'https://wallpapers.com/images/featured/wfcih60h2h5ploke.jpg',
+                'picture' => '1686902715jpg',
+                'banner' => '1686902698jpg',
                 'email' => $faker->email,
                 'password' => bcrypt('ypenderie'),
                 'phone' => $faker->phoneNumber,

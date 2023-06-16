@@ -13,6 +13,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\Text;
+use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -38,10 +39,6 @@ class UserResource extends Resource
                     ->autofocus()
                     ->placeholder('Ecrivez le pseudo de l\'utilisateur')
                     ->label('Pseudo'),
-                Forms\Components\TextInput::make('password')
-                    ->required()
-                    ->default('password')
-                    ->label('Mot de passe'),
                 Forms\Components\TextInput::make('email')
                     ->required()
                     ->placeholder('Ecivez l\'email de l\'utilisateur')
@@ -51,15 +48,25 @@ class UserResource extends Resource
                     ->default(0)
                     ->placeholder('Rentrez l\'expérience de l\'utilisateur')
                     ->label('Expérience'),
-                Forms\Components\TextInput::make('picture')
+                Forms\Components\FileUpload::make('picture')
+                    ->disk('s3')
                     ->required()
-                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Rentrez l\'URL de l\'avatar de l\'utilisateur')
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $path = time() . $file->getClientOriginalExtension();
+                        $file->storeAs('', $path, 's3');
+                        return $path;
+                    })
+                    ->visibility('public')
                     ->label('Avatar'),
-                Forms\Components\TextInput::make('banner')
+                Forms\Components\FileUpload::make('banner')
+                    ->disk('s3')
                     ->required()
-                    ->default('https://via.placeholder.com/640x480.png/002244?text=et')
-                    ->placeholder('Rentrez l\'URL de la bannière de l\'utilisateur')
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $path = time() . $file->getClientOriginalExtension();
+                        $file->storeAs('', $path, 's3');
+                        return $path;
+                    })
+                    ->visibility('public')
                     ->label('Bannière'),
                 Forms\Components\TextInput::make('description')
                     ->required()
