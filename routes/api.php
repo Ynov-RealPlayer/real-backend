@@ -5,8 +5,9 @@ use App\Http\Middleware\ResourceOwner;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Utils\SearchController;
 use App\Http\Controllers\Api\CommentaryController;
 
 /*
@@ -69,5 +70,5 @@ Route::group(['prefix' => 'likes', 'middleware' => 'auth:sanctum'], function () 
 // ! Api routes for SearchController::class
 Route::group(['prefix' => 'search', 'middleware' => 'auth:sanctum'], function () {
 // ? The index method is for getting all categories at the launch of the app
-    Route::get('/', [SearchController::class, 'index']);
+    Route::post('/', [SearchController::class, 'index']);
 });
