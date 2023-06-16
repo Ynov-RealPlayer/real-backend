@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Media;
 use App\Models\Category;
 use App\Models\Commentary;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\CommentaryController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,16 +20,13 @@ test('index : error if not logged in', function () {
 });
 
 test('index : show 10 users', function () {
-    $user = User::factory()->create();
+    Sanctum::actingAs(
+        User::factory()->create()
+    );
     for ($i = 0; $i < 10; $i++) {
         User::factory()->create();
     }
-    $token = $user->createToken('auth_token')->plainTextToken;
-    $response = $this->withHeaders([
-            'Authorization'=>'Bearer '.$token,
-            'Accept' => 'application/json'
-        ])
-        ->getJson('/api/users');
+    $response = $this->getJson('/api/users');
     expect($response->status())->toBe(200);
 });
 

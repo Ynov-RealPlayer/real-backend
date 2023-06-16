@@ -65,3 +65,9 @@ Route::group(['prefix' => 'likes', 'middleware' => 'auth:sanctum'], function () 
 // ? The store method is for liking a media/commentary or unliking it automatically
     Route::post('/', [LikeController::class, 'store']);
 });
+
+// ! Api routes for SearchController::class
+Route::group(['prefix' => 'search', 'middleware' => 'auth:sanctum'], function () {
+// ? The index method is for getting all categories at the launch of the app
+    Route::get('/', [SearchController::class, 'index']);
+});

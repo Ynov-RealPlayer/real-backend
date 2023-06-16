@@ -125,7 +125,8 @@ class AuthController extends Controller
     {
         $user = $request->user();
         if ($user) {
-            $user->tokens()->delete();
+            $tokenId = $user->currentAccessToken()->id;
+            $user->tokens()->where('id', $tokenId)->delete();
             return response()->json(['message' => __('lang.logout')]);
         }
         return response()->json(['error' => __('lang.unauthorized')], 403);
