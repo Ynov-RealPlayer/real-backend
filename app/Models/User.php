@@ -25,6 +25,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return str_ends_with($this->role_id, '1') && $this->hasVerifiedEmail();
     }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -115,18 +116,18 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Like::class);
     }
 
-    public function getPictureAttribute($value)
+    public function getPictureAttribute()
     {
         return Storage::disk('s3')->temporaryUrl(
-            $value,
+            $this->attributes['picture'],
             now()->addMinutes(20)
         );
     }
 
-    public function getBannerAttribute($value)
+    public function getBannerAttribute()
     {
         return Storage::disk('s3')->temporaryUrl(
-            $value,
+            $this->attributes['banner'],
             now()->addMinutes(20)
         );
     }

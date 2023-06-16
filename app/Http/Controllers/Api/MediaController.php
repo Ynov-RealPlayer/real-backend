@@ -64,6 +64,9 @@ class MediaController extends Controller
     public function show(Request $request, Media $media)
     {
         $media = Media::where('id', $media->id)->with('user')->first();
+        $s3 = Storage::disk('s3');
+        $media->user->picture = $s3->temporaryUrl($media->user->picture, now()->addMinutes(5));
+        $media->user->banner = $s3->temporaryUrl($media->user->banner, now()->addMinutes(5));
         return response()->json($media);
     }
 
