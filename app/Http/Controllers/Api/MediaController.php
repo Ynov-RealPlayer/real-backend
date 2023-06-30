@@ -37,8 +37,6 @@ class MediaController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
-            'media_type' => 'required',
-            'duration' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);

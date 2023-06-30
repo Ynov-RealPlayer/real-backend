@@ -37,14 +37,6 @@ class MediaResource extends Resource
                     ->default('Nouveau Media !')
                     ->placeholder('Ecrivez la description du média')
                     ->label('Description'),
-                Forms\Components\Select::make('media_type')
-                    ->required()
-                    ->placeholder('Sélectionnez le type de média')
-                    ->options([
-                        'screen' => 'Image',
-                        'clip' => 'Vidéo',
-                    ])
-                    ->label('Type de média'),
                 Forms\Components\FileUpload::make('url')
                     ->disk('s3')
                     ->required()
@@ -54,21 +46,16 @@ class MediaResource extends Resource
                         return $path;
                     })
                     ->visibility('public'),
-                Forms\Components\TextInput::make('duration')
-                    ->required()
-                    ->default('0')
-                    ->placeholder('Durée du média')
-                    ->label('Durée'),
                 Forms\Components\Select::make('category_id')
                     ->required()
-                    ->placeholder('Séléctionnez la catégorie')
+                    ->placeholder('Sélectionnez la catégorie')
                     ->options(function () {
                         return Category::all()->pluck('name', 'id');
                     })
                     ->label('Catégorie'),
                 Forms\Components\Select::make('user_id')
                     ->required()
-                    ->placeholder('Séléctionnez l\'utilisateur')
+                    ->placeholder('Sélectionnez l\'utilisateur')
                     ->options(function () {
                         return User::all()->pluck('pseudo', 'id');
                     })
@@ -100,10 +87,6 @@ class MediaResource extends Resource
                     ->label('Description'),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Catégorie'),
-                Tables\Columns\TextColumn::make('media_type')
-                    ->label('Type de média'),
-                Tables\Columns\TextColumn::make('duration')
-                    ->label('Durée'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->searchable()
@@ -123,13 +106,13 @@ class MediaResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [

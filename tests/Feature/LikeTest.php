@@ -22,9 +22,7 @@ test('store : error if likeable_id is missing', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -46,9 +44,7 @@ test('store : error if likeable_type is missing', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -70,9 +66,7 @@ test('store : can store a media like', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];

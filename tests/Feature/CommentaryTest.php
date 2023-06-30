@@ -91,9 +91,7 @@ test('show : show a commentary', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -124,9 +122,7 @@ test('update : can update', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -156,9 +152,7 @@ test('update : error if not owner of the commentary', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -196,9 +190,7 @@ test('destroy : can destroy', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -224,9 +216,7 @@ test('destroy : cannot destroy if not owner', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user2->id,
     ];

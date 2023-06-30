@@ -41,9 +41,7 @@ test('show : error if media does not exist', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -62,9 +60,7 @@ test('show : can show a media', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -89,9 +85,7 @@ test('update : error if media does not exist', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -99,9 +93,7 @@ test('update : error if media does not exist', function () {
     $data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -125,9 +117,7 @@ test('delete : error if media does not exist', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
@@ -147,9 +137,7 @@ test('delete : can delete a media', function () {
     $media_data = [
         'name' => 'test media',
         'description' => 'test description',
-        'media_type' => 'screen',
         'url' => 'test_url',
-        'duration' => 10,
         'category_id' => 1,
         'user_id' => $user->id,
     ];
