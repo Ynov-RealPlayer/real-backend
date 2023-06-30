@@ -2,9 +2,24 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * Class Like
+ * @package App\Models
+ * @property int $id
+ * @property int $user_id
+ * @property int $likeable_id
+ * @property string $likeable_type
+ * @property User $user
+ * @property Model $likeable
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Like extends Model
 {
     use HasFactory;
@@ -21,23 +36,45 @@ class Like extends Model
         'likeable_type',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function likeable()
+    /**
+     * @return MorphTo
+     * @noinspection PhpUnused
+     */
+    public function likeable() : MorphTo
     {
         return $this->morphTo();
     }
 
-    public function scopeWhereResource($query, $resource)
+    /**
+     * @param $query
+     * @param Model $resource
+     * @return bool
+     * @noinspection PhpUnused
+     */
+    public function scopeWhereResource($query, Model $resource) : bool
     {
-        return $query->where('likeable_id', $resource->id)
-            ->where('likeable_type', get_class($resource));
+        if (!empty($resource->id)) {
+            return $query->where('likeable_id', $resource->id)
+                ->where('likeable_type', get_class($resource));
+        }
+        return false;
     }
 
-    public function scopeWhereUser($query, $user)
+    /**
+     * @param $query
+     * @param User $user
+     * @return bool
+     * @noinspection PhpUnused
+     */
+    public function scopeWhereUser($query, $user) : bool
     {
         return $query->where('user_id', $user->id);
     }

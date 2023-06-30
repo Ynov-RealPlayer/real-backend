@@ -4,7 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class BadgeUser
+ * @package App\Models
+ * @property int $id
+ * @property int $badge_id
+ * @property int $user_id
+ * @property Badge $badge
+ * @property User $user
+ */
 class BadgeUser extends Model
 {
     use HasFactory;
@@ -16,12 +26,18 @@ class BadgeUser extends Model
         'user_id',
     ];
 
-    public function badge()
+    /**
+     * @return BelongsTo
+     */
+    public function badge() : BelongsTo
     {
         return $this->belongsTo(Badge::class);
     }
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }

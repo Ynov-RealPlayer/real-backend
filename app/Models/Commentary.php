@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Like;
-use App\Models\User;
-use App\Models\Media;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * Class Commentary
+ * @package App\Models
+ * @property int $id
+ * @property string $content
+ * @property int $media_id
+ * @property int $user_id
+ * @property User $user
+ * @property Media $media
+ * @property Like[] $likes
+ * @property int $nb_likes
+ * @property bool $has_liked
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Commentary extends Model
 {
     use HasFactory;
@@ -21,28 +36,45 @@ class Commentary extends Model
         'user_id',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function media()
+    /**
+     * @return BelongsTo
+     */
+    public function media() : BelongsTo
     {
         return $this->belongsTo(Media::class);
     }
 
-    public function likes()
+    /**
+     * @return MorphMany
+     */
+    public function likes() : MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function getNbLikesAttribute()
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getNbLikesAttribute(): int
     {
         return $this->likes()->count();
     }
 
-    public function getHasLikedAttribute()
+    /**
+     * @return bool
+     * @noinspection PhpUnused
+     */
+    public function getHasLikedAttribute() : bool
     {
-        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
+        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0;
     }
 }

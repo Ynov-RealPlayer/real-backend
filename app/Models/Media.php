@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Like;
-use App\Models\Category;
-use App\Models\Commentary;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,27 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Class Media
+ * @package App\Models
+ * @property int $id
+ * @property string $name
+ * @property string $description
+ * @property string $media_type
+ * @property string $url
+ * @property int $duration
+ * @property int $category_id
+ * @property int $user_id
+ * @property Category $category
+ * @property User $user
+ * @property Like[] $likes
+ * @property int $nb_likes
+ * @property bool $has_liked
+ * @property int $nb_comments
+ * @property Commentary[] $comments
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Media extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -35,17 +57,28 @@ class Media extends Authenticatable
         'user_id',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function comments()
+    /**
+     * @return HasMany
+     */
+    public function comments() : HasMany
     {
         return $this->hasMany(Commentary::class);
     }
 
-    public function getUrlAttribute($value)
+    /**
+     * @param $value
+     * @return string
+     * @noinspection PhpUnused
+     */
+    public function getUrlAttribute($value) : string
     {
         return Storage::disk('s3')->temporaryUrl(
             $value,
@@ -53,27 +86,45 @@ class Media extends Authenticatable
         );
     }
 
-    public function category()
+    /**
+     * @return BelongsTo
+     */
+    public function category() : BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function likes()
+    /**
+     * @return MorphMany
+     */
+    public function likes() : MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function getNbLikesAttribute()
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getNbLikesAttribute() : int
     {
         return $this->likes()->count();
     }
 
-    public function getHasLikedAttribute()
+    /**
+     * @return bool
+     * @noinspection PhpUnused
+     */
+    public function getHasLikedAttribute() : bool
     {
-        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
+        return $this->likes()->where('user_id', auth()->user()->id)->count() > 0;
     }
 
-    public function getNbCommentsAttribute()
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getNbCommentsAttribute() : int
     {
         return $this->comments()->count();
     }

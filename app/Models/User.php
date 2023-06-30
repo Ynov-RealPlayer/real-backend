@@ -2,14 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Like;
-use App\Models\Rank;
-use App\Models\Role;
-use App\Models\Badge;
-use App\Models\Media;
-use App\Models\BadgeUser;
-use App\Models\Commentary;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +12,28 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Class User
+ * @package App\Models
+ * @property int $id
+ * @property string $pseudo
+ * @property int $experience
+ * @property string $picture
+ * @property string $banner
+ * @property string $email
+ * @property string $password
+ * @property string $phone
+ * @property string $description
+ * @property int $rank_id
+ * @property int $role_id
+ * @property Rank $rank
+ * @property Role $role
+ * @property BadgeUser[] $badges
+ * @property Media[] $medias
+ * @property Commentary[] $comments
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -66,54 +83,58 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * Get the user's rank.
+     * @return BelongsTo
      */
-    public function rank()
+    public function rank() : BelongsTo
     {
         return $this->belongsTo(Rank::class);
     }
 
     /**
-     * Get the user's role.
+     * @return BelongsTo
      */
-    public function role()
+    public function role() : BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
     /**
-     * Get the user's badges.
+     * @return HasMany
      */
-    public function badges()
+    public function badges() : HasMany
     {
         return $this->hasMany(BadgeUser::class);
     }
 
     /**
-     * Get the user's medias.
+     * @return HasMany
      */
-    public function medias()
+    public function medias() : HasMany
     {
         return $this->hasMany(Media::class);
     }
 
     /**
-     * Get the user's comments.
+     * @return HasMany
      */
-    public function comments()
+    public function comments() : HasMany
     {
         return $this->hasMany(Commentary::class);
     }
 
     /**
-     * Get the user's likes that he gave.
+     * @return HasMany
      */
-    public function likes()
+    public function likes() : HasMany
     {
         return $this->hasMany(Like::class);
     }
 
-    public function getPictureAttribute()
+    /**
+     * @return string
+     * @noinspection PhpUnused
+     */
+    public function getPictureAttribute() : string
     {
         return Storage::disk('s3')->temporaryUrl(
             $this->attributes['picture'],
@@ -121,7 +142,11 @@ class User extends Authenticatable implements FilamentUser
         );
     }
 
-    public function getBannerAttribute()
+    /**
+     * @return string
+     * @noinspection PhpUnused
+     */
+    public function getBannerAttribute() : string
     {
         return Storage::disk('s3')->temporaryUrl(
             $this->attributes['banner'],
