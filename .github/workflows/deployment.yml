@@ -1,6 +1,6 @@
 name: Deploy
 
-# Trigger the workflow on push and 
+# Trigger the workflow on push and
 # pull request events on the production branch
 on:
   push:
@@ -10,8 +10,6 @@ on:
     branches:
       - master
       
-# Authenticate to the the server via ssh 
-# and run our deployment script 
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,8 +18,8 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: 195.20.240.177
-          username: "root"
+          host: ${{ vars.PROD_HOST }}
+          username: ${{ vars.PROD_USERNAME }}
           port: 22
-          password: "1P$$daA%Eg"
+          password: "${{ vars.PROD_PASSWORD }}"
           script: "cd /var/www/realplayer.fr && ./.scripts/deploy.sh"
