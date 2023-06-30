@@ -16,12 +16,7 @@ This project aims to create a community platform for gamers to allow users to sh
 
 To run the project, you'll need :
 ```
-curl -fsSL https://raw.githubusercontent.com/Ayatooo/script-launch-laravel/master/script.sh | bash
-```
-
-Then, provide the repository link :
-```
-https://github.com/Ynov-RealPlayer/real-backend.git
+wget https://raw.githubusercontent.com/Ayatooo/script-launch-laravel/master/script.sh && chmod +x script.sh && bash script.sh https://github.com/Ynov-RealPlayer/real-backend.git
 ```
 
 # Utilisation 🪧
