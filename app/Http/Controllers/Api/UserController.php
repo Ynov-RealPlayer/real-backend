@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -13,9 +14,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index() : JsonResponse
     {
         $users = User::paginate(10);
         return response()->json($users);
@@ -25,9 +26,9 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  User  $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function show(User $user)
+    public function show(User $user) : JsonResponse
     {
         $user = User::where('id', $user->id)
             ->with('badges', 'medias')
@@ -40,14 +41,14 @@ class UserController extends Controller
      *
      * @param  Request  $request
      * @param  User  $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user) : JsonResponse
     {
         if (auth()->user()->id != $user->id) {
             return response()->json(['error' => __('lang.unauthorized')], 403);
         }
-    
+
         $user->fill($request->all());
 
         if ($user->isDirty('banner')) {
@@ -57,7 +58,7 @@ class UserController extends Controller
             $s3->put($path, file_get_contents($file));
             $user->banner = $path;
         }
-    
+
         if ($user->isDirty('picture')) {
             $s3 = Storage::disk('s3');
             $file = $request->file('picture');
@@ -74,9 +75,9 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  User  $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user) : JsonResponse
     {
         if (auth()->user()->id != $user->id) {
             return response()->json(['error' => __('lang.unauthorized')], 403);
@@ -88,7 +89,7 @@ class UserController extends Controller
     /**
      * Display the top 100 of the users with the most experience.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function top()
     {

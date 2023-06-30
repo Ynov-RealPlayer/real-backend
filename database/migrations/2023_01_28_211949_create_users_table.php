@@ -19,8 +19,8 @@ return new class extends Migration
             $table->id();
             $table->string('pseudo')->unique();
             $table->integer('experience')->default(0);
-            $table->string('picture')->nullable();
-            $table->string('banner')->nullable();
+            $table->string('picture')->default('1686902653png');
+            $table->string('banner')->nullable('1686902662jpg');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->timestamp('blocked_at')->nullable();
-            $table->string('description')->nullable();
+            $table->string('description')->nullable('Nouvel utilisateur ! 🎈');
 
             // Foreign keys
             $table->foreignIdFor(Rank::class)->default(1);

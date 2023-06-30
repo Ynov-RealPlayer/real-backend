@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -13,10 +14,10 @@ class AuthController extends Controller
     /**
      * Registration of a new user
      *
-     * @param UserStoreRequest $request
-     * @return json
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function register(Request $request)
+    public function register(Request $request) : JsonResponse
     {
         $messages = [
             'pseudo.required' => __('lang.pseudo.required'),
@@ -43,9 +44,9 @@ class AuthController extends Controller
 
         $user = User::create(
             [
-                'pseudo' => $request->pseudo,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'pseudo' => $request->input('pseudo'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
             ]
         );
 
@@ -60,10 +61,10 @@ class AuthController extends Controller
     /**
      * Connection of an existing user
      *
-     * @param UserStoreRequest $request
-     * @return json
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request) : JsonResponse
     {
         $messages = [
             'email.required' => __('lang.email.required'),
@@ -81,9 +82,9 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->input('email'))->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
                 'message' => __('lang.login.bad_credentials'),
             ], 401);
