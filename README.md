@@ -15,12 +15,14 @@ This project aims to create a community platform for gamers to allow users to sh
 # Installation ⬇️
 
 To run the project, you'll need :
-
+```
 curl -fsSL https://raw.githubusercontent.com/Ayatooo/script-launch-laravel/master/script.sh | bash
-
+```
 
 # Utilisation 🪧
 
 You can now go on http://localhost for the Back Office
+
 You can use http://localhost/api/{model} to use the API
+
 You may register and login to have a full experience of the project
