@@ -33,7 +33,7 @@ Then,
 
     run : cp .env.example .env
     run : npm install
-    run : ./vendor/bin/sail up
+    run : ./vendor/bin/sail up -d
     migrate and seed the database with : ./vendor/bin/sail artisan migrate:fresh --seed
     refresh routes and configurations with : ./vendor/bin/sail artisan optimize
     run : npm run dev
