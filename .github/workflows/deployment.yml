@@ -20,8 +20,8 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.PROD_HOST }}
-          username: ${{ vars.PROD_USERNAME }}
-          port: ${{ vars.PROD_PORT }}
-          password: ${{ vars.PROD_PASSWORD }}
-          script: ${{ vars.PROD_SCRIPT_ACTION }}
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          port: ${{ secrets.PROD_PORT }}
+          password: ${{ secrets.PROD_PASSWORD }}
+          script: ${{ secrets.PROD_SCRIPT_ACTION }}
