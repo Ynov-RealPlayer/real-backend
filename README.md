@@ -16,8 +16,27 @@ This project aims to create a community platform for gamers to allow users to sh
 
 To run the project, you'll need :
 ```
-wget https://raw.githubusercontent.com/Ayatooo/script-launch-laravel/master/script.sh && chmod +x script.sh && bash script.sh https://github.com/Ynov-RealPlayer/real-backend.git
+php 8+
+docker fully installed (client on windows or wsl)
+composer 2.0+
+node v17+
+Clone the projet and navigate inside with your terminal to execute the next commands
 ```
+
+Then,
+
+    docker run --rm --interactive --tty \
+    --volume $PWD:/app \
+    composer install --ignore-platform-reqs
+
+Then,
+
+    run : cp .env.example .env
+    run : npm install
+    run : ./vendor/bin/sail up
+    migrate and seed the database with : ./vendor/bin/sail artisan migrate:fresh --seed
+    refresh routes and configurations with : ./vendor/bin/sail artisan optimize
+    run : npm run dev
 
 # Utilisation 🪧
 
