@@ -42,9 +42,6 @@ class User extends Authenticatable implements FilamentUser
         'description',
         // Foreign keys
         'rank_id',
-        'media_id',
-        'badge_id',
-        'commentary_id',
         'role_id',
     ];
 
