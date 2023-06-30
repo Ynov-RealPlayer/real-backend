@@ -18,7 +18,7 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: echo "$PROD_HOST"
+          host: ${{ secrets.PROD_HOST }}
           username: $PROD_USERNAME
           port: 22
           password: $PROD_PASSWORD
