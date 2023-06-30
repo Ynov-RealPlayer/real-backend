@@ -19,6 +19,11 @@ To run the project, you'll need :
 curl -fsSL https://raw.githubusercontent.com/Ayatooo/script-launch-laravel/master/script.sh | bash
 ```
 
+Then, provide the repository link :
+```
+https://github.com/Ynov-RealPlayer/real-backend.git
+```
+
 # Utilisation 🪧
 
 You can now go on http://localhost for the Back Office
