@@ -20,8 +20,8 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: 195.20.240.177
-          username: "root"
-          port: 22
-          password: "1P$$daA%Eg"
-          script: "cd /var/www/realplayer.fr && ./.scripts/deploy.sh"
+          host: ${{ vars.PROD_HOST }}
+          username: ${{ vars.PROD_USERNAME }}
+          port: ${{ vars.PROD_PORT }}
+          password: ${{ vars.PROD_PASSWORD }}
+          script: ${{ vars.PROD_SCRIPT_ACTION }}
