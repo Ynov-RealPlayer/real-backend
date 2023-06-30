@@ -19,7 +19,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ vars.PROD_HOST }}
-          username: ${{ secrets.PROD_USERNAME }}
+          username: ${{ vars.PROD_USERNAME }}
           port: 22
-          password: "${{ secrets.PROD_PASSWORD }}"
+          password: "${{ vars.PROD_PASSWORD }}"
           script: "cd /var/www/realplayer.fr && ./.scripts/deploy.sh"
