@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Commentary;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -13,11 +14,13 @@ class CommentaryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Commentary $commentary
+     * @return JsonResponse
      */
-    public function index(Request $request, Commentary $commentary)
+    public function index(Request $request, Commentary $commentary) : JsonResponse
     {
-        $commentaries = $commentary->where('media_id', $request->media_id)
+        $commentaries = $commentary->where('media_id', $request->input('media_id'))
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->take(10)
@@ -28,10 +31,10 @@ class CommentaryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         $request->merge([
             'user_id' => auth()->user()->id,
@@ -56,10 +59,10 @@ class CommentaryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Commentary  $commentary
-     * @return \Illuminate\Http\Response
+     * @param Commentary $commentary
+     * @return JsonResponse
      */
-    public function show(Commentary $commentary)
+    public function show(Commentary $commentary) : JsonResponse
     {
         return response()->json($commentary);
     }
@@ -67,11 +70,11 @@ class CommentaryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  Commentary  $commentary
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(Request $request, Commentary $commentary)
+    public function update(Request $request, Commentary $commentary) : JsonResponse
     {
         if (auth()->user()->id != $commentary->user_id) {
             return response()->json(['error' => __('lang.unauthorized')], 403);
@@ -84,7 +87,7 @@ class CommentaryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Commentary  $commentary
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy(Commentary $commentary)
     {

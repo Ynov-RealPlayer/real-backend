@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('pseudo')->unique();
             $table->integer('experience')->default(0);
             $table->string('picture')->default('1686902653png');
-            $table->string('banner')->nullable('1686902662jpg');
+            $table->string('banner')->default('1686902662jpg');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

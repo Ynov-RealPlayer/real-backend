@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -91,6 +90,9 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+        $user->refresh_token = $token;
+        $user->remember_token = $token;
+        $user->save();
 
         return response()->json([
             'access_token' => $token,
@@ -102,9 +104,9 @@ class AuthController extends Controller
      * Return the current user
      *
      * @param Request $request
-     * @return json
+     * @return JsonResponse
      */
-    public function me(Request $request)
+    public function me(Request $request) : JsonResponse
     {
         $user = User::where('id', $request->user()->id)
             ->with('rank', 'role', 'badges', 'medias', 'comments', 'likes', 'badges.badge')
@@ -120,9 +122,9 @@ class AuthController extends Controller
      * Logout the current user
      *
      * @param Request $request
-     * @return json
+     * @return JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request) : JsonResponse
     {
         $user = $request->user();
         if ($user) {
@@ -132,4 +134,5 @@ class AuthController extends Controller
         }
         return response()->json(['error' => __('lang.unauthorized')], 403);
     }
+
 }

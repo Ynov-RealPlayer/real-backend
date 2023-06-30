@@ -39,7 +39,6 @@ class MediaController extends Controller
             'category_id' => 'required',
             'media_type' => 'required',
             'duration' => 'required',
-            'resource' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
@@ -60,16 +59,15 @@ class MediaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param Media $media
      * @return JsonResponse
      */
-    public function show(Request $request, Media $media) : JsonResponse
+    public function show(Media $media) : JsonResponse
     {
         $media = Media::where('id', $media->id)->with('user')->first();
         $s3 = Storage::disk('s3');
-        $media->user->picture = $s3->temporaryUrl($media->user->picture, now()->addMinutes(5));
-        $media->user->banner = $s3->temporaryUrl($media->user->banner, now()->addMinutes(5));
+        //$media->user->picture = $s3->temporaryUrl($media->user->picture, now()->addMinutes(5));
+        //$media->user->banner = $s3->temporaryUrl($media->user->banner, now()->addMinutes(5));
         return response()->json($media);
     }
 

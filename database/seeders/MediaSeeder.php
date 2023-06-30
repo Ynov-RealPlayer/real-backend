@@ -25,9 +25,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Minecraft - ' . $i,
                 'description' => 'Minecraft description - ' . $i,
-                'media_type' => 'screen',
                 'url' =>  $public_id,
-                'duration' => 0,
                 'category_id' => 1,
                 'user_id' => rand(1, 10),
             ]);
@@ -44,9 +42,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Fortnite - ' . $i,
                 'description' => 'Fortnite description - ' . $i,
-                'media_type' => 'screen',
                 'url' =>  $public_id,
-                'duration' => 10,
                 'category_id' => 2,
                 'user_id' => rand(1, 10),
             ]);
@@ -63,9 +59,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'League of Legends - ' . $i,
                 'description' => 'League of Legends description - ' . $i,
-                'media_type' => 'clip',
                 'url' =>  $public_id,
-                'duration' => 10,
                 'category_id' => 3,
                 'user_id' => rand(1, 10),
             ]);
@@ -82,9 +76,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Valorant - ' . $i,
                 'description' => 'Valorant description - ' . $i,
-                'media_type' => 'clip',
                 'url' =>  $public_id,
-                'duration' => 6,
                 'category_id' => 4,
                 'user_id' => rand(1, 10),
             ]);
@@ -101,9 +93,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Call of Duty - ' . $i,
                 'description' => 'Call of Duty description - ' . $i,
-                'media_type' => 'clip',
                 'url' =>  $public_id,
-                'duration' => 6,
                 'category_id' => 5,
                 'user_id' => rand(1, 10),
             ]);
@@ -120,9 +110,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Rocket League - ' . $i,
                 'description' => 'Rocket League description - ' . $i,
-                'media_type' => 'clip',
                 'url' =>  $public_id,
-                'duration' => 6,
                 'category_id' => 6,
                 'user_id' => rand(1, 10),
             ]);
@@ -139,9 +127,7 @@ class MediaSeeder extends Seeder
             Media::factory()->create([
                 'name' => 'Autre - ' . $i,
                 'description' => 'Autre description - ' . $i,
-                'media_type' => 'clip',
                 'url' =>  $public_id,
-                'duration' => 6,
                 'category_id' => 7,
                 'user_id' => rand(1, 10),
             ]);

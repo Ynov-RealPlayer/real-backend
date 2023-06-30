@@ -19,9 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->required();
             $table->string('description')->required();
-            $table->string('media_type')->required();
             $table->string('url')->required();
-            $table->float('duration')->required();
 
             $table->timestamps();
 

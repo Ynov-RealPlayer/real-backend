@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Like;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +11,13 @@ use App\Http\Controllers\Utils\ExperienceController;
 
 class LikeController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request $request) : JsonResponse
     {
         $request = (object) $request->all();
         $messages = [

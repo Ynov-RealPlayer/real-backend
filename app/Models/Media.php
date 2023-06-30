@@ -19,9 +19,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int $id
  * @property string $name
  * @property string $description
- * @property string $media_type
  * @property string $url
- * @property int $duration
  * @property int $category_id
  * @property int $user_id
  * @property Category $category
@@ -49,9 +47,7 @@ class Media extends Authenticatable
     protected $fillable = [
         'name',
         'description',
-        'media_type',
         'url',
-        'duration',
         // Foreign keys
         'category_id',
         'user_id',
