@@ -20,6 +20,6 @@ jobs:
         with:
           host: $PROD_HOST
           username: $PROD_USERNAME
-          port: $PROD_PORT
+          port: 22
           password: $PROD_PASSWORD
           script: $PROD_SCRIPT_ACTION
