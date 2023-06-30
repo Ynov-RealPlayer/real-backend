@@ -1,7 +1,7 @@
 name: Deploy
 
 # Trigger the workflow on push and
-# pull request events on the production branc
+# pull request events on the production branch
 on:
   push:
     branches:
