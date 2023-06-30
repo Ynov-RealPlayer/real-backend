@@ -21,7 +21,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: $PROD_HOST
-          username: ${{ secrets.PROD_USERNAME }}
-          port: ${{ secrets.PROD_PORT }}
-          password: ${{ secrets.PROD_PASSWORD }}
-          script: ${{ secrets.PROD_SCRIPT_ACTION }}
+          username: $PROD_USERNAME
+          port: $PROD_PORT
+          password: $PROD_PASSWORD
+          script: $PROD_SCRIPT_ACTION
