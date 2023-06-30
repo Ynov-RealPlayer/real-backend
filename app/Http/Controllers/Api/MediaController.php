@@ -116,7 +116,7 @@ class MediaController extends Controller
      */
     public function category(Category $category) : JsonResponse
     {
-        $media = Media::where('category_id', $category)->orderBy('created_at', 'desc')->take(10)->get();
+        $media = Media::where('category_id', $category->id)->orderBy('created_at', 'desc')->take(10)->get();
         return response()->json($media);
     }
 }
