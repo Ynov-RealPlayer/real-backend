@@ -49,25 +49,23 @@ class UserController extends Controller
         $user->fill($request->all());
 
         if ($user->isDirty('banner')) {
-            $s3 = Storage::disk('s3');
             $file = $request->file('banner');
-            $img = Image::make($file->path());
-            $file = $img->resize(500, 500, function ($constraint) {
-                $constraint->aspectRatio();
-            })->encode('jpg');
+            $extension = $file->getClientOriginalExtension();
             $path = time() . $file->getClientOriginalExtension();
+            $file = Image::make($file)->resize(1280, 720)->encode($extension)->save();
+            Storage::disk('s3')->put($path, $file);
+            $s3 = Storage::disk('s3');
             $s3->put($path, file_get_contents($file));
             $user->banner = $path;
         }
 
         if ($user->isDirty('picture')) {
-            $s3 = Storage::disk('s3');
             $file = $request->file('picture');
-            $img = Image::make($file->path());
-            $file = $img->resize(500, 500, function ($constraint) {
-                $constraint->aspectRatio();
-            })->encode('jpg');
+            $extension = $file->getClientOriginalExtension();
             $path = time() . $file->getClientOriginalExtension();
+            $file = Image::make($file)->resize(800, 800)->encode($extension)->save();
+            Storage::disk('s3')->put($path, $file);
+            $s3 = Storage::disk('s3');
             $s3->put($path, file_get_contents($file));
             $user->picture = $path;
         }

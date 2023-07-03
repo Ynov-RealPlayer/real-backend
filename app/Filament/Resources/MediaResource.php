@@ -10,6 +10,7 @@ use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Image;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\ImageColumn;
@@ -42,12 +43,10 @@ class MediaResource extends Resource
                     ->disk('s3')
                     ->required()
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        $path = time() . $file->getClientOriginalExtension();
-                        $img = Image::make($file->path());
-                        $file = $img->resize(500, 500, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })->encode('jpg');
-                        $file->storeAs('', $path, 's3');
+                        $extension = $file->getClientOriginalExtension();
+                        $path = time() . $extension;
+                        $file = Image::make($file)->resize(1080, 1920)->encode($extension)->save();
+                        Storage::disk('s3')->put($path, $file);
                         return $path;
                     })
                     ->visibility('public'),

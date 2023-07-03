@@ -7,21 +7,16 @@ use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
-use App\Models\Badge;
-use App\Models\BadgeUser;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\Text;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Livewire\TemporaryUploadedFile;
-use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
@@ -52,8 +47,10 @@ class UserResource extends Resource
                     ->disk('s3')
                     ->required()
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        $path = time() . $file->getClientOriginalExtension();
-                        $file->storeAs('', $path, 's3');
+                        $extension = $file->getClientOriginalExtension();
+                        $path = time() . $extension;
+                        $file = Image::make($file)->resize(800, 800)->encode($extension)->save();
+                        Storage::disk('s3')->put($path, $file);
                         return $path;
                     })
                     ->visibility('public')
@@ -62,8 +59,10 @@ class UserResource extends Resource
                     ->disk('s3')
                     ->required()
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        $path = time() . $file->getClientOriginalExtension();
-                        $file->storeAs('', $path, 's3');
+                        $extension = $file->getClientOriginalExtension();
+                        $path = time() . $extension;
+                        $file = Image::make($file)->resize(1280, 720)->encode($extension)->save();
+                        Storage::disk('s3')->put($path, $file);
                         return $path;
                     })
                     ->visibility('public')
@@ -131,14 +130,14 @@ class UserResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\BadgesRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [

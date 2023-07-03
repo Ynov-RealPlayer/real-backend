@@ -42,12 +42,11 @@ class MediaController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
         $file = $request->file('resource');
-        $img = Image::make($file->path());
-        $file = $img->resize(500, 500, function ($constraint) {
-            $constraint->aspectRatio();
-        })->encode('jpg');
-        $s3 = Storage::disk('s3');
+        $extension = $file->getClientOriginalExtension();
         $path = time() . $file->getClientOriginalExtension();
+        $file = Image::make($file)->resize(1080, 1920)->encode($extension)->save();
+        Storage::disk('s3')->put($path, $file);
+        $s3 = Storage::disk('s3');
         $s3->put($path, file_get_contents($file));
         $request->merge([
             'url' => $path,
