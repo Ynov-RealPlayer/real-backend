@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Filament\Models\Contracts\HasName;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,6 +26,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $password
  * @property string $phone
  * @property string $description
+ * @property string $device_token
  * @property int $rank_id
  * @property int $role_id
  * @property Rank $rank
@@ -57,6 +60,7 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'phone',
         'description',
+        //'device_token',
         // Foreign keys
         'rank_id',
         'role_id',
@@ -73,6 +77,12 @@ class User extends Authenticatable implements FilamentUser
         'refresh_token',
     ];
 
+    protected $appends = [
+        'next_rank',
+        'xp_progress',
+        'bar_colors',
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -81,6 +91,56 @@ class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return Rank
+     * @noinspection PhpUnused
+     */
+    public function getNextRankAttribute() : Rank
+    {
+        $rank = Rank::where('id', $this->rank_id + 1)->first();
+        if (!$rank) {
+            return $this->rank;
+        }
+        return $rank;
+    }
+
+    /**
+     * @return float
+     * @noinspection PhpUnused
+     */
+    public function getXpProgressAttribute(): float
+    {
+        $next_rank = $this->next_rank;
+        if (!$next_rank) {
+            $next_rank = $this->rank;
+        }
+        $experience_cap = $next_rank->experience_cap;
+        $xp = $this->experience;
+        return $xp / $experience_cap;
+    }
+
+    public function getBarColorsAttribute(): array
+    {
+        $next_rank = $this->next_rank;
+        if (!$next_rank) {
+            $next_rank = $this->rank;
+        }
+        $experience_cap = $next_rank->experience_cap;
+        $xp = $this->experience;
+        $percent = $xp / $experience_cap;
+        if ($percent < 0.20) {
+            return [255, 40, 0];
+        } elseif ($percent < 0.40) {
+            return [255, 80, 0];
+        } elseif ($percent < 0.60) {
+            return [255, 120, 0];
+        } elseif ($percent < 0.80) {
+            return [255, 160, 0];
+        } else {
+            return [255, 200, 0];
+        }
+    }
 
     /**
      * @return BelongsTo

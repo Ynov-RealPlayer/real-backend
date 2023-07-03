@@ -43,7 +43,7 @@ class UserResource extends Resource
                     ->default(0)
                     ->placeholder('Rentrez l\'expérience de l\'utilisateur')
                     ->label('Expérience'),
-                Forms\Components\FileUpload::make('picture')
+                /**Forms\Components\FileUpload::make('picture')
                     ->disk('s3')
                     ->required()
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
@@ -66,7 +66,7 @@ class UserResource extends Resource
                         return $path;
                     })
                     ->visibility('public')
-                    ->label('Bannière'),
+                    ->label('Bannière'),**/
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->default('Nouveau joueur !')
