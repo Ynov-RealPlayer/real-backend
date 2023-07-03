@@ -47,6 +47,8 @@ class AuthController extends Controller
                 'pseudo' => $request->input('pseudo'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
+                'description' => 'Je suis un nouveau membre !',
+                'email_verified_at' => now(),
             ]
         );
 
