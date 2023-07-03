@@ -93,7 +93,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         $user->refresh_token = $token;
         $user->remember_token = $token;
-        $user->device_token = $request->input('device_token');
+        //$user->device_token = $request->input('device_token');
         $user->save();
 
         //NotificationController::store('Connexion', 'Vous êtes connecté !');
