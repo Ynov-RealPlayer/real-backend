@@ -31,7 +31,7 @@ class UserController extends Controller
     public function show(User $user) : JsonResponse
     {
         $user = User::where('id', $user->id)
-            ->with('badges', 'medias')
+            ->with('badges', 'medias', 'rank')
             ->first();
         return response()->json($user);
     }
