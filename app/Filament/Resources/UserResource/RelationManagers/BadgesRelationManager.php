@@ -22,10 +22,10 @@ class BadgesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('id')
+                Forms\Components\Select::make('badge_id')
                     ->relationship('badge', 'name')
                     ->required()
-                    ->autofocus(),
+                    ->label('Badge'),
             ]);
     }
 
