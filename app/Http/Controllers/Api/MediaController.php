@@ -37,17 +37,16 @@ class MediaController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
+            'resource' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
         $file = $request->file('resource');
-        $extension = $file->getClientOriginalExtension();
-        $path = time() . $file->getClientOriginalExtension();
+        $extension = $file->getExtension();
+        $path = time() . $extension;
         $file = Image::make($file)->resize(1080, 1920)->encode($extension)->save();
         Storage::disk('s3')->put($path, $file);
-        $s3 = Storage::disk('s3');
-        $s3->put($path, file_get_contents($file));
         $request->merge([
             'url' => $path,
             'user_id' => auth()->user()->id,
