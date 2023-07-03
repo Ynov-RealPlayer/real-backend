@@ -49,7 +49,7 @@ class UserResource extends Resource
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                         $extension = $file->getClientOriginalExtension();
                         $path = time() . $extension;
-                        $file = Image::make($file)->resize(800, 800)->encode($extension)->save();
+                        $file = Image::make($file)->resize(900, 900)->encode($extension)->save();
                         Storage::disk('s3')->put($path, $file);
                         return $path;
                     })
@@ -61,7 +61,7 @@ class UserResource extends Resource
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                         $extension = $file->getClientOriginalExtension();
                         $path = time() . $extension;
-                        $file = Image::make($file)->resize(1280, 720)->encode($extension)->save();
+                        $file = Image::make($file)->resize(1200, 360)->encode($extension)->save();
                         Storage::disk('s3')->put($path, $file);
                         return $path;
                     })
