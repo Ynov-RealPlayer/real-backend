@@ -44,10 +44,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user) : JsonResponse
     {
-        if (auth()->user()->id != $user->id) {
-            return response()->json(['error' => __('lang.unauthorized')], 403);
-        }
-
+        $user = auth()->user()->findOrFail($user->id);
         $user->fill($request->all());
 
         if ($user->isDirty('banner')) {
@@ -78,9 +75,7 @@ class UserController extends Controller
      */
     public function destroy(User $user) : JsonResponse
     {
-        if (auth()->user()->id != $user->id) {
-            return response()->json(['error' => __('lang.unauthorized')], 403);
-        }
+        $user = auth()->user()->findOrFail($user->id);
         $user->delete();
         return response()->json(null, 204);
     }

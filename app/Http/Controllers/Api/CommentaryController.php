@@ -76,9 +76,7 @@ class CommentaryController extends Controller
      */
     public function update(Request $request, Commentary $commentary) : JsonResponse
     {
-        if (auth()->user()->id != $commentary->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 403);
-        }
+        $commentary = auth()->user()->comments()->findOrFail($commentary->id);
         $commentary->update($request->all());
         return response()->json($commentary);
     }
@@ -91,9 +89,7 @@ class CommentaryController extends Controller
      */
     public function destroy(Commentary $commentary)
     {
-        if (auth()->user()->id != $commentary->user_id) {
-            return response()->json(['error' => __('lang.unauthorized')], 403);
-        }
+        $commentary = auth()->user()->comments()->findOrFail($commentary->id);
         $commentary->delete();
         return response()->json($commentary);
     }

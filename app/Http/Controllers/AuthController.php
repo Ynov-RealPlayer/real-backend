@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\NotificationController;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -92,7 +93,10 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         $user->refresh_token = $token;
         $user->remember_token = $token;
+        $user->device_token = $request->input('device_token');
         $user->save();
+
+        //NotificationController::store('Connexion', 'Vous êtes connecté !');
 
         return response()->json([
             'access_token' => $token,
