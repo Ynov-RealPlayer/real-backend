@@ -7,10 +7,10 @@ use App\Models\Media;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Utils\ExperienceController;
+use Intervention\Image\Image;
 
 class MediaController extends Controller
 {
@@ -42,6 +42,10 @@ class MediaController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
         $file = $request->file('resource');
+        $img = Image::make($file->path());
+        $file = $img->resize(500, 500, function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('jpg');
         $s3 = Storage::disk('s3');
         $path = time() . $file->getClientOriginalExtension();
         $s3->put($path, file_get_contents($file));

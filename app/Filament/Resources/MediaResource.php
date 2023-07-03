@@ -10,6 +10,7 @@ use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Intervention\Image\Image;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,6 +43,10 @@ class MediaResource extends Resource
                     ->required()
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                         $path = time() . $file->getClientOriginalExtension();
+                        $img = Image::make($file->path());
+                        $file = $img->resize(500, 500, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->encode('jpg');
                         $file->storeAs('', $path, 's3');
                         return $path;
                     })
