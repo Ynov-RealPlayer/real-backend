@@ -26,6 +26,9 @@ php artisan clear-compiled
 # Recreate cache
 php artisan optimize
 
+# Image intervention -> resize images library but need to be installed each time :/
+composer require intervention/image
+
 # Compile npm assets
 npm install
 npm run build
