@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Utils\ExperienceController;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 
 class MediaController extends Controller
 {

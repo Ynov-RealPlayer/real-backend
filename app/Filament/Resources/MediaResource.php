@@ -11,12 +11,10 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\ImageColumn;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MediaResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MediaResource\RelationManagers;
 
 class MediaResource extends Resource
