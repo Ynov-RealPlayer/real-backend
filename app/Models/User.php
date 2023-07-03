@@ -130,15 +130,15 @@ class User extends Authenticatable implements FilamentUser
         $xp = $this->experience;
         $percent = $xp / $experience_cap;
         if ($percent < 0.20) {
-            return [255, 40, 0];
+            return [255, 200, 0];
         } elseif ($percent < 0.40) {
-            return [255, 80, 0];
+            return [255, 160, 0];
         } elseif ($percent < 0.60) {
             return [255, 120, 0];
         } elseif ($percent < 0.80) {
-            return [255, 160, 0];
+            return [255, 80, 0];
         } else {
-            return [255, 200, 0];
+            return [255, 40, 0];
         }
     }
 
