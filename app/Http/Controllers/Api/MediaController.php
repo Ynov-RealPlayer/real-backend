@@ -23,9 +23,13 @@ class MediaController extends Controller
     public function index(Request $request) : JsonResponse
     {
         $user = auth()->user()->id;
-        $medias = Cache::remember('medias_' . $user , 60, function () {
-            return Media::orderBy('created_at', 'desc')->take(10)->get();
-        });
+        if (Cache::has('medias_' . $user)) {
+            $medias = Cache::get('medias_' . $user);
+        } else {
+            $medias = Cache::remember('medias_' . $user , 3600, function () {
+                return Media::orderBy('created_at', 'desc')->take(10)->get();
+            });
+        }
         return response()->json($medias);
     }
 
