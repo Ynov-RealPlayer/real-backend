@@ -20,17 +20,15 @@ class MediaController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request) : JsonResponse
+    public function index() : JsonResponse
     {
-        $user = auth()->user()->id;
-        if (Cache::has('medias_' . $user)) {
-            $medias = Cache::get('medias_' . $user);
+        if (Cache::has('medias')) {
+            return response()->json(Cache::get('medias'));
         } else {
-            $medias = Cache::remember('medias_' . $user , 3600, function () {
+            return response()->json(Cache::remember('medias' , 3600, function () {
                 return Media::orderBy('created_at', 'desc')->take(10)->get();
-            });
+            }));
         }
-        return response()->json($medias);
     }
 
 
