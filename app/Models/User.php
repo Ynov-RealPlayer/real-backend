@@ -117,9 +117,17 @@ class User extends Authenticatable implements FilamentUser
         }
         $experience_cap = $next_rank->experience_cap;
         $xp = $this->experience;
-        return $xp / $experience_cap;
+        $progress = $xp / $experience_cap;
+        if ($progress > 1) {
+            $progress = 1;
+        }
+        return $progress;
     }
 
+    /**
+     * @return int[]
+     * @noinspection PhpUnused
+     */
     public function getBarColorsAttribute(): array
     {
         $next_rank = $this->next_rank;
