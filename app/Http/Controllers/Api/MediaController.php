@@ -7,6 +7,7 @@ use App\Models\Media;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Utils\ExperienceController;
@@ -19,9 +20,13 @@ class MediaController extends Controller
      *
      * @return JsonResponse
      */
-    public function index() : JsonResponse
+    public function index(Request $request) : JsonResponse
     {
-        $medias = Media::orderBy('created_at', 'desc')->take(10)->get();
+        $user = auth()->user()->id;
+        Cache::remember('medias_' . $user , 60, function () {
+            return Media::orderBy('created_at', 'desc')->take(10)->get();
+        });
+        $medias = Cache::get('medias_' . $user);
         return response()->json($medias);
     }
 
