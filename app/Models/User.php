@@ -119,9 +119,9 @@ class User extends Authenticatable implements FilamentUser
         $xp = $this->experience;
         $progress = $xp / $experience_cap;
         if ($progress > 1) {
-            $progress = 1;
+            $progress = 1.0;
         }
-        return $progress;
+        return number_format($progress, 2);
     }
 
     /**
