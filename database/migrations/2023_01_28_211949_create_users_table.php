@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('pseudo')->unique();
-            $table->integer('experience')->default(0);
+            $table->integer('experience')->default(1);
             $table->string('picture')->default('1686902653png');
             $table->string('banner')->default('1686902662jpg');
             $table->string('email')->unique();
